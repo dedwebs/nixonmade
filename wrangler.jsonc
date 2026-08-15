@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "nixonmade",
+  "account_id": "f90a11b318e5ebe6d6a3256d3c3566de",
+  "compatibility_date": "2026-08-15",
+  "preview_urls": true,
+  "assets": {
+    "directory": "./public"
+  },
+  "routes": [
+    { "pattern": "nixonmade.com", "custom_domain": true },
+    { "pattern": "www.nixonmade.com", "custom_domain": true }
+  ]
+}

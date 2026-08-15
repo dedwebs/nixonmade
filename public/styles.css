@@ -1,0 +1,127 @@
+:root {
+  --paper: #f3eee4;
+  --ink: #1c1612;
+  --mute: #6b6258;
+  --rule: #d4ccbe;
+  --link: #8f2d21;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Source Sans 3", "Source Sans Pro", "Segoe UI", sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 18vh 1.5rem 4rem;
+}
+
+.mark {
+  font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  margin: 0 0 2.5rem;
+}
+
+h1 {
+  font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+
+.lede {
+  color: var(--mute);
+  max-width: 28rem;
+  margin: 0 0 3.5rem;
+}
+
+h2 {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 0 0 1rem;
+}
+
+.apps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.apps li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.app {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1.1rem 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.app-name {
+  font-family: Fraunces, "Iowan Old Style", Palatino, Georgia, serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.app-desc {
+  color: var(--mute);
+  font-size: 1rem;
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.18em;
+}
+
+.app:hover .app-name {
+  color: var(--link);
+}
+
+footer {
+  margin-top: 3.5rem;
+  color: var(--mute);
+  font-size: 1rem;
+}
+
+footer p {
+  margin: 0;
+}
+
+.dot {
+  margin: 0 0.55rem;
+  color: var(--rule);
+}
+
+@media (max-width: 540px) {
+  main {
+    padding-top: 12vh;
+  }
+}
