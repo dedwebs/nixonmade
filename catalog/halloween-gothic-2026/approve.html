@@ -23,6 +23,11 @@
       header, footer { padding: 1.5rem; max-width: 72rem; margin: 0 auto; }
       h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 0.35rem; }
       p { color: var(--mute); margin: 0 0 1rem; }
+      .warn {
+        color: var(--oxblood);
+        display: none;
+      }
+      .warn.show { display: block; }
       .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
@@ -35,21 +40,34 @@
         border: 1px solid var(--rule);
         background: #fffdf8;
       }
-      article img { width: 100%; height: auto; display: block; }
+      article.approve { outline: 2px solid var(--ink); }
+      article.reject { outline: 2px solid var(--oxblood); }
+      article img { width: 100%; height: auto; display: block; background: var(--rule); min-height: 8rem; }
       .meta { padding: 0.75rem; }
       .id { font-weight: 600; }
       .set { color: var(--mute); font-size: 0.9rem; }
       .btns { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
       button {
         font: inherit;
-        font-size: 0.85rem;
-        padding: 0.3rem 0.65rem;
+        font-size: 0.95rem;
+        padding: 0.55rem 0.85rem;
         border: 1px solid var(--ink);
-        background: transparent;
+        background: var(--paper);
+        color: var(--ink);
         cursor: pointer;
+        pointer-events: auto;
+        position: relative;
+        z-index: 1;
       }
-      button.approve.on { background: var(--ink); color: var(--paper); }
-      button.reject.on { background: var(--oxblood); color: var(--paper); border-color: var(--oxblood); }
+      button[data-status="approve"].on {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      button[data-status="reject"].on {
+        background: var(--oxblood);
+        color: var(--paper);
+        border-color: var(--oxblood);
+      }
       textarea {
         width: 100%;
         min-height: 8rem;
@@ -59,20 +77,29 @@
         border: 1px solid var(--rule);
         background: var(--paper);
       }
+      .row { display: flex; gap: 0.5rem; margin: 0 0 0.75rem; }
     </style>
   </head>
   <body>
     <header>
       <h1>Halloween gothic — approve</h1>
       <p>
-        Yes/no only. Choices stay in this browser. Copy the queue patch into
-        <code>queue.md</code>. Missing images (25–40) show empty until generated.
+        Open this via <code>npm run approve</code> then
+        <a href="http://127.0.0.1:8765/approve.html">http://127.0.0.1:8765/approve.html</a>
+        in Chrome or Safari — not the Cursor file preview. Click Approve or Reject;
+        copy the patch into <code>queue.md</code>.
+      </p>
+      <p id="filewarn" class="warn">
+        Images will not load from a raw file:// or IDE preview. Use the local server link above.
       </p>
     </header>
     <div class="grid" id="grid"></div>
     <footer>
+      <div class="row">
+        <button type="button" id="copy">Copy queue patch</button>
+      </div>
       <p>queue.md patch</p>
-      <textarea id="patch" readonly></textarea>
+      <textarea id="patch"></textarea>
     </footer>
     <script>
       const ITEMS = [
@@ -118,9 +145,22 @@
         ["40","hm-40-quiet-oxblood-moon.png","Extra singles"]
       ];
       const KEY = "nm-hal-approve-2026";
-      const state = JSON.parse(localStorage.getItem(KEY) || "{}");
+      const state = {};
+      try {
+        Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}"));
+      } catch (e) {}
+
       const grid = document.getElementById("grid");
       const patch = document.getElementById("patch");
+      if (location.protocol === "file:") {
+        document.getElementById("filewarn").classList.add("show");
+      }
+
+      function persist() {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(state));
+        } catch (e) {}
+      }
 
       function renderPatch() {
         patch.value = ITEMS.map(([id, file, set]) => {
@@ -129,34 +169,60 @@
         }).join("\n");
       }
 
+      function paint(id) {
+        const card = grid.querySelector('article[data-id="' + id + '"]');
+        if (!card) return;
+        const status = state[id] || "pending";
+        card.classList.toggle("approve", status === "approve");
+        card.classList.toggle("reject", status === "reject");
+        card.querySelectorAll("button[data-status]").forEach((b) => {
+          b.classList.toggle("on", b.getAttribute("data-status") === status);
+        });
+      }
+
       function setStatus(id, status) {
         state[id] = status;
-        localStorage.setItem(KEY, JSON.stringify(state));
-        document.querySelectorAll(`[data-id="${id}"] button`).forEach((b) => {
-          b.classList.toggle("on", b.dataset.status === status);
-        });
+        persist();
+        paint(id);
         renderPatch();
       }
 
       ITEMS.forEach(([id, file, set]) => {
         const el = document.createElement("article");
-        el.dataset.id = id;
-        el.innerHTML = `
-          <img src="candidates/${file}" alt="${id} ${set}" />
-          <div class="meta">
-            <div class="id">${id}</div>
-            <div class="set">${set}</div>
-            <div class="btns">
-              <button data-status="approve">Approve</button>
-              <button data-status="reject">Reject</button>
-            </div>
-          </div>`;
-        el.querySelectorAll("button").forEach((b) => {
-          b.addEventListener("click", () => setStatus(id, b.dataset.status));
-          if (state[id] === b.dataset.status) b.classList.add("on");
-        });
+        el.setAttribute("data-id", id);
+        const img = document.createElement("img");
+        img.src = "candidates/" + file;
+        img.alt = id + " " + set;
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.innerHTML =
+          '<div class="id">' + id + '</div>' +
+          '<div class="set">' + set + '</div>' +
+          '<div class="btns">' +
+          '<button type="button" data-status="approve">Approve</button>' +
+          '<button type="button" data-status="reject">Reject</button>' +
+          "</div>";
+        el.appendChild(img);
+        el.appendChild(meta);
         grid.appendChild(el);
+        paint(id);
       });
+
+      grid.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-status]");
+        if (!button) return;
+        event.preventDefault();
+        const card = button.closest("article");
+        setStatus(card.getAttribute("data-id"), button.getAttribute("data-status"));
+      });
+
+      document.getElementById("copy").addEventListener("click", () => {
+        patch.select();
+        navigator.clipboard.writeText(patch.value).catch(() => {
+          document.execCommand("copy");
+        });
+      });
+
       renderPatch();
     </script>
   </body>

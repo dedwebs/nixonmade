@@ -4,7 +4,7 @@ You have a job. This catalog is the 100% AI-product proof. Do not buy your own l
 
 ## 1. Approve art (you)
 
-1. Open `catalog/halloween-gothic-2026/approve.html` in a browser (or skim `candidates/` + `queue.md`).
+1. Run `npm run approve`, then open http://127.0.0.1:8765/approve.html in Chrome or Safari (not the Cursor file preview).
 2. Mark each id `approve` or `reject`. If it is almost right, reject — we regenerate, we do not retouch.
 3. A set of 3 only lists if **all three** are approved. Orphans become extras or a mixed “gallery” set later.
 

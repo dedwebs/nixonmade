@@ -5,7 +5,9 @@ Price: **$9**. Digital download. Designed by seller. Disclosure at the top of ev
 Shared description footer:
 
 ```
-You will receive a zip of high-resolution PNGs for a gallery wall of three prints, including common poster sizes (8x10, 11x14, 16x20, A4, and ratio packs). Print at home or a local shop.
+You will receive a zip with three high-resolution PNG posters and a short print note. Print at home or a local shop on matte paper. These are digital illustrations, not 300dpi scans of physical lithographs.
+
+Personal use. Do not resell the files.
 
 Personal use. Do not resell the files.
 
@@ -30,7 +32,9 @@ This artwork was generated with AI tools from original prompts by Nixon Made. De
 
 Instant digital download. No physical item ships.
 
-You will receive a zip of high-resolution PNGs for a gallery wall of three prints, including common poster sizes (8x10, 11x14, 16x20, A4, and ratio packs). Print at home or a local shop.
+You will receive a zip with three high-resolution PNG posters and a short print note. Print at home or a local shop on matte paper. These are digital illustrations, not 300dpi scans of physical lithographs.
+
+Personal use. Do not resell the files.
 
 Personal use. Do not resell the files.
 
@@ -51,7 +55,9 @@ This artwork was generated with AI tools from original prompts by Nixon Made. De
 
 Instant digital download. No physical item ships.
 
-You will receive a zip of high-resolution PNGs for a gallery wall of three prints, including common poster sizes (8x10, 11x14, 16x20, A4, and ratio packs). Print at home or a local shop.
+You will receive a zip with three high-resolution PNG posters and a short print note. Print at home or a local shop on matte paper. These are digital illustrations, not 300dpi scans of physical lithographs.
+
+Personal use. Do not resell the files.
 
 Personal use. Do not resell the files.
 
@@ -72,7 +78,9 @@ This artwork was generated with AI tools from original prompts by Nixon Made. De
 
 Instant digital download. No physical item ships.
 
-You will receive a zip of high-resolution PNGs for a gallery wall of three prints, including common poster sizes (8x10, 11x14, 16x20, A4, and ratio packs). Print at home or a local shop.
+You will receive a zip with three high-resolution PNG posters and a short print note. Print at home or a local shop on matte paper. These are digital illustrations, not 300dpi scans of physical lithographs.
+
+Personal use. Do not resell the files.
 
 Personal use. Do not resell the files.
 
@@ -93,7 +101,9 @@ This artwork was generated with AI tools from original prompts by Nixon Made. De
 
 Instant digital download. No physical item ships.
 
-You will receive a zip of high-resolution PNGs for a gallery wall of three prints, including common poster sizes (8x10, 11x14, 16x20, A4, and ratio packs). Print at home or a local shop.
+You will receive a zip with three high-resolution PNG posters and a short print note. Print at home or a local shop on matte paper. These are digital illustrations, not 300dpi scans of physical lithographs.
+
+Personal use. Do not resell the files.
 
 Personal use. Do not resell the files.
 

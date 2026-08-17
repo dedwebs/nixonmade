@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "approve": "python3 -m http.server 8765 --directory catalog/halloween-gothic-2026"
   },
   "devDependencies": {
     "wrangler": "^4"
