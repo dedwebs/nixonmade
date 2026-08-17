@@ -8,6 +8,8 @@ Proof experiment: AI generates the art. You only approve or reject. Stranger pur
 
 **Etsy disclosure (required):** “This artwork was generated with AI tools from original prompts by Nixon Made. Designed by the seller.” Attribution: Designed by seller.
 
+**Launch pack:** `approve.html` (visual yes/no), `listings/PASTE.md` (Etsy copy), `docs/HALLOWEEN-LAUNCH.md` (morning checklist), `python3 scripts/export-print-sizes.py --set moon-garden` after approve.
+
 ## Your job
 
 Open `candidates/` images. Mark each id in `queue.md`:

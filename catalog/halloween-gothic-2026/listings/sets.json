@@ -1,0 +1,192 @@
+{
+  "price_set_usd": 9,
+  "price_sticker_usd": 5,
+  "disclosure": "This artwork was generated with AI tools from original prompts by Nixon Made. Designed by the seller.",
+  "file_sizes": ["4x6", "5x7", "8x10", "11x14", "16x20", "18x24", "A4", "A3", "2x3", "3x4", "4x5", "5x7-ratio", "11x14-ratio"],
+  "sets": [
+    {
+      "id": "moon-garden",
+      "sku": "NM-HAL-MG",
+      "name": "Moon Garden",
+      "members": ["01", "02", "03"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Gothic Moon Garden Vintage Poster Digital Download",
+      "etsy_tags": [
+        "halloween printable",
+        "gothic wall art",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "vintage poster",
+        "botanical print",
+        "dark academia",
+        "moon print",
+        "halloween decor",
+        "set of 3 prints",
+        "gothic romance",
+        "gallery wall set"
+      ]
+    },
+    {
+      "id": "stained-glass-vigil",
+      "sku": "NM-HAL-SG",
+      "name": "Stained Glass Vigil",
+      "members": ["04", "05", "06"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Gothic Stained Glass Cat Moon Digital Download",
+      "etsy_tags": [
+        "halloween printable",
+        "stained glass print",
+        "black cat art",
+        "gothic wall art",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "halloween decor",
+        "set of 3 prints",
+        "dark academia",
+        "vintage halloween",
+        "gothic romance",
+        "gallery wall set"
+      ]
+    },
+    {
+      "id": "invented-coast",
+      "sku": "NM-HAL-IC",
+      "name": "Invented Coast",
+      "members": ["07", "08", "09"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Gothic Coastal Village Vintage Travel Poster Download",
+      "etsy_tags": [
+        "halloween printable",
+        "vintage travel poster",
+        "gothic wall art",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "dark academia",
+        "moody landscape",
+        "halloween decor",
+        "set of 3 prints",
+        "coastal gothic",
+        "gallery wall set",
+        "night poster"
+      ]
+    },
+    {
+      "id": "apothecary",
+      "sku": "NM-HAL-AP",
+      "name": "Apothecary",
+      "members": ["10", "11", "12"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Vintage Botanical Nightshade Moth Rose Digital Download",
+      "etsy_tags": [
+        "halloween printable",
+        "botanical print",
+        "vintage botanical",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "apothecary art",
+        "gothic wall art",
+        "moth print",
+        "set of 3 prints",
+        "dark academia",
+        "halloween decor",
+        "gallery wall set"
+      ]
+    },
+    {
+      "id": "iron-gate",
+      "sku": "NM-HAL-IG",
+      "name": "Iron Gate",
+      "members": ["13", "14", "15"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Gothic Iron Gate Moon Roses Vintage Poster Download",
+      "etsy_tags": [
+        "halloween printable",
+        "gothic wall art",
+        "iron gate print",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "vintage poster",
+        "halloween decor",
+        "set of 3 prints",
+        "dark academia",
+        "gothic romance",
+        "moon print",
+        "gallery wall set"
+      ]
+    },
+    {
+      "id": "candle-chapel",
+      "sku": "NM-HAL-CC",
+      "name": "Candle Chapel",
+      "members": ["16", "17", "18"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Gothic Candle Still Life Vintage Print Digital Download",
+      "etsy_tags": [
+        "halloween printable",
+        "candle art",
+        "gothic wall art",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "still life print",
+        "dark academia",
+        "halloween decor",
+        "set of 3 prints",
+        "gothic romance",
+        "vintage poster",
+        "gallery wall set"
+      ]
+    },
+    {
+      "id": "bat-weather",
+      "sku": "NM-HAL-BW",
+      "name": "Bat Weather",
+      "members": ["19", "20", "21"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Gothic Moon and Bats Vintage Poster Digital Download",
+      "etsy_tags": [
+        "halloween printable",
+        "bat wall art",
+        "moon print",
+        "gothic wall art",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "halloween decor",
+        "set of 3 prints",
+        "vintage poster",
+        "dark academia",
+        "night sky print",
+        "gallery wall set"
+      ]
+    },
+    {
+      "id": "pumpkin-botanical",
+      "sku": "NM-HAL-PB",
+      "name": "Pumpkin Botanical",
+      "members": ["22", "23", "24"],
+      "status": "awaiting_approval",
+      "etsy_title": "Halloween Printable Wall Art Set of 3 | Vintage Pumpkin Botanical Plate Digital Download",
+      "etsy_tags": [
+        "halloween printable",
+        "pumpkin print",
+        "botanical print",
+        "printable wall art",
+        "digital download",
+        "instant download",
+        "vintage botanical",
+        "fall wall art",
+        "set of 3 prints",
+        "halloween decor",
+        "gothic wall art",
+        "heirloom pumpkin",
+        "gallery wall set"
+      ]
+    }
+  ]
+}

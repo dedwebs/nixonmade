@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Approve — Halloween gothic 2026</title>
+    <style>
+      :root {
+        --paper: #f3eee4;
+        --ink: #1c1612;
+        --mute: #6b6258;
+        --rule: #d4ccbe;
+        --oxblood: #8f2d21;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Source Sans 3", "Segoe UI", sans-serif;
+        line-height: 1.45;
+      }
+      header, footer { padding: 1.5rem; max-width: 72rem; margin: 0 auto; }
+      h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 0.35rem; }
+      p { color: var(--mute); margin: 0 0 1rem; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+        gap: 1rem;
+        padding: 0 1.5rem 2rem;
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+      article {
+        border: 1px solid var(--rule);
+        background: #fffdf8;
+      }
+      article img { width: 100%; height: auto; display: block; }
+      .meta { padding: 0.75rem; }
+      .id { font-weight: 600; }
+      .set { color: var(--mute); font-size: 0.9rem; }
+      .btns { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+      button {
+        font: inherit;
+        font-size: 0.85rem;
+        padding: 0.3rem 0.65rem;
+        border: 1px solid var(--ink);
+        background: transparent;
+        cursor: pointer;
+      }
+      button.approve.on { background: var(--ink); color: var(--paper); }
+      button.reject.on { background: var(--oxblood); color: var(--paper); border-color: var(--oxblood); }
+      textarea {
+        width: 100%;
+        min-height: 8rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8rem;
+        padding: 0.75rem;
+        border: 1px solid var(--rule);
+        background: var(--paper);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Halloween gothic — approve</h1>
+      <p>
+        Yes/no only. Choices stay in this browser. Copy the queue patch into
+        <code>queue.md</code>. Missing images (25–40) show empty until generated.
+      </p>
+    </header>
+    <div class="grid" id="grid"></div>
+    <footer>
+      <p>queue.md patch</p>
+      <textarea id="patch" readonly></textarea>
+    </footer>
+    <script>
+      const ITEMS = [
+        ["01","hm-01-moon-botanicals.png","Moon Garden"],
+        ["02","hm-02-moth-night-bloom.png","Moon Garden"],
+        ["03","hm-03-crescent-ivy.png","Moon Garden"],
+        ["04","hm-04-glass-moon-roses.png","Stained Glass Vigil"],
+        ["05","hm-05-glass-black-cat.png","Stained Glass Vigil"],
+        ["06","hm-06-glass-candle-thorns.png","Stained Glass Vigil"],
+        ["07","hm-07-seaside-town-dusk.png","Invented Coast"],
+        ["08","hm-08-harbor-lanterns-cat.png","Invented Coast"],
+        ["09","hm-09-hill-chapel-moon.png","Invented Coast"],
+        ["10","hm-10-nightshade-plate.png","Apothecary"],
+        ["11","hm-11-mugwort-moon-plate.png","Apothecary"],
+        ["12","hm-12-rose-moth-plate.png","Apothecary"],
+        ["13","hm-13-iron-gate-moon.png","Iron Gate"],
+        ["14","hm-14-gate-oxblood-roses.png","Iron Gate"],
+        ["15","hm-15-gate-lantern-moth.png","Iron Gate"],
+        ["16","hm-16-taper-candles-arch.png","Candle Chapel"],
+        ["17","hm-17-candelabra-smoke.png","Candle Chapel"],
+        ["18","hm-18-rose-candle-matches.png","Candle Chapel"],
+        ["19","hm-19-bats-across-moon.png","Bat Weather"],
+        ["20","hm-20-bat-oxblood-roofs.png","Bat Weather"],
+        ["21","hm-21-moon-clouds-bats.png","Bat Weather"],
+        ["22","hm-22-heirloom-pumpkin-plate.png","Pumpkin Botanical"],
+        ["23","hm-23-pumpkin-vine-plate.png","Pumpkin Botanical"],
+        ["24","hm-24-gourd-thorn-plate.png","Pumpkin Botanical"],
+        ["25","hm-25-raven-profile-plate.png","Raven Study"],
+        ["26","hm-26-raven-untitled-book.png","Raven Study"],
+        ["27","hm-27-raven-branch-moon.png","Raven Study"],
+        ["28","hm-28-bow-cat-silhouette.png","Coquette-gothic"],
+        ["29","hm-29-ribbon-moon-glass.png","Coquette-gothic"],
+        ["30","hm-30-ribbon-rose-candle.png","Coquette-gothic"],
+        ["31","hm-31-motif-sticker-grid.png","Sticker sheets"],
+        ["32","hm-32-glass-tile-sheet.png","Sticker sheets"],
+        ["33","hm-33-botanical-cuts-sheet.png","Sticker sheets"],
+        ["34","hm-34-town-stamp-sheet.png","Sticker sheets"],
+        ["35","hm-35-datura-moon-crop.png","Extra singles"],
+        ["36","hm-36-ivy-stairs-lantern.png","Extra singles"],
+        ["37","hm-37-foggy-pier.png","Extra singles"],
+        ["38","hm-38-rowboat-moon-path.png","Extra singles"],
+        ["39","hm-39-thorn-wreath-moon.png","Extra singles"],
+        ["40","hm-40-quiet-oxblood-moon.png","Extra singles"]
+      ];
+      const KEY = "nm-hal-approve-2026";
+      const state = JSON.parse(localStorage.getItem(KEY) || "{}");
+      const grid = document.getElementById("grid");
+      const patch = document.getElementById("patch");
+
+      function renderPatch() {
+        patch.value = ITEMS.map(([id, file, set]) => {
+          const s = state[id] || "pending";
+          return `| ${id} | ${file} | ${set} | ${s} | |`;
+        }).join("\n");
+      }
+
+      function setStatus(id, status) {
+        state[id] = status;
+        localStorage.setItem(KEY, JSON.stringify(state));
+        document.querySelectorAll(`[data-id="${id}"] button`).forEach((b) => {
+          b.classList.toggle("on", b.dataset.status === status);
+        });
+        renderPatch();
+      }
+
+      ITEMS.forEach(([id, file, set]) => {
+        const el = document.createElement("article");
+        el.dataset.id = id;
+        el.innerHTML = `
+          <img src="candidates/${file}" alt="${id} ${set}" />
+          <div class="meta">
+            <div class="id">${id}</div>
+            <div class="set">${set}</div>
+            <div class="btns">
+              <button data-status="approve">Approve</button>
+              <button data-status="reject">Reject</button>
+            </div>
+          </div>`;
+        el.querySelectorAll("button").forEach((b) => {
+          b.addEventListener("click", () => setStatus(id, b.dataset.status));
+          if (state[id] === b.dataset.status) b.classList.add("on");
+        });
+        grid.appendChild(el);
+      });
+      renderPatch();
+    </script>
+  </body>
+</html>
