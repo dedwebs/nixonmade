@@ -1,8 +1,8 @@
 Nixon Made marks — outlined SVGs for print and merch.
 
-Lockup: NIXON over MADE, MADE tracked to NIXON’s width.
+Site lockup: circular ink-press stamp. NIXON on the top arc, MADE on the bottom, star in the center.
+Shirt-only lockup: old Western postage stamp. Perforated edge, double rule, NIXON over MADE with a star.
 Colors: ink #1c1612, paper #f3eee4, oxblood #8f2d21.
-Use one or two colors. Don’t restyle the letterspacing.
+Use one or two colors. Don’t stretch.
 
-Letterforms from Fraunces (SIL Open Font License). See OFL.txt.
-These files are artwork, not a rerelease of the font.
+Word letters from Copperplate Bold.
