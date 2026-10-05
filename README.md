@@ -10,3 +10,7 @@ npm run dev      # local
 npm run deploy   # Cloudflare Workers + custom domain
 python3 scripts/build_marks.py   # regenerate marks (needs Fraunces ttf)
 ```
+
+## License
+
+Proprietary. See [LICENSE](LICENSE).
