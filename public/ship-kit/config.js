@@ -4,7 +4,7 @@
  * They are not payment URLs and nothing here is sent to a third party.
  */
 const SHIP_KIT = Object.freeze({
-  STRIPE_LINK_KIT: "STRIPE_LINK_KIT",
+  STRIPE_LINK_KIT: "https://buy.stripe.com/28EcMZ4OJbJUdI1eZHeQM01",
   STRIPE_LINK_DFY: "STRIPE_LINK_DFY",
   INTAKE_URL: "INTAKE_URL",
   SUPPORT_EMAIL: "hello@nixonmade.com",
