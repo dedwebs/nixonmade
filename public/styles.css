@@ -309,17 +309,6 @@ main.field-main {
   align-items: center;
 }
 
-.field-kit a.btn.secondary {
-  background: transparent;
-  color: var(--ink);
-  box-shadow: inset 0 0 0 1px var(--ink);
-}
-
-.field-kit a.btn.secondary:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
 .field-kit a.btn[aria-disabled="true"] {
   cursor: default;
 }
