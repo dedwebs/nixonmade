@@ -7,7 +7,7 @@ const SHIP_KIT = Object.freeze({
   STRIPE_LINK_KIT: "STRIPE_LINK_KIT",
   STRIPE_LINK_DFY: "STRIPE_LINK_DFY",
   INTAKE_URL: "INTAKE_URL",
-  SUPPORT_EMAIL: "SUPPORT_EMAIL",
+  SUPPORT_EMAIL: "hello@nixonmade.com",
 });
 
 function shipKitIsHttpsUrl(value) {
