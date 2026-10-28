@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Studio Ship Kit — Nixon Made</title>
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="The real runbook, agent skills and scripts our AI studio used to take a SwiftUI app from repo to TestFlight. It includes the gates that keep agents from shipping broken builds."
+    />
+    <link rel="canonical" href="https://nixonmade.com/ship-kit/" />
+    <meta property="og:title" content="Agent Studio Ship Kit — Nixon Made" />
+    <meta
+      property="og:description"
+      content="The real runbook, agent skills and scripts our AI studio used to take a SwiftUI app from repo to TestFlight. It includes the gates that keep agents from shipping broken builds."
+    />
+    <meta property="og:url" content="https://nixonmade.com/ship-kit/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/brand/press-stamp-on-paper.svg" />
+    <meta name="theme-color" content="#f3eee4" />
+    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="product-page ship-kit">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="hero">
+      <p class="wordmark">
+        <a href="/">
+          <img
+            src="/brand/press-stamp.svg"
+            alt="Nixon Made"
+            width="520"
+            height="520"
+          />
+        </a>
+      </p>
+    </header>
+
+    <main id="content" class="ship-main">
+      <a class="back" href="/">← Nixon Made</a>
+      <p class="kicker">Agent Studio Ship Kit, by NixonMade</p>
+      <h1>Let your AI agents ship your iOS app to TestFlight.</h1>
+      <p class="lede">
+        The real runbook, agent skills and scripts our AI studio used to take a
+        SwiftUI app from repo to TestFlight. It includes the gates that keep
+        agents from shipping broken builds.
+      </p>
+      <div class="actions">
+        <a class="btn" data-ship="STRIPE_LINK_KIT" href="#" aria-disabled="true"
+          >Get the Kit — $49</a
+        >
+        <a class="btn" data-ship="STRIPE_LINK_DFY" href="#" aria-disabled="true"
+          >Ship it for me — $299</a
+        >
+      </div>
+
+      <section aria-labelledby="who-heading">
+        <h2 id="who-heading">Who it's for</h2>
+        <p>
+          Indie iOS devs and small studios using Cursor, Claude Code or other
+          coding agents who want builds on TestFlight without babysitting every
+          step. You'll need a Mac and an Apple Developer account.
+        </p>
+      </section>
+
+      <section aria-labelledby="included-heading">
+        <h2 id="included-heading">Included</h2>
+        <ul class="included">
+          <li>A step-by-step release runbook, from repo to an internal TestFlight build</li>
+          <li>Ready-to-use agent skill and prompt files for Cursor and Claude Code</li>
+          <li>Quality gates pinned to an exact commit: Mac build, then automated QA, then human merge</li>
+          <li>App Store Connect API scripts (build numbers, upload, TestFlight groups) with placeholders for your keys</li>
+          <li>An XcodeGen project-drift check</li>
+          <li>
+            A troubleshooting guide for the real blockers we hit: xcodebuild hangs
+            after tests, missing TestFlight groups, 403s from limited API keys,
+            testers who aren't team users, and signing at export
+          </li>
+          <li>QA checklists</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="pricing-heading">
+        <h2 id="pricing-heading">Pricing</h2>
+        <div class="price-grid">
+          <article class="price" aria-labelledby="price-kit price-kit-license">
+            <h3 id="price-kit">Kit $49 one-time [launch price TBD].</h3>
+            <p id="price-kit-license">The kit is a one-developer license, no resale.</p>
+            <a class="btn" data-ship="STRIPE_LINK_KIT" href="#" aria-disabled="true"
+              >Get the Kit — $49</a
+            >
+          </article>
+          <article class="price" aria-labelledby="price-dfy price-dfy-scope">
+            <h3 id="price-dfy">Done-for-you $299</h3>
+            <p id="price-dfy-scope">
+              Internal TestFlight within 48 hours, up to 5 testers, and one fix
+              round within 7 days. Excludes App Store submission, external
+              TestFlight, feature work, IAP and pricing, and listings.
+            </p>
+            <a class="btn" data-ship="STRIPE_LINK_DFY" href="#" aria-disabled="true"
+              >Ship it for me — $299</a
+            >
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="delivery-heading">
+        <h2 id="delivery-heading">Delivery</h2>
+        <div class="delivery">
+          <p>After purchase you get an instant download link by email (zip).</p>
+          <p>
+            Done-for-you buyers get an intake form and a kickoff email within 1
+            business day [TBD].
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading">FAQ</h2>
+        <dl class="faq">
+          <div>
+            <dt>Do I need a Mac?</dt>
+            <dd>Yes. Xcode builds and uploads run on your Mac.</dd>
+          </div>
+          <div>
+            <dt>Which agents does it work with?</dt>
+            <dd>
+              Cursor and Claude Code, and the runbook works with any agent that
+              can run shell commands.
+            </dd>
+          </div>
+          <div>
+            <dt>Does it submit my app to App Store review?</dt>
+            <dd>
+              No. It covers TestFlight. App Store submission stays your call.
+            </dd>
+          </div>
+          <div>
+            <dt>Is my API key safe?</dt>
+            <dd>
+              The scripts read your keys from your own environment, and nothing
+              is sent to us.
+            </dd>
+          </div>
+          <div>
+            <dt>Refunds?</dt>
+            <dd>
+              See the <a href="/refunds/">refund policy</a>. Digital kits can be
+              refunded within 14 days of purchase if the kit was not
+              substantially used, or if a file is broken and we cannot fix it.
+            </dd>
+          </div>
+          <div>
+            <dt>Update policy?</dt>
+            <dd>
+              A kit is the files delivered at purchase. Later versions are not
+              included unless this page says they are. See the
+              <a href="/terms/">terms</a>.
+            </dd>
+          </div>
+          <div>
+            <dt>Does the $299 service include fixing my app's bugs?</dt>
+            <dd>
+              No. It covers getting a building app to TestFlight and one fix round
+              within 7 days. Excludes App Store submission, external TestFlight,
+              feature work, IAP and pricing, and listings.
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <footer>
+        <p>Copyright NixonMade</p>
+        <p><a href="/">Nixon Made</a></p>
+      </footer>
+    </main>
+    <script src="/ship-kit/config.js"></script>
+  </body>
+</html>
