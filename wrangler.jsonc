@@ -2,13 +2,73 @@
   "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
   "name": "nixonmade",
   "account_id": "f90a11b318e5ebe6d6a3256d3c3566de",
+  "main": "src/index.ts",
   "compatibility_date": "2026-08-15",
   "preview_urls": true,
+  // Query strings on /thanks and /api/file carry the checkout session and the
+  // signed file token. Redact them from Workers logs and traces. Logs are not
+  // persisted, so this does not turn on a log-storage product.
+  "observability": {
+    "enabled": true,
+    "redact_query_string": true,
+    "logs": {
+      "enabled": true,
+      "persist": false
+    }
+  },
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none",
+    "run_worker_first": true
   },
   "routes": [
     { "pattern": "nixonmade.com", "custom_domain": true },
     { "pattern": "www.nixonmade.com", "custom_domain": true }
-  ]
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "PURCHASE_GATE", "class_name": "PurchaseGate" }]
+  },
+  "migrations": [
+    {
+      "tag": "v1-purchase-gate",
+      "new_sqlite_classes": ["PurchaseGate"]
+    }
+  ],
+  // Private bucket. Do not enable r2.dev or a public custom domain.
+  "r2_buckets": [{ "binding": "DOWNLOADS", "bucket_name": "nixonmade-downloads" }],
+  // Secrets (wrangler secret put), never commit these:
+  //   STRIPE_RESTRICTED_KEY, DOWNLOAD_SIGNING_SECRET, STRIPE_WEBHOOK_SECRET
+  // Product link and price ids are allowlist config. Leave them empty until
+  // the Stripe Dashboard ids exist. Test ids and live ids are separate.
+  // Ship Kit's kit and done-for-you Payment Links both go in the ship-kit
+  // lists when they should deliver the same zip.
+  "vars": {
+    "DOWNLOAD_LIMIT": "5",
+    "DOWNLOAD_TTL_SECONDS": "900",
+    "RATE_LIMIT_IP_PER_MINUTE": "60",
+    "RATE_LIMIT_SESSION_PER_MINUTE": "20",
+    "PRODUCT_FIELD_KIT_TEST_LINKS": "",
+    "PRODUCT_FIELD_KIT_TEST_PRICES": "",
+    "PRODUCT_FIELD_KIT_LIVE_LINKS": "",
+    "PRODUCT_FIELD_KIT_LIVE_PRICES": "",
+    "PRODUCT_FIELD_KIT_KEY": "products/field-kit.zip",
+    "PRODUCT_FIELD_KIT_FILENAME": "nixonmade-field-kit.zip",
+    "PRODUCT_FIELD_KIT_TITLE": "Field Kit",
+    "PRODUCT_SHIP_KIT_TEST_LINKS": "",
+    "PRODUCT_SHIP_KIT_TEST_PRICES": "",
+    "PRODUCT_SHIP_KIT_LIVE_LINKS": "",
+    "PRODUCT_SHIP_KIT_LIVE_PRICES": "",
+    "PRODUCT_SHIP_KIT_KEY": "products/ship-kit.zip",
+    "PRODUCT_SHIP_KIT_FILENAME": "nixonmade-ship-kit.zip",
+    "PRODUCT_SHIP_KIT_TITLE": "Ship Kit",
+    "PRODUCT_FLEET_SHEETS_TEST_LINKS": "",
+    "PRODUCT_FLEET_SHEETS_TEST_PRICES": "",
+    "PRODUCT_FLEET_SHEETS_LIVE_LINKS": "",
+    "PRODUCT_FLEET_SHEETS_LIVE_PRICES": "",
+    "PRODUCT_FLEET_SHEETS_KEY": "products/fleet-sheets.zip",
+    "PRODUCT_FLEET_SHEETS_FILENAME": "nixonmade-fleet-sheets.zip",
+    "PRODUCT_FLEET_SHEETS_TITLE": "Fleet Sheets"
+  }
 }

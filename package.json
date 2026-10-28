@@ -4,9 +4,16 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "e2e:download": "node scripts/e2e-download.mjs",
     "approve": "python3 -m http.server 8765 --directory catalog/halloween-gothic-2026"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.23.0",
+    "@cloudflare/workers-types": "^5.20261023.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.2",
     "wrangler": "^4"
   }
 }

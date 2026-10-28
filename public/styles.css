@@ -706,3 +706,36 @@ main.ship-main {
 .legal-page footer p + p {
   margin-top: 0.45rem;
 }
+
+.download-page label {
+  display: block;
+  margin: 0 0 0.4rem;
+}
+
+.download-page input[type="text"] {
+  display: block;
+  width: min(100%, 32rem);
+  margin: 0 0 1rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+.download-page button.btn {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  min-height: 44px;
+}
+
+.download-page input:focus-visible,
+.download-page button:focus-visible {
+  outline: 2px solid var(--oxblood);
+  outline-offset: 3px;
+}
+
+.download-page code {
+  font-size: 0.95em;
+}
