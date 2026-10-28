@@ -4,3 +4,10 @@
 
 /field-kit/*
   X-Robots-Tag: noindex
+
+# relnotes is not ready to be indexed
+/relnotes
+  X-Robots-Tag: noindex
+
+/relnotes/*
+  X-Robots-Tag: noindex
