@@ -1,3 +1,12 @@
+# Security headers for static files. The worker sets the same ones, including
+# HSTS on https://nixonmade.com without preload. Download pages use a stricter
+# Content-Security-Policy of their own.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
 # Field Kit draft pages stay out of search indexes.
 /field-kit
   X-Robots-Tag: noindex

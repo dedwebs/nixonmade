@@ -76,6 +76,22 @@
         </p>
       </section>
 
+      <section aria-labelledby="downloads-heading">
+        <h2 id="downloads-heading">Downloads</h2>
+        <p>
+          When you finish paying, Stripe sends your browser to this site with a
+          checkout session id in the page address. We send that id to Stripe to
+          confirm the payment, then give you a short-lived link to the file.
+          We do not write the session id into our own application logs.
+        </p>
+        <p>
+          To slow abuse, we keep a short-lived counter for the connection. The
+          counter is stored under a hash, not the raw IP address, and it is
+          only used to rate-limit download requests. We do not use it for
+          marketing. A refund stops further downloads of that purchase.
+        </p>
+      </section>
+
       <section aria-labelledby="why-heading">
         <h2 id="why-heading">Why we collect it</h2>
         <ul>
