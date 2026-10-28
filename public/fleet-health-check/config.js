@@ -6,7 +6,7 @@ const FLEET_HEALTH_CHECK = {
   STRIPE_LINK_STANDARD: "",
   STRIPE_LINK_PRO: "",
   FORM_ENDPOINT: "",
-  FIELD_KIT_URL: "",
+  FIELD_KIT_URL: "/field-kit/",
   CONTACT_EMAIL: "hello@nixonmade.com",
   POLICY_URL: "/fleet-health-check/data-handling/",
   TERMS_URL: "",
@@ -69,7 +69,7 @@ Object.freeze(FLEET_HEALTH_CHECK);
         el.tabIndex = 0;
         return;
       }
-      el.href = href;
+      el.setAttribute("href", href);
       el.removeAttribute("aria-disabled");
       el.removeAttribute("tabindex");
       if (/^https?:/i.test(href)) {
