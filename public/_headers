@@ -1,0 +1,6 @@
+# Field Kit draft pages stay out of search indexes.
+/field-kit
+  X-Robots-Tag: noindex
+
+/field-kit/*
+  X-Robots-Tag: noindex
