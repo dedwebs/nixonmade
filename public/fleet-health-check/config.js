@@ -7,9 +7,10 @@ const FLEET_HEALTH_CHECK = {
   STRIPE_LINK_PRO: "",
   FORM_ENDPOINT: "",
   FIELD_KIT_URL: "",
-  CONTACT_EMAIL: "",
+  CONTACT_EMAIL: "hello@nixonmade.com",
   POLICY_URL: "/fleet-health-check/data-handling/",
   TERMS_URL: "",
+  LITE_PRICE: "[$79 suggested, TBD]",
 };
 
 Object.freeze(FLEET_HEALTH_CHECK);
@@ -99,27 +100,35 @@ Object.freeze(FLEET_HEALTH_CHECK);
     });
   }
 
-  function applyStripe(key) {
+  function applyText(key) {
+    var value = clean(FLEET_HEALTH_CHECK[key]);
+    each('[data-config-text="' + key + '"]', function (el) {
+      el.textContent = value || "[" + key + "]";
+    });
+  }
+
+  function applyPayment(key) {
     var href = httpUrl(FLEET_HEALTH_CHECK[key]);
+    each('[data-config-payment="' + key + '"]', function (el) {
+      if (!href) return;
+      el.href = href;
+      el.rel = "nofollow noopener noreferrer";
+      el.referrerPolicy = "no-referrer";
+    });
     each('[data-config-stripe="' + key + '"]', function (el) {
-      el.replaceChildren();
-      if (!href) {
-        el.textContent = "[" + key + "]";
+      if (href) {
+        el.hidden = true;
         return;
       }
-      var link = document.createElement("a");
-      link.href = href;
-      link.rel = "nofollow noopener noreferrer";
-      link.referrerPolicy = "no-referrer";
-      link.textContent = "Payment link";
-      el.appendChild(link);
+      el.hidden = false;
+      el.textContent = "[" + key + "]";
     });
   }
 
   ["FIELD_KIT_URL", "POLICY_URL", "TERMS_URL"].forEach(applyLink);
   applyEmail("CONTACT_EMAIL");
-  applyStripe("STRIPE_LINK_STANDARD");
-  applyStripe("STRIPE_LINK_PRO");
+  applyText("LITE_PRICE");
+  applyPayment("STRIPE_LINK_STANDARD");
 
   each("[data-config-href]", function (el) {
     el.addEventListener("click", function (event) {
@@ -129,15 +138,6 @@ Object.freeze(FLEET_HEALTH_CHECK);
 
   var form = document.querySelector("[data-intake-form]");
   if (!form) return;
-
-  var tierParam = new URLSearchParams(window.location.search).get("tier");
-  if (tierParam) {
-    var tierValue = tierParam.toLowerCase();
-    if (tierValue === "standard" || tierValue === "pro") {
-      var tierInput = form.querySelector('input[name="tier"][value="' + tierValue + '"]');
-      if (tierInput) tierInput.checked = true;
-    }
-  }
 
   var endpoint = absoluteHttpUrl(FLEET_HEALTH_CHECK.FORM_ENDPOINT);
   var notice = document.querySelector("[data-preview-notice]");

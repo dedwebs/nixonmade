@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Book my health check — Fleet Health Check by NixonMade</title>
+    <title>Claim a founder spot — Fleet Health Check by NixonMade</title>
     <meta name="robots" content="noindex" />
     <meta
       name="description"
       content="Intake form for Fleet Health Check by NixonMade. No credentials are collected."
     />
     <link rel="canonical" href="https://nixonmade.com/fleet-health-check/intake/" />
-    <meta property="og:title" content="Book my health check — Fleet Health Check by NixonMade" />
+    <meta property="og:title" content="Claim a founder spot — Fleet Health Check by NixonMade" />
     <meta
       property="og:description"
       content="Intake form for Fleet Health Check by NixonMade. No credentials are collected."
@@ -46,7 +46,7 @@
 
     <main id="main" class="fhc-page" tabindex="-1">
       <p class="fhc-kicker">Fleet Health Check by NixonMade</p>
-      <h1>Book my health check</h1>
+      <h1>Claim a founder spot</h1>
       <p class="note" id="required-hint">Required fields are marked with an asterisk.</p>
 
       <form
@@ -173,20 +173,6 @@
         </div>
 
         <fieldset class="fhc-field">
-          <legend>Tier</legend>
-          <div class="fhc-choices">
-            <label class="fhc-choice">
-              <input type="radio" name="tier" value="standard" />
-              <span>Standard</span>
-            </label>
-            <label class="fhc-choice">
-              <input type="radio" name="tier" value="pro" />
-              <span>Pro</span>
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset class="fhc-field">
           <legend>NDA needed?</legend>
           <div class="fhc-choices">
             <label class="fhc-choice">
@@ -199,6 +185,13 @@
             </label>
           </div>
         </fieldset>
+
+        <div class="fhc-field">
+          <div class="fhc-agree">
+            <input id="testimonial" name="testimonial" type="checkbox" value="yes" />
+            <label for="testimonial">I'm open to giving a short testimonial if I'm happy (optional)</label>
+          </div>
+        </div>
 
         <div class="fhc-field">
           <div class="fhc-agree">
@@ -230,7 +223,7 @@
         </div>
 
         <button class="btn" type="submit" data-intake-submit aria-describedby="preview-notice">
-          Book my health check
+          Claim a founder spot
         </button>
       </form>
 

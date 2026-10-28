@@ -7,13 +7,13 @@
     <meta name="robots" content="noindex" />
     <meta
       name="description"
-      content="A fixed-price, read-only health check for Jamf Pro environments. It delivers a scored report and ready-to-upload fixes in [5 business days]."
+      content="Six high-impact checks on your Jamf Pro setup, a scored summary and your top 5 fixes in [3 business days], for [$79 suggested, TBD]."
     />
     <link rel="canonical" href="https://nixonmade.com/fleet-health-check/" />
     <meta property="og:title" content="Fleet Health Check by NixonMade" />
     <meta
       property="og:description"
-      content="A fixed-price, read-only health check for Jamf Pro environments. It delivers a scored report and ready-to-upload fixes in [5 business days]."
+      content="Six high-impact checks on your Jamf Pro setup, a scored summary and your top 5 fixes in [3 business days], for [$79 suggested, TBD]."
     />
     <meta property="og:url" content="https://nixonmade.com/fleet-health-check/" />
     <meta property="og:type" content="website" />
@@ -47,20 +47,24 @@
     <main id="main" class="fhc-page" tabindex="-1">
       <div class="fhc-intro">
         <p class="fhc-kicker">Fleet Health Check by NixonMade</p>
-        <h1>Find what's quietly broken in your Mac fleet before your users do.</h1>
+        <h1>A quick, read-only health check for your Mac fleet: founder pricing for the first 5 teams.</h1>
         <p class="lede">
-          A fixed-price, read-only health check for Jamf Pro environments. It
-          delivers a scored report and ready-to-upload fixes in [5 business days].
+          Six high-impact checks on your Jamf Pro setup, a scored summary and your
+          top 5 fixes in [3 business days], for
+          <span data-config-text="LITE_PRICE">[$79 suggested, TBD]</span>.
         </p>
         <div class="actions">
-          <a class="btn" href="/fleet-health-check/intake/">Book my health check</a>
+          <span class="fhc-secondary-wrap">
+            <a class="btn" href="/fleet-health-check/intake/" data-config-payment="STRIPE_LINK_STANDARD">Claim a founder spot</a>
+            <span class="fhc-token" data-config-stripe="STRIPE_LINK_STANDARD">[STRIPE_LINK_STANDARD]</span>
+          </span>
           <span class="fhc-secondary-wrap">
             <a
               class="fhc-secondary"
               data-config-href="FIELD_KIT_URL"
               aria-disabled="true"
               aria-describedby="field-kit-placeholder"
-              >Get the free Field Kit</a
+              >Get the Field Kit</a
             >
             <span
               id="field-kit-placeholder"
@@ -82,32 +86,27 @@
         </p>
       </section>
 
-      <section aria-labelledby="checks-heading">
+      <section class="fhc-split" aria-labelledby="checks-heading">
         <h2 id="checks-heading">What we check</h2>
+        <h3 id="lite-included-heading">Included in Lite</h3>
+        <p>Six checks:</p>
         <ul class="fhc-list">
-          <li>Privacy/PPPC profiles that don't take effect</li>
-          <li>Smart card (PIV) login policy</li>
+          <li>PPPC/privacy profiles that don't take effect</li>
           <li>FileVault and key escrow</li>
-          <li>OS update compliance and deferrals</li>
-          <li>Policies (failing, stale, or scoped to all)</li>
-          <li>Smart groups and extension attributes</li>
-          <li>Stale or unmanaged devices and inventory freshness</li>
-          <li>Certificate expiry for the push certificate (APNs) and MDM</li>
-          <li>Local admin accounts and LAPS</li>
-          <li>Gatekeeper, SIP and firewall</li>
+          <li>OS update compliance</li>
+          <li>Stale or unmanaged devices</li>
+          <li>Push (APNs) and MDM certificate expiry</li>
           <li>Scripts with hard-coded secrets</li>
         </ul>
-      </section>
-
-      <section aria-labelledby="deliverables-heading">
-        <h2 id="deliverables-heading">Deliverables</h2>
+        <p>Plus:</p>
         <ul class="fhc-list">
-          <li>An executive summary with a health score</li>
-          <li>Findings ranked by severity, each with evidence and a fix</li>
-          <li>Corrected .mobileconfig profiles and scripts ready to upload</li>
-          <li>A prioritized remediation plan</li>
-          <li>Pro tier: a [60-minute] walkthrough call</li>
+          <li>a 1-2 page scored summary report</li>
+          <li>the top 5 fixes, each with steps, plus corrected .mobileconfig/scripts where applicable</li>
+          <li>one email round for questions</li>
         </ul>
+        <h3 id="lite-excluded-heading">Not in Lite</h3>
+        <p>Full audit, coming later. Every area on the full check list, including smart card/PIV, policies and smart groups, extension attributes, local admins and LAPS, and Gatekeeper/SIP/firewall.</p>
+        <p>Also not included: the full remediation plan, the walkthrough call and the re-check.</p>
       </section>
 
       <section aria-labelledby="sample-heading">
@@ -130,34 +129,25 @@
 
       <section aria-labelledby="pricing-heading">
         <h2 id="pricing-heading">Pricing</h2>
-        <div class="fhc-prices">
-          <article class="card">
-            <h3>Standard</h3>
-            <p class="fhc-price">$299</p>
-            <p>report plus fixes.</p>
-            <p class="fhc-token" data-config-stripe="STRIPE_LINK_STANDARD">[STRIPE_LINK_STANDARD]</p>
-            <a class="btn" href="/fleet-health-check/intake/?tier=standard">Book my health check</a>
-          </article>
-          <article class="card">
-            <h3>Pro</h3>
-            <p class="fhc-price">$499</p>
-            <p>adds the walkthrough call and one round of re-check after the fixes.</p>
-            <p class="fhc-token" data-config-stripe="STRIPE_LINK_PRO">[STRIPE_LINK_PRO]</p>
-            <a class="btn" href="/fleet-health-check/intake/?tier=pro">Book my health check</a>
-          </article>
-        </div>
-        <p class="fhc-draft">
-          [Launch discount: first 5 customers save $50. Pending Joe's OK.]
-        </p>
+        <article class="card fhc-lite">
+          <h3>Lite intro audit</h3>
+          <p class="fhc-price" data-config-text="LITE_PRICE">[$79 suggested, TBD]</p>
+          <p>Optional, never required to get your report. If you're happy, we ask for a 1-3 sentence quote. You choose how it's credited (name, title and company; role and company size only; or anonymous), you approve the exact wording before it's used, and you can withdraw it any time. No client data or findings are ever published.</p>
+          <p>Lite pricing is for the first 5 clients. After that, the full audit returns at its regular price [TBD].</p>
+          <p>[3 business days] from receiving read-only API access or exports.</p>
+        </article>
         <div class="actions fhc-pricing-actions">
-          <a class="btn" href="/fleet-health-check/intake/">Book my health check</a>
+          <span class="fhc-secondary-wrap">
+            <a class="btn" href="/fleet-health-check/intake/" data-config-payment="STRIPE_LINK_STANDARD">Claim a founder spot</a>
+            <span class="fhc-token" data-config-stripe="STRIPE_LINK_STANDARD">[STRIPE_LINK_STANDARD]</span>
+          </span>
           <span class="fhc-secondary-wrap">
             <a
               class="fhc-secondary"
               data-config-href="FIELD_KIT_URL"
               aria-disabled="true"
               aria-describedby="field-kit-placeholder-pricing"
-              >Get the free Field Kit</a
+              >Get the Field Kit</a
             >
             <span
               id="field-kit-placeholder-pricing"
@@ -195,6 +185,7 @@
               It's used only for your audit, encrypted at rest, never shared,
               and deleted within 30 days, with written confirmation on request.
               An NDA is available.
+              <a href="/fleet-health-check/data-handling/" data-config-href="POLICY_URL">Data-handling policy</a>.
             </dd>
           </div>
           <div>
@@ -203,7 +194,7 @@
           </div>
           <div>
             <dt>How long does it take?</dt>
-            <dd>[5 business days] after we receive access or exports.</dd>
+            <dd>[3 business days] from receiving read-only API access or exports.</dd>
           </div>
           <div>
             <dt>Is this affiliated with Jamf?</dt>
@@ -212,11 +203,12 @@
             </dd>
           </div>
           <div>
-            <dt>What if you find nothing?</dt>
-            <dd>
-              If there are no medium-or-higher findings, [we refund half].
-              [Pending Joe's OK.]
-            </dd>
+            <dt>What's the catch at this price?</dt>
+            <dd>None. We're new, we're building a track record, and the testimonial is optional.</dd>
+          </div>
+          <div>
+            <dt>Can I upgrade to the full audit later?</dt>
+            <dd>Yes, and the Lite fee is credited toward it [pending Joe].</dd>
           </div>
         </dl>
       </section>

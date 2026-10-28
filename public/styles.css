@@ -456,6 +456,23 @@ main.fhc-page {
   margin: 0;
 }
 
+.fhc-split h3 {
+  margin: 1.35rem 0 0.45rem;
+}
+
+.fhc-split h3:first-of-type {
+  margin-top: 0;
+}
+
+.fhc-lite p {
+  margin: 0.75rem 0 0;
+}
+
+.fhc-lite .fhc-price {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  overflow-wrap: anywhere;
+}
+
 .fhc-list {
   margin: 0;
   padding: 0 0 0 1.15rem;
