@@ -17,6 +17,6 @@
     "src",
     "test",
     "src/globals.d.ts",
-    "node_modules/@cloudflare/vitest-pool-workers/types/cloudflare-test.d.ts"
+    "node_modules/@cloudflare/vitest-plugin/types/cloudflare-test.d.ts"
   ]
 }

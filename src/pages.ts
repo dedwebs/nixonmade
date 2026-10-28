@@ -69,7 +69,7 @@ export function thanksReadyPage(options: {
     `<h1>You're in.</h1>
       <p class="lede">${escapeHtml(options.title)} is ready.</p>
       <p class="actions"><a class="btn" href="${escapeHtml(options.filePath)}">Download ${escapeHtml(options.filename)}</a></p>
-      <p class="note">The button lasts ${options.ttlMinutes} minutes. Bookmark this page, not the button. This page is how you download again. You can download ${options.limit} times. ${options.remaining} left, counting this one. A second click on the same button inside 30 seconds does not count again.</p>
+      <p class="note">The button lasts ${options.ttlMinutes} minutes. Bookmark this page, not the button. This page is how you download again. You can download ${options.limit} times. ${options.remaining} left, counting this one. One repeat of the same button does not count. The next one does.</p>
       <p>Lost the page address? The <a href="/redownload">re-download page</a> takes the checkout session id from it. We do not look people up by email.</p>`,
   );
 }

@@ -5,7 +5,9 @@ import {
   applySecurityHeaders,
   htmlResponse,
   jsonResponse,
+  readLimitedText,
   redirectResponse,
+  secureAssetResponse,
   textResponse,
 } from "./http";
 import { safeLog } from "./log";
@@ -60,15 +62,6 @@ function extractSessionId(raw: string, requestUrl: URL): string | null {
   if (!hostOk) return null;
   const id = parsed.searchParams.get("session_id")?.trim() ?? "";
   return SESSION_ID_RE.test(id) ? id : null;
-}
-
-async function readLimitedText(request: Request, max: number): Promise<string | null> {
-  const declared = request.headers.get("content-length");
-  if (declared && Number(declared) > max) return null;
-  const buffer = await request.arrayBuffer();
-  const text = new TextDecoder().decode(buffer);
-  if (text.length > max) return null;
-  return text;
 }
 
 function methodNotAllowed(url: URL): Response {
@@ -240,7 +233,12 @@ async function handleLegacyThanks(request: Request, env: Env, url: URL): Promise
     }
     return redirectResponse(url, thanksPath(sessionId), 302);
   }
-  return env.ASSETS.fetch(request);
+  return serveAsset(request, env, url);
+}
+
+async function serveAsset(request: Request, env: Env, url: URL): Promise<Response> {
+  const response = await env.ASSETS.fetch(request);
+  return secureAssetResponse(response, url);
 }
 
 export default {
@@ -265,7 +263,7 @@ export default {
       if (LEGACY_THANKS.has(url.pathname)) {
         return await handleLegacyThanks(request, env, url);
       }
-      return await env.ASSETS.fetch(request);
+      return await serveAsset(request, env, url);
     } catch {
       safeLog("unhandled");
       if (url.pathname.startsWith("/api/")) {

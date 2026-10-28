@@ -60,6 +60,11 @@ export async function verifyStripeWebhook(
   return ok === 1;
 }
 
+/**
+ * Payment intent whose access should stop: a refund, or a dispute that has
+ * been opened or had funds withdrawn. A closed or won dispute does not clear
+ * the block; that stays sticky, same as a refund.
+ */
 export function refundedPaymentIntent(event: unknown): string | null {
   if (!event || typeof event !== "object") return null;
   const record = event as Record<string, unknown>;
@@ -87,6 +92,13 @@ export function refundedPaymentIntent(event: unknown): string | null {
     if (resource.status === "succeeded" && typeof amount === "number" && amount > 0) {
       return paymentIntent;
     }
+  }
+
+  if (
+    (type === "charge.dispute.created" || type === "charge.dispute.funds_withdrawn") &&
+    resource.object === "dispute"
+  ) {
+    return paymentIntent;
   }
   return null;
 }

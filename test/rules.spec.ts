@@ -1,6 +1,6 @@
 import { env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
-import { escapeHtml } from "../src/http";
+import { clientIp, escapeHtml, readLimitedText } from "../src/http";
 import { safeLog } from "../src/log";
 import { contentDisposition, loadCatalog, matchProduct, mediaTypeForSuffix } from "../src/products";
 import { signDownloadToken, timingSafeEqual, verifyDownloadToken } from "../src/sign";
@@ -159,6 +159,27 @@ describe("checkout session rules", () => {
     expect(parseCheckoutSession(paidSession({ payment_status: "unpaid" }))).toBeNull();
     expect(parseCheckoutSession(paidSession({ payment_status: "no_payment_required" }))).toBeNull();
     expect(parseCheckoutSession(paidSession({ payment_intent: null }))).toBeNull();
+    expect(parseCheckoutSession(paidSession())?.chargeRefunded).toBe(false);
+    expect(
+      parseCheckoutSession(
+        paidSession({
+          payment_intent: {
+            id: "pi_fieldkitintent01",
+            latest_charge: { object: "charge", refunded: true, amount_refunded: 1900 },
+          },
+        }),
+      )?.chargeRefunded,
+    ).toBe(true);
+    expect(
+      parseCheckoutSession(
+        paidSession({
+          payment_intent: {
+            id: "pi_fieldkitintent01",
+            latest_charge: { object: "charge", refunded: false, amount_refunded: 50 },
+          },
+        }),
+      )?.chargeRefunded,
+    ).toBe(true);
     expect(restrictedKeyMode("rk_test_unit_test_key_not_real_0001")).toBe("test");
     expect(restrictedKeyMode("sk_test_not_restricted_key")).toBeNull();
     expect(restrictedKeyMode("rk_live_not_this_worker")).toBe("live");
@@ -219,6 +240,81 @@ describe("webhook signatures and refunds", () => {
         },
       }),
     ).toBeNull();
+    expect(
+      refundedPaymentIntent({
+        type: "charge.dispute.created",
+        data: {
+          object: { object: "dispute", payment_intent: "pi_fieldkitintent01", status: "needs_response" },
+        },
+      }),
+    ).toBe("pi_fieldkitintent01");
+    expect(
+      refundedPaymentIntent({
+        type: "charge.dispute.funds_withdrawn",
+        data: {
+          object: { object: "dispute", payment_intent: { id: "pi_fieldkitintent01" } },
+        },
+      }),
+    ).toBe("pi_fieldkitintent01");
+    expect(
+      refundedPaymentIntent({
+        type: "charge.dispute.closed",
+        data: {
+          object: { object: "dispute", payment_intent: "pi_fieldkitintent01", status: "won" },
+        },
+      }),
+    ).toBeNull();
+    expect(
+      refundedPaymentIntent({
+        type: "charge.dispute.created",
+        data: { object: { object: "dispute", payment_intent: null } },
+      }),
+    ).toBeNull();
+  });
+});
+
+describe("client address and request bodies", () => {
+  it("buckets IPv6 by /64 and rejects a missing address", () => {
+    const header = (value?: string) =>
+      new Request("https://nixonmade.com/", {
+        headers: value ? { "CF-Connecting-IP": value } : {},
+      });
+    expect(clientIp(header())).toBeNull();
+    expect(clientIp(header("not-an-ip"))).toBeNull();
+    expect(clientIp(header("203.0.113.10"))).toBe("203.0.113.10");
+    expect(clientIp(header("203.0.113.11"))).not.toBe(clientIp(header("203.0.113.10")));
+    const prefix = clientIp(header("2001:db8:1:2::10"));
+    expect(prefix).toBe(clientIp(header("2001:db8:1:2:ffff::99")));
+    expect(prefix).not.toBe(clientIp(header("2001:db8:1:3::10")));
+    expect(clientIp(header("::ffff:203.0.113.10"))).toBe("203.0.113.10");
+  });
+
+  it("stops reading a chunked body once the cap is passed", async () => {
+    let pulls = 0;
+    const stream = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        pulls += 1;
+        if (pulls > 8) {
+          controller.close();
+          return;
+        }
+        controller.enqueue(new Uint8Array(1000));
+      },
+    });
+    const request = new Request("https://nixonmade.com/api/stripe/webhook", {
+      method: "POST",
+      body: stream,
+    });
+    request.headers.delete("content-length");
+    expect(await readLimitedText(request, 2500)).toBeNull();
+    expect(pulls).toBeLessThan(8);
+
+    const declared = new Request("https://nixonmade.com/api/stripe/webhook", {
+      method: "POST",
+      headers: { "content-length": "999999" },
+      body: "small",
+    });
+    expect(await readLimitedText(declared, 100)).toBeNull();
   });
 });
 
@@ -234,14 +330,31 @@ describe("purchase gate atomicity", () => {
     expect(await stub.remaining(5)).toBe(0);
   });
 
-  it("counts a retry inside 30 seconds once, then counts a later transfer", async () => {
-    const stub = env.PURCHASE_GATE.getByName("session:cs_test_dedupewindow0001");
+  it("allows one free retry per token and then counts again", async () => {
+    const stub = env.PURCHASE_GATE.getByName("session:cs_test_oneretry0000001");
     const now = 1_700_000_000_000;
     expect(await stub.consume("same-token", 5, now)).toBe("ok");
     expect(await stub.consume("same-token", 5, now + 1_000)).toBe("duplicate");
     expect(await stub.remaining(5)).toBe(4);
     expect(await stub.consume("same-token", 5, now + 31_000)).toBe("ok");
     expect(await stub.remaining(5)).toBe(3);
+    expect(await stub.consume("same-token", 5, now + 120_000)).toBe("ok");
+    expect(await stub.remaining(5)).toBe(2);
+  });
+
+  it("does not let repeated retries stretch a cap of five", async () => {
+    const stub = env.PURCHASE_GATE.getByName("session:cs_test_nostretch000001");
+    const now = 1_700_000_000_000;
+    for (let i = 0; i < 5; i++) expect(await stub.consume(`jti-${i}`, 5, now + i)).toBe("ok");
+    for (let i = 0; i < 5; i++) {
+      expect(await stub.consume(`jti-${i}`, 5, now + 100 + i)).toBe("duplicate");
+    }
+    expect(await stub.remaining(5)).toBe(0);
+    for (let n = 0; n < 20; n++) {
+      expect(await stub.consume(`jti-${n % 5}`, 5, now + 300 + n)).toBe("limit");
+      expect(await stub.consume(`jti-extra-${n}`, 5, now + 400 + n)).toBe("limit");
+    }
+    expect(await stub.remaining(5)).toBe(0);
   });
 
   it("rolls a missing file back and rate-limits inside the window", async () => {

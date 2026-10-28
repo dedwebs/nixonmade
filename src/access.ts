@@ -18,6 +18,8 @@ export const DEFAULT_LIMIT = 5;
 export const DEFAULT_TTL_SECONDS = 900;
 export const DEFAULT_IP_LIMIT = 60;
 export const DEFAULT_SESSION_LIMIT = 20;
+export const DEFAULT_STRIPE_LIMIT = 120;
+export const STRIPE_LOOKUP_GATE = "stripe:global";
 
 export type IssuedDownload = {
   product: CatalogProduct;
@@ -51,6 +53,10 @@ function sessionLimit(env: Env): number {
   return readPositiveInt(env.RATE_LIMIT_SESSION_PER_MINUTE, DEFAULT_SESSION_LIMIT, 1, 1000);
 }
 
+function stripeLimit(env: Env): number {
+  return readPositiveInt(env.RATE_LIMIT_STRIPE_PER_MINUTE, DEFAULT_STRIPE_LIMIT, 1, 5000);
+}
+
 export function secretsForDownload(env: Env): boolean {
   return restrictedKeyMode(env.STRIPE_RESTRICTED_KEY) !== null && signingSecretOk(env.DOWNLOAD_SIGNING_SECRET);
 }
@@ -62,8 +68,15 @@ function gate(env: Env, name: string): DurableObjectStub<PurchaseGate> {
 export async function allowIp(request: Request, env: Env): Promise<boolean> {
   const secret = env.DOWNLOAD_SIGNING_SECRET;
   if (!signingSecretOk(secret)) return false;
-  const name = await hashName("ip", secret, clientIp(request));
+  const ip = clientIp(request);
+  if (!ip) return false;
+  const name = await hashName("ip", secret, ip);
   return gate(env, name).hit(ipLimit(env), 60_000);
+}
+
+/** One worker-wide cap on Checkout Session reads. Fake session ids share it. */
+export async function allowStripeLookups(env: Env): Promise<boolean> {
+  return gate(env, STRIPE_LOOKUP_GATE).hit(stripeLimit(env), 60_000);
 }
 
 async function allowSession(env: Env, sessionId: string): Promise<boolean> {
@@ -81,22 +94,29 @@ export async function markPaymentRefunded(env: Env, paymentIntentId: string): Pr
 async function verifiedSession(
   env: Env,
   sessionId: string,
-): Promise<{ session: CheckoutSession; product: CatalogProduct } | null> {
+): Promise<
+  | { ok: true; session: CheckoutSession; product: CatalogProduct }
+  | { ok: false; error: "rate" | "unavailable" }
+> {
   const key = env.STRIPE_RESTRICTED_KEY;
-  if (!key) return null;
-  const lookup = await retrieveCheckoutSession(sessionId, key);
-  if (!lookup.ok) return null;
-  if (await refunded(env, lookup.session.paymentIntentId)) return null;
+  if (!key) return { ok: false, error: "unavailable" };
+  const lookup = await retrieveCheckoutSession(sessionId, key, () => allowStripeLookups(env));
+  if (!lookup.ok) return { ok: false, error: lookup.rateLimited ? "rate" : "unavailable" };
+  if (lookup.session.chargeRefunded) {
+    await markPaymentRefunded(env, lookup.session.paymentIntentId);
+    return { ok: false, error: "unavailable" };
+  }
+  if (await refunded(env, lookup.session.paymentIntentId)) return { ok: false, error: "unavailable" };
   const product = matchProduct(loadCatalog(env), {
     livemode: lookup.session.livemode,
     paymentLinkId: lookup.session.paymentLinkId,
     priceIds: lookup.session.priceIds,
   });
-  if (!product) return null;
+  if (!product) return { ok: false, error: "unavailable" };
   const mode = sessionMode(sessionId);
-  if (!mode) return null;
-  if ((lookup.session.livemode ? "live" : "test") !== mode) return null;
-  return { session: lookup.session, product };
+  if (!mode) return { ok: false, error: "unavailable" };
+  if ((lookup.session.livemode ? "live" : "test") !== mode) return { ok: false, error: "unavailable" };
+  return { ok: true, session: lookup.session, product };
 }
 
 export async function issueDownload(
@@ -113,7 +133,7 @@ export async function issueDownload(
   if (!(await allowIp(request, env))) return { ok: false, error: "rate" };
 
   const verified = await verifiedSession(env, sessionId);
-  if (!verified) return { ok: false, error: "unavailable" };
+  if (!verified.ok) return { ok: false, error: verified.error };
   if (!(await allowSession(env, sessionId))) return { ok: false, error: "rate" };
 
   const head = await env.DOWNLOADS.head(verified.product.key);
@@ -177,7 +197,8 @@ export async function openSignedFile(
   if (!(await allowSession(env, payload.sid))) return { ok: false, error: "rate" };
 
   const verified = await verifiedSession(env, payload.sid);
-  if (!verified || verified.product.slug !== payload.product) {
+  if (!verified.ok) return { ok: false, error: verified.error };
+  if (verified.product.slug !== payload.product) {
     return { ok: false, error: "unavailable" };
   }
 

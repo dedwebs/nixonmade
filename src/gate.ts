@@ -11,11 +11,23 @@ import type { Env } from "./env";
  * request inside it, and SQLite commits the writes as one transaction.
  *
  * The same transaction is used for per-IP and per-session rate windows.
- * Names are `ip:<hash>`, `session:<checkout session id>`, and `pi:<payment intent id>`.
+ * Names are `ip:<hash>`, `session:<checkout session id>`, `pi:<payment intent id>`,
+ * and `stripe:global` for Checkout Session lookups.
  */
-export const DOWNLOAD_DEDUPE_MS = 30_000;
 
-type Seen = Record<string, number>;
+type TokenUse = { retryUsed: boolean };
+type Seen = Record<string, TokenUse>;
+
+function readSeen(raw: unknown): Seen {
+  if (!raw || typeof raw !== "object") return {};
+  const seen: Seen = {};
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
+    if (value && typeof value === "object" && "retryUsed" in value) {
+      seen[key] = { retryUsed: (value as { retryUsed?: unknown }).retryUsed === true };
+    }
+  }
+  return seen;
+}
 
 export class PurchaseGate extends DurableObject<Env> {
   hit(limit: number, windowMs: number, now = Date.now()): boolean {
@@ -43,25 +55,29 @@ export class PurchaseGate extends DurableObject<Env> {
   }
 
   /**
-   * Count a file transfer. The same token inside DOWNLOAD_DEDUPE_MS is a retry
-   * and does not count again. A later transfer of that token counts again.
+   * Count a file transfer. Each token gets one free retry (a browser double
+   * fetch) and every later transfer counts. A 30 second window is not used:
+   * waiting and clicking the same button again must not mint another free copy.
    */
   consume(jti: string, limit: number, now = Date.now()): "ok" | "duplicate" | "limit" {
+    void now;
     if (!Number.isSafeInteger(limit) || limit < 1) return "limit";
     return this.ctx.storage.transactionSync(() => {
-      const seen = this.ctx.storage.kv.get<Seen>("seen") ?? {};
-      const countedAt = seen[jti];
-      if (typeof countedAt === "number" && now - countedAt < DOWNLOAD_DEDUPE_MS) {
+      const seen = readSeen(this.ctx.storage.kv.get("seen"));
+      const prior = seen[jti];
+      if (prior && !prior.retryUsed) {
+        seen[jti] = { retryUsed: true };
+        this.ctx.storage.kv.put("seen", seen);
         return "duplicate";
       }
       const count = this.ctx.storage.kv.get<number>("count") ?? 0;
-      if (typeof count === "number" && count >= limit) return "limit";
-      const next = (typeof count === "number" ? count : 0) + 1;
-      const updated: Seen = { ...seen, [jti]: now };
-      const entries = Object.entries(updated);
+      const used = typeof count === "number" ? count : 0;
+      if (used >= limit) return "limit";
+      if (!prior) seen[jti] = { retryUsed: false };
+      const entries = Object.entries(seen);
       const trimmed =
-        entries.length > 32 ? Object.fromEntries(entries.slice(entries.length - 32)) : updated;
-      this.ctx.storage.kv.put("count", next);
+        entries.length > 32 ? Object.fromEntries(entries.slice(entries.length - 32)) : seen;
+      this.ctx.storage.kv.put("count", used + 1);
       this.ctx.storage.kv.put("seen", trimmed);
       return "ok";
     });
@@ -69,12 +85,12 @@ export class PurchaseGate extends DurableObject<Env> {
 
   rollback(jti: string): void {
     this.ctx.storage.transactionSync(() => {
-      const seen = this.ctx.storage.kv.get<Seen>("seen") ?? {};
-      if (!(jti in seen)) return;
-      const rest = { ...seen };
-      delete rest[jti];
+      const seen = readSeen(this.ctx.storage.kv.get("seen"));
+      const prior = seen[jti];
+      if (!prior) return;
+      if (!prior.retryUsed) delete seen[jti];
       const count = this.ctx.storage.kv.get<number>("count") ?? 0;
-      this.ctx.storage.kv.put("seen", rest);
+      this.ctx.storage.kv.put("seen", seen);
       this.ctx.storage.kv.put("count", typeof count === "number" ? Math.max(0, count - 1) : 0);
     });
   }

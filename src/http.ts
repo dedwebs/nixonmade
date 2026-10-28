@@ -27,11 +27,46 @@ export function applySecurityHeaders(headers: Headers, requestUrl: URL): void {
     requestUrl.protocol === "https:" &&
     (host === "nixonmade.com" || host === "www.nixonmade.com")
   ) {
-    headers.set(
-      "strict-transport-security",
-      "max-age=31536000; includeSubDomains; preload",
-    );
+    headers.set("strict-transport-security", HSTS_VALUE);
   }
+}
+
+/** HSTS without preload. Preload is a one-way public list and is not set here. */
+export const HSTS_VALUE = "max-age=31536000; includeSubDomains";
+
+/**
+ * Static pages load same-origin scripts and the Google font stylesheet.
+ * Download pages keep the stricter policy in applySecurityHeaders.
+ * upgrade-insecure-requests is https-only so local http can still load CSS.
+ */
+export function assetContentSecurityPolicy(requestUrl: URL): string {
+  let policy =
+    "default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; object-src 'none'";
+  if (requestUrl.protocol === "https:") policy += "; upgrade-insecure-requests";
+  return policy;
+}
+
+export function applyAssetSecurityHeaders(headers: Headers, requestUrl: URL): void {
+  headers.set("x-content-type-options", "nosniff");
+  headers.set("x-frame-options", "DENY");
+  headers.set("content-security-policy", assetContentSecurityPolicy(requestUrl));
+  const host = requestUrl.hostname;
+  if (
+    requestUrl.protocol === "https:" &&
+    (host === "nixonmade.com" || host === "www.nixonmade.com")
+  ) {
+    headers.set("strict-transport-security", HSTS_VALUE);
+  }
+}
+
+export function secureAssetResponse(response: Response, requestUrl: URL): Response {
+  const headers = new Headers(response.headers);
+  applyAssetSecurityHeaders(headers, requestUrl);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 export function htmlResponse(requestUrl: URL, body: string, status = 200): Response {
@@ -94,11 +129,111 @@ export function readPositiveInt(
   return parsed;
 }
 
-/** Only the Cloudflare-set connecting IP. X-Forwarded-For is caller-controlled. */
-export function clientIp(request: Request): string {
-  const cf = request.headers.get("CF-Connecting-IP");
-  if (cf && /^[0-9a-fA-F:.]{3,64}$/.test(cf)) return cf;
-  return "unknown";
+function isIpv4(value: string): boolean {
+  const parts = value.split(".");
+  if (parts.length !== 4) return false;
+  return parts.every((part) => /^\d{1,3}$/.test(part) && Number(part) <= 255);
+}
+
+/** Expand a compressed IPv6 address to eight groups, or null when it is not one. */
+function expandIpv6(value: string): string[] | null {
+  const lower = value.toLowerCase();
+  if (lower.includes("%")) return null;
+  let address = lower;
+  if (lower.includes(".")) {
+    const lastColon = lower.lastIndexOf(":");
+    if (lastColon < 0) return null;
+    const v4 = lower.slice(lastColon + 1);
+    if (!isIpv4(v4)) return null;
+    const [a, b, c, d] = v4.split(".").map((part) => Number(part));
+    const high = ((a << 8) | b).toString(16);
+    const low = ((c << 8) | d).toString(16);
+    address = `${lower.slice(0, lastColon)}:${high}:${low}`;
+  }
+  const halves = address.split("::");
+  if (halves.length > 2) return null;
+  const parse = (side: string): string[] | null => {
+    if (!side) return [];
+    const groups = side.split(":");
+    if (groups.some((group) => !/^[0-9a-f]{1,4}$/.test(group))) return null;
+    return groups;
+  };
+  const left = parse(halves[0] ?? "");
+  const right = halves.length === 2 ? parse(halves[1] ?? "") : [];
+  if (!left || !right) return null;
+  if (halves.length === 1) {
+    if (left.length !== 8) return null;
+    return left.map((group) => group.padStart(4, "0"));
+  }
+  const missing = 8 - left.length - right.length;
+  if (missing < 1) return null;
+  return [...left, ...Array<string>(missing).fill("0000"), ...right].map((group) =>
+    group.padStart(4, "0"),
+  );
+}
+
+/**
+ * Cloudflare's connecting IP only. There is no shared bucket for a missing
+ * or unparseable value: the caller must reject that request.
+ * IPv6 is reduced to its /64 so a single customer prefix shares one limit
+ * without letting every address on the internet share one.
+ */
+export function clientIp(request: Request): string | null {
+  const cf = request.headers.get("CF-Connecting-IP")?.trim() ?? "";
+  if (!cf || cf.length > 64) return null;
+  if (isIpv4(cf)) return cf;
+  const groups = expandIpv6(cf);
+  if (!groups) return null;
+  const mapped =
+    groups[0] === "0000" &&
+    groups[1] === "0000" &&
+    groups[2] === "0000" &&
+    groups[3] === "0000" &&
+    groups[4] === "0000" &&
+    groups[5] === "ffff";
+  if (mapped) {
+    const high = Number.parseInt(groups[6] ?? "", 16);
+    const low = Number.parseInt(groups[7] ?? "", 16);
+    if (!Number.isInteger(high) || !Number.isInteger(low)) return null;
+    return `${(high >> 8) & 255}.${high & 255}.${(low >> 8) & 255}.${low & 255}`;
+  }
+  return groups.slice(0, 4).join(":");
+}
+
+/**
+ * Read a body up to `max` bytes. A missing or lying Content-Length cannot
+ * buffer the rest: the stream is cancelled as soon as the cap is passed.
+ */
+export async function readLimitedText(request: Request, max: number): Promise<string | null> {
+  const declared = request.headers.get("content-length");
+  if (declared !== null && (!/^\d+$/.test(declared) || Number(declared) > max)) return null;
+  const reader = request.body?.getReader();
+  if (!reader) return "";
+  const chunks: Uint8Array[] = [];
+  let received = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      received += value.byteLength;
+      if (received > max) {
+        await reader.cancel();
+        return null;
+      }
+      chunks.push(value);
+    }
+  } catch {
+    await reader.cancel().catch(() => undefined);
+    return null;
+  }
+  const merged = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(merged);
 }
 
 export async function hashName(label: string, pepper: string, value: string): Promise<string> {

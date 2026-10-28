@@ -12,7 +12,7 @@ npm test         # vitest, Stripe mocked
 python3 scripts/build_marks.py   # regenerate marks (needs Fraunces ttf)
 ```
 
-`npm test` prints two warnings from the test runner's older Wrangler. They do not fail the suite. The Wrangler version in this repo accepts `observability.redact_query_string`.
+`npm test` uses `@cloudflare/vitest-plugin`, the maintained replacement for `@cloudflare/vitest-pool-workers`. The old package's last release still bundled the vulnerable dev-dependency tree.
 
 ## Verified downloads
 
@@ -64,7 +64,11 @@ Add the endpoint in Stripe → Developers → Webhooks:
 https://nixonmade.com/api/stripe/webhook
 ```
 
-Events: `charge.refunded`, `refund.created`, `refund.updated`. Put that endpoint's signing secret in `STRIPE_WEBHOOK_SECRET`. Use the test-mode endpoint's secret in `.dev.vars` and the live-mode secret in production. For local testing, the Stripe CLI is free: `stripe listen --forward-to localhost:8787/api/stripe/webhook`, and use the `whsec_` it prints.
+Events: `charge.refunded`, `refund.created`, `refund.updated`, `charge.dispute.created`, and `charge.dispute.funds_withdrawn`. An opened dispute or a dispute that withdraws funds blocks downloads the same way a refund does. The block stays if the dispute is later closed. Put that endpoint's signing secret in `STRIPE_WEBHOOK_SECRET`. Use the test-mode endpoint's secret in `.dev.vars` and the live-mode secret in production. For local testing, the Stripe CLI is free: `stripe listen --forward-to localhost:8787/api/stripe/webhook`, and use the `whsec_` it prints.
+
+The worker also asks Stripe for `payment_intent.latest_charge` on each session read. If that charge is refunded, the download stops immediately. A restricted key with only Checkout Sessions read is not allowed to expand PaymentIntents or Charges, and Stripe answers 403. The worker then reads the session again without that expand and keeps using the webhook above. Granting PaymentIntents read and Charges read on the same restricted key turns the expand into a second check. It is optional. The webhook is what a checkout-sessions-only key relies on.
+
+Optional, in the Cloudflare dashboard: a WAF rate limiting rule for `nixonmade.com` on `/thanks`, `/api/download`, `/api/file`, and `/redownload`. That stops junk before the worker. Custom rate limiting rules depend on the zone plan. The worker still enforces its own limits if you skip the rule.
 
 Production must use the **live** restricted key. A test-mode payment only verifies against a worker that has the **test** restricted key (`wrangler dev` and `.dev.vars`).
 
@@ -86,8 +90,9 @@ Vars in `wrangler.jsonc` (not secrets). Empty link and price lists fail closed: 
 | --- | --- |
 | `DOWNLOAD_LIMIT` | Successful file transfers per checkout session. Default 5. |
 | `DOWNLOAD_TTL_SECONDS` | Life of a file button. Default 900 (15 minutes). |
-| `RATE_LIMIT_IP_PER_MINUTE` | Requests per connection. Default 60. Uses `CF-Connecting-IP` only. |
+| `RATE_LIMIT_IP_PER_MINUTE` | Requests per connection. Default 60. Uses `CF-Connecting-IP` only. IPv6 is grouped by /64. A request with no usable address is refused, so missing addresses do not share one bucket. |
 | `RATE_LIMIT_SESSION_PER_MINUTE` | Requests per paid session. Default 20. |
+| `RATE_LIMIT_STRIPE_PER_MINUTE` | Checkout Session reads for the whole worker. Default 120. Fake `cs_` ids spend this budget and then stop calling Stripe. |
 | `PRODUCT_FIELD_KIT_TEST_LINKS` / `PRODUCT_FIELD_KIT_TEST_PRICES` | Comma-separated `plink_` and `price_` ids for test mode. |
 | `PRODUCT_FIELD_KIT_LIVE_LINKS` / `PRODUCT_FIELD_KIT_LIVE_PRICES` | The same, for live mode. |
 | `PRODUCT_FIELD_KIT_KEY` | Private R2 object key. Default `products/field-kit.zip`. Upload the file later. |
@@ -120,9 +125,9 @@ The object keys above are the defaults. If you change `PRODUCT_*_KEY`, upload to
 - `GET /redownload` and `POST /redownload` take a checkout session id, or a `nixonmade.com` URL that contains one, and send the browser to `/thanks`.
 - `POST /api/stripe/webhook` records refunds.
 
-Responses from these routes set `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, and a Content-Security-Policy with `script-src 'none'`. The new pages do not load third-party fonts or scripts. `wrangler.jsonc` turns on Workers observability with `redact_query_string` and `logs.persist` set to false, so a tail drops the query string and logs are not stored as a separate product. The worker's own logs are short reason codes. They do not include the session id.
+Responses from these routes set `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and a Content-Security-Policy with `script-src 'none'`. Static pages get nosniff, `X-Frame-Options: DENY`, and a Content-Security-Policy that allows same-origin scripts and the Google font stylesheet. HSTS on `https://nixonmade.com` is `max-age=31536000; includeSubDomains` and does not use preload. The new pages do not load third-party fonts or scripts. `wrangler.jsonc` turns on Workers observability with `redact_query_string` and `logs.persist` set to false, so a tail drops the query string and logs are not stored as a separate product. The worker's own logs are short reason codes. They do not include the session id. Webhook and re-download bodies are capped while they stream, including when the request has no Content-Length.
 
-A second click on the same button within 30 seconds is treated as a retry and does not use another download. Loading `/thanks` again mints a new button. The bookmarked page is the long-lived link. The button is not.
+Each file button may be fetched once more without using a second download, so a browser that asks twice does not burn the cap. Every fetch after that counts. Waiting does not earn another free fetch. Loading `/thanks` again mints a new button. The bookmarked page is the long-lived link. The button is not.
 
 ### Re-download, and why there is no email box
 
@@ -141,7 +146,7 @@ Do this against `npm run dev` with a **test** restricted key in `.dev.vars`, the
 1. **Buy.** Open the test Payment Link. After payment you should land on `/thanks?session_id=cs_test_...`. The page names the product and shows a download button. Bookmark the page.
 2. **Download.** The button saves the file: a zip for Field Kit and Ship Kit, and `nixonmade-fleet-sheets.dmg` for Fleet Sheets. `SESSION_ID=cs_test_... npm run e2e:download` checks the same path and checks that a damaged link is rejected.
 3. **Expired link.** Wait 15 minutes, then use the old button. It should fail. Refresh the bookmarked `/thanks` page. A new button should work, and it should not have used an extra download if you never successfully fetched the old one.
-4. **Download limit.** From the bookmarked page, download, then refresh so you get a new button, and repeat until you have done it 5 times. Leave at least 30 seconds between two clicks on the *same* button, or just refresh each time. The sixth page should say the 5 downloads are used.
+4. **Download limit.** From the bookmarked page, download, then refresh so you get a new button, and repeat until you have done it 5 times. A second click on the same button does not count. A third click on that same button does. The sixth new button should say the 5 downloads are used.
 5. **Re-download.** Open `/redownload`, paste the `cs_test_...` id (or the whole thanks URL), and confirm you land on the download page. The form has no email field. Two made-up email addresses get the same reply.
 6. **Refund.** In the Stripe test dashboard, refund the payment. With `stripe listen` forwarding to the local webhook, reload `/thanks`. It should say the purchase could not be opened, the same as a bad link. Or simulate just the worker with `SESSION_ID=... PAYMENT_INTENT=pi_... STRIPE_WEBHOOK_SECRET=... npm run e2e:download -- --simulate-refund`. A real dashboard refund is the one that proves Stripe is reaching the webhook.
 

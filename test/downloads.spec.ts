@@ -1,6 +1,7 @@
-import { env, SELF } from "cloudflare:test";
+import { env, runInDurableObject, SELF } from "cloudflare:test";
 import { afterEach, describe, expect, it } from "vitest";
-import { hashName } from "../src/http";
+import { STRIPE_LOOKUP_GATE } from "../src/access";
+import { clientIp, hashName } from "../src/http";
 import { signDownloadToken } from "../src/sign";
 import {
   FIELD_SESSION,
@@ -26,6 +27,12 @@ describe("verified downloads", () => {
   it("serves the site and keeps the old thanks pages", async () => {
     const home = await SELF.fetch(request("/", nextIp()));
     expect(home.status).toBe(200);
+    expect(home.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(home.headers.get("x-frame-options")).toBe("DENY");
+    expect(home.headers.get("content-security-policy")).toContain("script-src 'self'");
+    expect(home.headers.get("content-security-policy")).toContain("https://fonts.googleapis.com");
+    expect(home.headers.get("strict-transport-security")).toBe("max-age=31536000; includeSubDomains");
+    expect(home.headers.get("strict-transport-security")).not.toContain("preload");
     expect(await home.text()).toContain("Nixon Made");
 
     const fieldThanks = await SELF.fetch(request("/field-kit/thanks/", nextIp()));
@@ -104,7 +111,8 @@ describe("verified downloads", () => {
     const html = await page.text();
     expect(html).toContain("Field Kit is ready");
     expect(page.headers.get("content-security-policy")).toContain("script-src 'none'");
-    expect(page.headers.get("strict-transport-security")).toContain("max-age=31536000");
+    expect(page.headers.get("strict-transport-security")).toBe("max-age=31536000; includeSubDomains");
+    expect(page.headers.get("strict-transport-security")).not.toContain("preload");
     expect(page.headers.get("referrer-policy")).toBe("no-referrer");
     expect(html).not.toContain("buyer@example.com");
     expect(html).not.toContain("<script");
@@ -275,11 +283,13 @@ describe("verified downloads", () => {
     expect(body.downloads_remaining).toBe(5);
     const first = await SELF.fetch(request(body.files[0]!.url, ip));
     const second = await SELF.fetch(request(body.files[0]!.url, ip));
+    const third = await SELF.fetch(request(body.files[0]!.url, ip));
     expect(first.status).toBe(200);
     expect(second.status).toBe(200);
+    expect(third.status).toBe(200);
     const followUp = await SELF.fetch(request(`/api/download?session_id=${sessionId}`, ip));
     const followBody = (await followUp.json()) as { downloads_remaining: number };
-    expect(followBody.downloads_remaining).toBe(4);
+    expect(followBody.downloads_remaining).toBe(3);
   });
 
   it("rejects an expired or tampered file link", async () => {
@@ -484,5 +494,169 @@ describe("verified downloads", () => {
 
     const bare = await post("cs_test_redownload00001", nextIp());
     expect(bare.headers.get("location")).toBe("/thanks?session_id=cs_test_redownload00001");
+  });
+
+  it("rejects a missing client address and shares an IPv6 /64", async () => {
+    const sessionId = "cs_test_ipv6bucket000001";
+    installStripe({
+      [sessionId]: paidSession({ id: sessionId, payment_intent: "pi_ipv6bucketintent01" }),
+    });
+    await putProduct("products/field-kit.zip", "field-kit-zip");
+    const missing = () =>
+      new Request(`https://nixonmade.com/api/download?session_id=${sessionId}`, { method: "GET" });
+    expect((await SELF.fetch(missing())).status).toBe(429);
+    expect((await SELF.fetch(missing())).status).toBe(429);
+
+    const bucket = clientIp(
+      new Request("https://nixonmade.com/", { headers: { "CF-Connecting-IP": "2001:db8:9:9::1" } }),
+    );
+    expect(bucket).toBeTruthy();
+    const stub = env.PURCHASE_GATE.getByName(await hashName("ip", SIGNING_SECRET, bucket!));
+    const now = Date.now();
+    for (let i = 0; i < 60; i++) expect(await stub.hit(60, 60_000, now)).toBe(true);
+    const samePrefix = await SELF.fetch(
+      request(`/api/download?session_id=${sessionId}`, "2001:db8:9:9::abcd"),
+    );
+    expect(samePrefix.status).toBe(429);
+    const otherPrefix = await SELF.fetch(
+      request(`/api/download?session_id=${sessionId}`, "2001:db8:9:a::1"),
+    );
+    expect(otherPrefix.status).toBe(200);
+  });
+
+  it("blocks a refunded latest charge and falls back when expand is forbidden", async () => {
+    const refundedId = "cs_test_chargerefund0001";
+    installStripe({
+      [refundedId]: paidSession({
+        id: refundedId,
+        payment_intent: {
+          id: "pi_chargerefund00001",
+          object: "payment_intent",
+          latest_charge: { object: "charge", refunded: true, amount_refunded: 1900 },
+        },
+      }),
+    });
+    await putProduct("products/field-kit.zip", "field-kit-zip");
+    const blocked = await SELF.fetch(request(`/api/download?session_id=${refundedId}`, nextIp()));
+    expect(blocked.status).toBe(404);
+
+    const calls: string[] = [];
+    const plainId = "cs_test_expandforbid0001";
+    installStripe((url) => {
+      calls.push(url);
+      if (url.includes("payment_intent")) return new Response("nope", { status: 403 });
+      if (!url.includes(plainId)) return new Response("{}", { status: 404 });
+      return new Response(
+        JSON.stringify(paidSession({ id: plainId, payment_intent: "pi_expandforbid00001" })),
+        { status: 200, headers: { "content-type": "application/json" } },
+      );
+    });
+    const allowed = await SELF.fetch(request(`/api/download?session_id=${plainId}`, nextIp()));
+    expect(allowed.status).toBe(200);
+    expect(calls.some((url) => url.includes("payment_intent.latest_charge"))).toBe(true);
+    expect(calls.some((url) => url.includes("expand[]=line_items") && !url.includes("payment_intent"))).toBe(
+      true,
+    );
+  });
+
+  it("revokes a download when a dispute is opened or funds are withdrawn", async () => {
+    const sessionId = "cs_test_disputeopen00001";
+    const intent = "pi_disputeopen000001";
+    installStripe({
+      [sessionId]: paidSession({ id: sessionId, payment_intent: intent }),
+    });
+    await putProduct("products/field-kit.zip", "field-kit-zip");
+    const ip = nextIp();
+    expect((await SELF.fetch(request(`/api/download?session_id=${sessionId}`, ip))).status).toBe(200);
+
+    async function postDispute(type: string): Promise<Response> {
+      const payload = JSON.stringify({
+        id: "evt_dispute",
+        type,
+        data: { object: { object: "dispute", payment_intent: intent, status: "needs_response" } },
+      });
+      return SELF.fetch(
+        request("/api/stripe/webhook", ip, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "Stripe-Signature": await stripeSignature(payload),
+          },
+          body: payload,
+        }),
+      );
+    }
+
+    expect((await postDispute("charge.dispute.created")).status).toBe(200);
+    expect((await SELF.fetch(request(`/thanks?session_id=${sessionId}`, ip))).status).toBe(404);
+
+    const withdrawnId = "cs_test_disputefunds0001";
+    const withdrawnIntent = "pi_disputefunds00001";
+    installStripe({
+      [withdrawnId]: paidSession({ id: withdrawnId, payment_intent: withdrawnIntent }),
+    });
+    expect((await SELF.fetch(request(`/api/download?session_id=${withdrawnId}`, ip))).status).toBe(200);
+    const payload = JSON.stringify({
+      id: "evt_funds",
+      type: "charge.dispute.funds_withdrawn",
+      data: { object: { object: "dispute", payment_intent: withdrawnIntent } },
+    });
+    expect(
+      (
+        await SELF.fetch(
+          request("/api/stripe/webhook", ip, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              "Stripe-Signature": await stripeSignature(payload),
+            },
+            body: payload,
+          }),
+        )
+      ).status,
+    ).toBe(200);
+    expect((await SELF.fetch(request(`/api/download?session_id=${withdrawnId}`, ip))).status).toBe(404);
+  });
+
+  it("stops Stripe lookups after the global cap, including fake session ids", async () => {
+    const stub = env.PURCHASE_GATE.getByName(STRIPE_LOOKUP_GATE);
+    const now = Date.now();
+    await runInDurableObject(stub, async (_instance, state) => {
+      state.storage.transactionSync(() => {
+        state.storage.kv.put(
+          "hits",
+          Array.from({ length: 120 }, () => now),
+        );
+      });
+    });
+    const calls = installStripe({ [FIELD_SESSION]: paidSession() });
+    try {
+      const response = await SELF.fetch(request(`/api/download?session_id=${FIELD_SESSION}`, nextIp()));
+      expect(response.status).toBe(429);
+      expect(calls.calls).toHaveLength(0);
+      const fake = await SELF.fetch(
+        request("/api/download?session_id=cs_test_fakeglobal000001", nextIp()),
+      );
+      expect(fake.status).toBe(429);
+      expect(calls.calls).toHaveLength(0);
+    } finally {
+      await runInDurableObject(stub, async (_instance, state) => {
+        state.storage.transactionSync(() => {
+          state.storage.kv.delete("hits");
+        });
+      });
+    }
+  });
+
+  it("rejects a re-download body over the size cap", async () => {
+    const response = await SELF.fetch(
+      request("/redownload", nextIp(), {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: `session_id=${"a".repeat(5000)}`,
+      }),
+    );
+    expect(response.status).toBe(400);
+    expect(await response.text()).not.toContain("a".repeat(50));
   });
 });
