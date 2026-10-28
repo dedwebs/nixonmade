@@ -1,11 +1,10 @@
 /**
  * Field Kit price, checkout, and support.
- * This object is the only place these placeholders live.
- * STRIPE_LINK_FIELD_KIT is a token, not a payment URL.
- * Nothing here is sent to a third party.
+ * KIT_PRICE matches the live Stripe Payment Link ($20.00).
+ * STRIPE_LINK_FIELD_KIT is that Payment Link.
  */
 const FIELD_KIT = Object.freeze({
-  KIT_PRICE: "[$19-29 suggested, TBD]",
+  KIT_PRICE: "$20",
   STRIPE_LINK_FIELD_KIT: "https://buy.stripe.com/4gMaER94Z7tEfQ96tbeQM00",
   SUPPORT_EMAIL: "hello@nixonmade.com",
 });
@@ -37,7 +36,7 @@ function fieldKitApply() {
   const price = FIELD_KIT.KIT_PRICE;
   const titleEl = document.querySelector("title[data-field-title]");
   if (titleEl && typeof price === "string") {
-    const title = "NixonMade Mac Admin Field Kit, " + price + ".";
+    const title = "Field Kit — " + price + " — NixonMade";
     titleEl.textContent = title;
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute("content", title);

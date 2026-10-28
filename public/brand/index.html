@@ -3,62 +3,66 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mark — Nixon Made</title>
-    <meta
-      name="description"
-      content="Nixon Made wordmark and stamp files."
-    />
+    <title>Mark — NixonMade</title>
+    <meta name="description" content="NixonMade press stamp and wordmark files." />
     <link rel="canonical" href="https://nixonmade.com/brand/" />
-    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:title" content="Mark — NixonMade" />
+    <meta property="og:description" content="NixonMade press stamp and wordmark files." />
+    <meta property="og:url" content="https://nixonmade.com/brand/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/og/brand.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="brand-page">
-    <header class="hero">
-      <h1 class="wordmark">
-        <a href="/">
-          <img
-            src="/brand/press-stamp.svg"
-            alt="Nixon Made"
-            width="520"
-            height="520"
-          />
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
         </a>
-      </h1>
+      </div>
     </header>
-
-    <main>
+    <main id="content" tabindex="-1">
+      <h1>Mark</h1>
       <p class="lede">
-        Outlined SVGs. One or two colors. Don’t stretch. The site mark is a
-        circular ink-press stamp.
+        The site header uses the circular press stamp. Outlined SVGs, one or
+        two colors. Don’t stretch.
       </p>
-
+      <p>
+        Wordmark options under review are on the
+        <a href="/brand-options/">brand options</a> page. They are not the
+        header logo.
+      </p>
       <section aria-labelledby="print-heading">
-        <h2 id="print-heading">Print</h2>
-        <div class="grid">
-          <figure class="card">
-            <img src="/brand/press-stamp.svg" alt="Circular ink-press stamp" />
+        <h2 id="print-heading">Press stamp</h2>
+        <div class="mark-grid">
+          <figure class="mark-card">
+            <img src="/brand/press-stamp.svg" alt="Circular ink-press stamp reading Nixon Made" width="520" height="520" />
             <figcaption>
               <a href="/brand/press-stamp.svg" download>press-stamp.svg</a>
-              — site
+              — site header
             </figcaption>
           </figure>
         </div>
       </section>
-
-      <footer>
-        <p>
-          <a href="/">Shop</a>
-          <span class="dot" aria-hidden="true">·</span>
-          Single-color files in
-          <a href="https://github.com/dedwebs/nixonmade/tree/main/public/brand">/brand</a>
-        </p>
-      </footer>
     </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Legal">
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,27 +1,33 @@
-# Field Kit draft pages stay out of search indexes.
-/field-kit
-  X-Robots-Tag: noindex
-
-/field-kit/*
-  X-Robots-Tag: noindex
-
-# Ship Kit draft pages stay out of search indexes.
+# Ship Kit checkout is closed.
 /ship-kit
   X-Robots-Tag: noindex
 
 /ship-kit/*
   X-Robots-Tag: noindex
 
-# Fleet Sheets draft pages stay out of search indexes.
-/fleet-sheets
-  X-Robots-Tag: noindex
-
-/fleet-sheets/*
-  X-Robots-Tag: noindex
-
-# relnotes is not ready to be indexed
+# relnotes is not on sale.
 /relnotes
   X-Robots-Tag: noindex
 
 /relnotes/*
+  X-Robots-Tag: noindex
+
+# Wordmark options are for review.
+/brand-options
+  X-Robots-Tag: noindex
+
+/brand-options/*
+  X-Robots-Tag: noindex
+
+# Thank-you pages.
+/field-kit/thanks
+  X-Robots-Tag: noindex
+
+/field-kit/thanks/*
+  X-Robots-Tag: noindex
+
+/fleet-sheets/thanks
+  X-Robots-Tag: noindex
+
+/fleet-sheets/thanks/*
   X-Robots-Tag: noindex

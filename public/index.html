@@ -3,122 +3,145 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nixon Made</title>
+    <title>NixonMade</title>
     <meta
       name="description"
-      content="Nixon Made — indie apps from Joe Nixon."
+      content="NixonMade is Joe Nixon's studio. Kits and software for Jamf admins and iOS developers."
     />
     <link rel="canonical" href="https://nixonmade.com/" />
-    <meta property="og:title" content="Nixon Made" />
-    <meta property="og:description" content="Indie apps from Joe Nixon." />
+    <meta property="og:title" content="NixonMade" />
+    <meta
+      property="og:description"
+      content="Kits and software for Jamf admins and iOS developers."
+    />
     <meta property="og:url" content="https://nixonmade.com/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://nixonmade.com/brand/press-stamp-on-paper.svg" />
-    <meta name="theme-color" content="#f3eee4" />
-    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:image" content="https://nixonmade.com/og/home.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <header class="hero">
-      <h1 class="wordmark">
-        <img
-          src="/brand/press-stamp.svg"
-          alt="Nixon Made"
-          width="520"
-          height="520"
-        />
-      </h1>
+  <body class="home">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img
+            src="/brand/press-stamp.svg"
+            alt="NixonMade"
+            width="40"
+            height="40"
+          />
+        </a>
+      </div>
     </header>
-
-    <main class="shop">
-      <p class="lede">
-        A small shop. Built by <a href="https://nixoreno.com">Joe Nixon</a>.
-      </p>
-
-      <section aria-labelledby="products-heading">
-        <h2 id="products-heading">Products</h2>
-        <ul class="apps">
-          <li>
-            <a class="app" href="/field-kit/">
-              <span class="app-meta">
-                <span class="app-name">Field Kit</span>
-              </span>
-              <span class="app-desc">Get the Field Kit</span>
-            </a>
-          </li>
-          <li>
-            <a class="app" href="/ship-kit/">
-              <span class="app-meta">
-                <span class="app-name">Agent Studio Ship Kit</span>
-              </span>
-              <span class="app-desc">The real runbook, agent skills and scripts our AI studio used to take a SwiftUI app from repo to TestFlight. It includes the gates that keep agents from shipping broken builds.</span>
-            </a>
-          </li>
-          <li>
-            <a class="app" href="/fleet-sheets/">
-              <span class="app-meta">
-                <span class="app-name">Fleet Sheets</span>
-              </span>
-              <span class="app-desc">It turns Jamf Pro CSV and Excel exports into a formatted Excel workbook with a summary dashboard, tables, charts and real pivot tables.</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-
-      <section aria-labelledby="apps-heading">
-        <h2 id="apps-heading">Software</h2>
-        <ul class="apps">
-          <li>
-            <a class="app" href="/kittiesolitare/">
-              <span class="app-meta">
-                <span class="app-name">Kittie Solitare</span>
-                <span class="pill">Coming soon</span>
-              </span>
-              <span class="app-desc">Cat-themed Klondike for iPhone and iPad. No ads. Optional decks.</span>
-            </a>
-          </li>
-          <li>
-            <a class="app" href="https://github.com/dedwebs/vaultatlas-site">
-              <span class="app-meta">
-                <span class="app-name">Vault Atlas</span>
-                <span class="pill">Coming soon</span>
-              </span>
-              <span class="app-desc">Unofficial Fallout 76 companion for iOS.</span>
-            </a>
-          </li>
-          <li>
-            <div class="app">
-              <span class="app-meta">
-                <span class="app-name">Stencil Forge</span>
-                <span class="pill">Coming soon</span>
-              </span>
-              <span class="app-desc">Color-separated stencil layers for Glowforge and Cricut.</span>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <footer>
-        <p>
-          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="https://github.com/dedwebs">GitHub</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="/brand/">Mark</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="/terms/">Terms</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="/refunds/">Refunds</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="/privacy/">Privacy</a>
+    <main id="content" tabindex="-1">
+      <section class="home-hero" aria-labelledby="hero-heading">
+        <p class="eyebrow">NixonMade</p>
+        <h1 id="hero-heading">Tools for Jamf admins and people shipping iOS apps.</h1>
+        <p class="lede">
+          Practical kits and software from Joe Nixon, a working Jamf admin and
+          iOS developer.
         </p>
-      </footer>
+      </section>
+
+      <section aria-labelledby="kits-heading">
+        <h2 id="kits-heading">Kits</h2>
+        <ul class="product-grid kits">
+          <li>
+            <a class="product-card" href="/field-kit/">
+              <span class="card-kicker">Jamf Pro</span>
+              <span class="card-title">Field Kit</span>
+              <span class="card-desc">PPPC privacy profiles, extension attribute scripts, and field guides.</span>
+              <span class="card-meta">$20</span>
+            </a>
+          </li>
+          <li>
+            <a class="product-card" href="/fleet-sheets/">
+              <span class="card-kicker">Jamf Pro</span>
+              <span class="card-title">Fleet Sheets</span>
+              <span class="card-desc">CSV and Excel exports, turned into an Excel workbook.</span>
+              <span class="card-meta">$29 founder price</span>
+            </a>
+          </li>
+          <li>
+            <a class="product-card" href="/ship-kit/">
+              <span class="card-kicker">SwiftUI iOS</span>
+              <span class="card-title">Ship Kit</span>
+              <span class="card-desc">Scripts, agent skills, and a runbook for shipping to TestFlight.</span>
+              <span class="card-meta">$49 · Coming soon</span>
+            </a>
+          </li>
+          <li>
+            <a class="product-card" href="/relnotes/">
+              <span class="card-kicker">Release notes</span>
+              <span class="card-title">relnotes</span>
+              <span class="card-desc">Release notes written from merged pull requests.</span>
+              <span class="card-meta">Coming soon</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="software-heading">
+        <h2 id="software-heading">Software</h2>
+        <ul class="product-grid software">
+          <li>
+            <a class="product-card" href="/kittiesolitare/">
+              <span class="card-kicker">iPhone and iPad</span>
+              <span class="card-title">Kittie Solitare</span>
+              <span class="card-desc">Cat-themed Klondike. No ads. Optional decks.</span>
+              <span class="card-meta">Coming soon</span>
+            </a>
+          </li>
+          <li>
+            <a class="product-card" href="https://github.com/dedwebs/vaultatlas-site" rel="noopener noreferrer">
+              <span class="card-kicker">iOS</span>
+              <span class="card-title">Vault Atlas</span>
+              <span class="card-desc">Unofficial Fallout 76 companion for iOS.</span>
+              <span class="card-meta">Coming soon</span>
+            </a>
+          </li>
+          <li>
+            <article class="product-card">
+              <span class="card-kicker">Desktop</span>
+              <span class="card-title">Stencil Forge</span>
+              <span class="card-desc">Color-separated stencil layers for Glowforge and Cricut.</span>
+              <span class="card-meta">Coming soon</span>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="trust" aria-labelledby="studio-heading">
+        <h2 id="studio-heading">The studio</h2>
+        <p>
+          Joe Nixon is a working Jamf admin and iOS developer. NixonMade is
+          the studio.
+        </p>
+        <p>
+          <a href="https://nixoreno.com" rel="noopener noreferrer">nixoreno.com</a>
+          <span class="dot" aria-hidden="true"> · </span>
+          <a href="https://github.com/dedwebs" rel="noopener noreferrer">GitHub</a>
+        </p>
+      </section>
     </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Legal">
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="/preview-checkout.js"></script>
   </body>
 </html>

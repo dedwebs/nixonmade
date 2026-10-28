@@ -3,69 +3,81 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>relnotes — Release notes that write themselves.</title>
+    <title>relnotes — Coming soon — NixonMade</title>
     <meta name="robots" content="noindex" />
     <meta
       name="description"
-      content="relnotes turns your merged pull requests into clean, readable release notes automatically, so you ship the changelog along with the code."
+      content="relnotes will turn merged pull requests into clean release notes. Coming soon. Join the waitlist."
     />
     <link rel="canonical" href="https://nixonmade.com/relnotes/" />
-    <meta property="og:title" content="relnotes — Release notes that write themselves." />
+    <meta property="og:title" content="relnotes — Coming soon — NixonMade" />
     <meta
       property="og:description"
-      content="relnotes turns your merged pull requests into clean, readable release notes automatically, so you ship the changelog along with the code."
+      content="Release notes that write themselves. Coming soon."
     />
     <meta property="og:url" content="https://nixonmade.com/relnotes/" />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#f3eee4" />
-    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:image" content="https://nixonmade.com/og/relnotes.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="relnotes">
+  <body class="product">
     <a class="skip" href="#content">Skip to content</a>
-    <header class="hero product-page">
-      <p class="relnotes-mark"><a href="/relnotes/">relnotes</a></p>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+        </a>
+      </div>
     </header>
     <main id="content" tabindex="-1">
+      <a class="back" href="/">Back to NixonMade</a>
+      <p class="eyebrow">Coming soon</p>
       <h1>Release notes that write themselves.</h1>
       <p class="lede">
-        relnotes turns your merged pull requests into clean, readable release
-        notes automatically, so you ship the changelog along with the code.
+        relnotes turns merged pull requests into clean, readable release notes,
+        so the changelog ships with the code.
       </p>
-      <p class="actions">
-        <a class="btn" data-config="STRIPE_LINK_REPO" href="#">Get started, $19/mo</a>
-        <a class="btn btn-ghost" data-config="INSTALL_URL" href="#">Install on GitHub</a>
+      <div class="actions">
+        <a class="btn" href="mailto:hello@nixonmade.com?subject=relnotes%20waitlist"
+          >Join the waitlist</a
+        >
+      </div>
+      <p class="refund-line">
+        Nothing is on sale yet. When a subscription is offered, cancellation
+        and refunds follow the
+        <a href="/refunds/">refund policy</a>.
       </p>
 
-      <section aria-labelledby="audience-heading">
-        <h2 id="audience-heading">Who it's for</h2>
-        <p>
-          Small dev teams, indie hackers, and open-source maintainers who merge
-          often and hate writing changelogs.
-        </p>
+      <section aria-labelledby="inside-heading">
+        <h2 id="inside-heading">What's inside</h2>
+        <ul class="content-list">
+          <li>A GitHub App. You pick the repositories.</li>
+          <li>Notes grouped from each merged pull request.</li>
+          <li>A hosted changelog page for each repository.</li>
+          <li>Read-only access: it reads pull requests and does not write to your code.</li>
+          <li>Stored notes are deleted when you cancel.</li>
+        </ul>
       </section>
 
-      <section aria-labelledby="features-heading">
-        <h2 id="features-heading">Features</h2>
-        <ul class="relnotes-features">
-          <li>Install the GitHub App and pick your repos. Setup takes minutes.</li>
-          <li>AI summarizes each merged PR into grouped, human-friendly notes.</li>
-          <li>A hosted changelog page for each repo.</li>
-          <li>Read-only by design: it only reads PRs and never writes to your code.</li>
-          <li>Your data is deleted when you cancel.</li>
-        </ul>
+      <section aria-labelledby="who-heading">
+        <h2 id="who-heading">Who it's for</h2>
+        <p>
+          Small dev teams, indie hackers, and open-source maintainers who merge
+          often and would rather not write the changelog by hand.
+        </p>
       </section>
 
       <section aria-labelledby="example-heading">
         <h2 id="example-heading">Example</h2>
-        <article class="relnotes-sample">
-          <h3>v1.4.0 (example)</h3>
+        <article class="sample">
+          <h3>v1.4.0, example</h3>
           <h4>Features</h4>
           <ul>
             <li>Add CSV export to the reports page</li>
@@ -81,51 +93,52 @@
         </article>
       </section>
 
-      <section aria-labelledby="pricing-heading">
-        <h2 id="pricing-heading">Pricing</h2>
-        <ul class="relnotes-plans">
-          <li>
-            <a data-config="STRIPE_LINK_REPO" href="#">Repo $19/mo for one repository.</a>
-          </li>
-          <li>
-            <a data-config="STRIPE_LINK_TEAM" href="#">Team $49/mo for multiple repositories.</a>
-          </li>
-        </ul>
-        <p class="note">
-          Cancel anytime. We do not refund a partial month. See the
-          <a href="/refunds/">refund policy</a> and the
-          <a href="/terms/">terms</a>.
-        </p>
-        <p class="actions">
-          <a class="btn" data-config="STRIPE_LINK_REPO" href="#">Get started, $19/mo</a>
-          <a class="btn btn-ghost" data-config="INSTALL_URL" href="#">Install on GitHub</a>
-        </p>
-      </section>
-
       <section aria-labelledby="faq-heading">
         <h2 id="faq-heading">FAQ</h2>
-        <dl class="relnotes-faq">
-          <dt>Does it touch my code?</dt>
-          <dd>No. It only has read access to pull requests and repo metadata.</dd>
-          <dt>Which AI does it use?</dt>
-          <dd>It uses a commercial LLM API to summarize PR titles and descriptions.</dd>
-          <dt>What happens if I cancel?</dt>
-          <dd>
-            Your stored notes are purged. Cancellation stops the next charge,
-            and the current month is not refunded. See the
-            <a href="/refunds/">refund policy</a>, the
-            <a href="/terms/">terms</a>, and the
-            <a href="/privacy/">privacy page</a>.
-          </dd>
-          <dt>Private repos?</dt>
-          <dd>Yes, for any repo you grant the App.</dd>
+        <dl class="faq">
+          <div>
+            <dt>Can I buy it today?</dt>
+            <dd>
+              No. Join the waitlist at
+              <a href="mailto:hello@nixonmade.com?subject=relnotes%20waitlist">hello@nixonmade.com</a>.
+            </dd>
+          </div>
+          <div>
+            <dt>Does it touch my code?</dt>
+            <dd>No. It only has read access to pull requests and repository metadata.</dd>
+          </div>
+          <div>
+            <dt>Which model writes the notes?</dt>
+            <dd>A commercial LLM API summarizes pull request titles and descriptions.</dd>
+          </div>
+          <div>
+            <dt>What happens if I cancel?</dt>
+            <dd>
+              Stored notes are deleted. Cancellation stops the next charge, and
+              a partial month is not refunded. See the
+              <a href="/refunds/">refund policy</a>, the
+              <a href="/terms/">terms</a>, and the
+              <a href="/privacy/">privacy page</a>.
+            </dd>
+          </div>
+          <div>
+            <dt>Private repositories?</dt>
+            <dd>Yes, for any repository you grant the app.</dd>
+          </div>
         </dl>
       </section>
-
-      <footer>
-        <p>Copyright <a href="/">NixonMade</a></p>
-      </footer>
     </main>
-    <script src="/relnotes/config.js"></script>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Legal">
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
+    <script src="/preview-checkout.js"></script>
   </body>
 </html>

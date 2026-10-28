@@ -3,189 +3,191 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Agent Studio Ship Kit — Nixon Made</title>
+    <title>Ship Kit — $49 — NixonMade</title>
     <meta name="robots" content="noindex" />
     <meta
       name="description"
-      content="The real runbook, agent skills and scripts our AI studio used to take a SwiftUI iOS app from repo to TestFlight. SwiftUI iOS apps only. It includes the gates that keep agents from shipping broken builds."
+      content="Ship Kit is $49. Scripts, agent skills, checklists, and templates for shipping a SwiftUI iOS app. Coming soon."
     />
     <link rel="canonical" href="https://nixonmade.com/ship-kit/" />
-    <meta property="og:title" content="Agent Studio Ship Kit — Nixon Made" />
+    <meta property="og:title" content="Ship Kit — $49 — NixonMade" />
     <meta
       property="og:description"
-      content="The real runbook, agent skills and scripts our AI studio used to take a SwiftUI iOS app from repo to TestFlight. SwiftUI iOS apps only. It includes the gates that keep agents from shipping broken builds."
+      content="Scripts, agent skills, checklists, and templates for a SwiftUI iOS app. $49. Coming soon."
     />
     <meta property="og:url" content="https://nixonmade.com/ship-kit/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://nixonmade.com/brand/press-stamp-on-paper.svg" />
-    <meta name="theme-color" content="#f3eee4" />
-    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:image" content="https://nixonmade.com/og/ship-kit.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="product-page ship-kit">
+  <body class="product">
     <a class="skip" href="#content">Skip to content</a>
-    <header class="hero">
-      <p class="wordmark">
-        <a href="/">
-          <img
-            src="/brand/press-stamp.svg"
-            alt="Nixon Made"
-            width="520"
-            height="520"
-          />
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
         </a>
-      </p>
+      </div>
     </header>
-
-    <main id="content" class="ship-main">
-      <a class="back" href="/">← Nixon Made</a>
-      <p class="kicker">Agent Studio Ship Kit, by NixonMade</p>
-      <h1>Let your AI agents ship your SwiftUI iOS app to TestFlight.</h1>
+    <main id="content" tabindex="-1">
+      <a class="back" href="/">Back to NixonMade</a>
+      <p class="eyebrow">Agent Studio Ship Kit</p>
+      <h1>Scripts and a runbook for shipping a SwiftUI iOS app.</h1>
       <p class="lede">
-        The real runbook, agent skills and scripts our AI studio used to take a
-        SwiftUI iOS app from repo to TestFlight. SwiftUI iOS apps only. It
-        includes the gates that keep agents from shipping broken builds.
+        Included scripts, agent skills, checklists, and templates for the path
+        from a SwiftUI iOS repo toward an internal TestFlight build. SwiftUI
+        iOS apps only.
+      </p>
+      <p class="price-row">
+        <span class="price-amount">$49</span>
+        <span class="status">Coming soon</span>
       </p>
       <div class="actions">
-        <a class="btn" data-ship="STRIPE_LINK_KIT" href="#" aria-disabled="true"
-          >Get the Kit — $49</a
-        >
-        <a class="btn" data-ship="STRIPE_LINK_DFY" href="#" aria-disabled="true"
-          >Ship it for me — $299</a
+        <a class="btn" href="mailto:hello@nixonmade.com?subject=Ship%20Kit%20list"
+          >Join the list</a
         >
       </div>
+      <p class="refund-line">
+        A downloadable kit can be refunded within 14 days of purchase if it
+        was not substantially used, or if a file is broken and we cannot fix
+        it.
+        <a href="/refunds/">Refund policy</a>.
+      </p>
+
+      <section aria-labelledby="inside-heading">
+        <h2 id="inside-heading">What's inside</h2>
+        <ul class="content-list">
+          <li>Mac gate script (Release build + tests, auto-picks a simulator)</li>
+          <li>pbxproj drift check for XcodeGen projects</li>
+          <li>Safe build-number bump with dry-run mode</li>
+          <li>Archive script, plus an export and TestFlight upload script</li>
+          <li>asc.py, an App Store Connect helper (internal groups, testers, What to Test notes)</li>
+          <li>Secret scan script</li>
+          <li>Agent rules and skills for Cursor and Claude Code (iOS ship gates, TestFlight internal)</li>
+          <li>RUNBOOK, TROUBLESHOOTING and ROLES docs</li>
+          <li>Checklists: Mac gate, QA gate, archive smoke test, upload</li>
+          <li>Templates: ship.env, ExportOptions.plist, gate report, What to Test</li>
+        </ul>
+      </section>
 
       <section aria-labelledby="who-heading">
         <h2 id="who-heading">Who it's for</h2>
         <p>
-          SwiftUI iOS apps only. Indie iOS devs and small studios using Cursor,
-          Claude Code or other coding agents who want builds on TestFlight
-          without babysitting every step. You'll need a Mac and an Apple
-          Developer account.
+          Indie developers and small studios shipping a SwiftUI iOS app with
+          Cursor or Claude Code. SwiftUI iOS apps only. You need a Mac and an
+          Apple Developer account. The kit is a one-developer licence. No resale.
         </p>
-      </section>
-
-      <section aria-labelledby="included-heading">
-        <h2 id="included-heading">Included</h2>
-        <ul class="included">
-          <li>A step-by-step release runbook, from repo to an internal TestFlight build</li>
-          <li>Ready-to-use agent skill and prompt files for Cursor and Claude Code</li>
-          <li>Quality gates pinned to an exact commit: Mac build, then automated QA, then human merge</li>
-          <li>App Store Connect API scripts (build numbers, upload, TestFlight groups) with placeholders for your keys</li>
-          <li>An XcodeGen project-drift check</li>
-          <li>
-            A troubleshooting guide for the real blockers we hit: xcodebuild hangs
-            after tests, missing TestFlight groups, 403s from limited API keys,
-            testers who aren't team users, and signing at export
-          </li>
-          <li>QA checklists</li>
-        </ul>
-      </section>
-
-      <section aria-labelledby="pricing-heading">
-        <h2 id="pricing-heading">Pricing</h2>
-        <div class="price-grid">
-          <article class="price" aria-labelledby="price-kit price-kit-license">
-            <h3 id="price-kit">Kit $49 one-time [launch price TBD].</h3>
-            <p id="price-kit-license">The kit is a one-developer license, no resale.</p>
-            <a class="btn" data-ship="STRIPE_LINK_KIT" href="#" aria-disabled="true"
-              >Get the Kit — $49</a
-            >
-          </article>
-          <article class="price" aria-labelledby="price-dfy price-dfy-scope">
-            <h3 id="price-dfy">Done-for-you $299</h3>
-            <p id="price-dfy-scope">
-              Internal TestFlight within 48 hours, max 5 testers, and one fix
-              round within 7 days. If the 48-hour turnaround target is missed,
-              the refund is 50% of the done-for-you fee. Excludes App Store
-              submission, external TestFlight, feature work, IAP and pricing,
-              and listings.
-            </p>
-            <a class="btn" data-ship="STRIPE_LINK_DFY" href="#" aria-disabled="true"
-              >Ship it for me — $299</a
-            >
-          </article>
-        </div>
       </section>
 
       <section aria-labelledby="delivery-heading">
         <h2 id="delivery-heading">Delivery</h2>
-        <div class="delivery">
-          <p>After purchase you get an instant download link by email (zip).</p>
+        <p>
+          Checkout is not open. When it is, you check out on Stripe, and Stripe
+          then emails a verified download link. Join the list and we'll write
+          when the kit is on sale.
+        </p>
+      </section>
+
+      <section aria-labelledby="dfy-heading">
+        <h2 id="dfy-heading">Done-for-you TestFlight</h2>
+        <article class="offer">
+          <h3>Optional service <span class="status">Coming soon</span></h3>
+          <p class="price-amount">$299</p>
           <p>
-            Done-for-you buyers get an intake form and a kickoff email within 1
-            business day [TBD].
+            Internal TestFlight within 48 hours, max 5 testers, and one fix
+            round within 7 days. If the 48-hour turnaround target is missed,
+            the refund is 50% of the done-for-you fee. Excludes App Store
+            submission, external TestFlight, feature work, IAP and pricing, and
+            listings.
           </p>
-        </div>
+        </article>
       </section>
 
       <section aria-labelledby="faq-heading">
         <h2 id="faq-heading">FAQ</h2>
         <dl class="faq">
           <div>
+            <dt>Which apps does it cover?</dt>
+            <dd>SwiftUI iOS apps only.</dd>
+          </div>
+          <div>
             <dt>Do I need a Mac?</dt>
             <dd>Yes. Xcode builds and uploads run on your Mac.</dd>
           </div>
           <div>
-            <dt>Which agents does it work with?</dt>
+            <dt>Which agents does it include skills for?</dt>
+            <dd>Cursor and Claude Code. The runbook is for an agent that can run shell commands.</dd>
+          </div>
+          <div>
+            <dt>Does the kit submit my app to App Store review?</dt>
             <dd>
-              Cursor and Claude Code, and the runbook works with any agent that
-              can run shell commands.
+              No. App Store submission is outside this kit. The export script
+              and the TestFlight upload script are included files.
             </dd>
           </div>
           <div>
-            <dt>Does it submit my app to App Store review?</dt>
+            <dt>Where do API keys go?</dt>
             <dd>
-              No. It covers TestFlight. App Store submission stays your call.
+              The scripts read keys from your own environment. The kit does not
+              send those keys to NixonMade.
             </dd>
           </div>
           <div>
-            <dt>Is my API key safe?</dt>
-            <dd>
-              The scripts read your keys from your own environment, and nothing
-              is sent to us.
-            </dd>
-          </div>
-          <div>
-            <dt>Refunds?</dt>
-            <dd>
-              See the <a href="/refunds/">refund policy</a>. Digital kits can be
-              refunded within 14 days of purchase if the kit was not
-              substantially used, or if a file is broken and we cannot fix it.
-              If the 48-hour turnaround target is missed, the refund is 50% of
-              the done-for-you fee.
-            </dd>
-          </div>
-          <div>
-            <dt>Update policy?</dt>
+            <dt>What do updates cover?</dt>
             <dd>
               Updates cover 1.0.x. A later major version is not included. See
               the <a href="/terms/">terms</a>.
             </dd>
           </div>
           <div>
-            <dt>Does the $299 service include fixing my app's bugs?</dt>
+            <dt>How do kit refunds work?</dt>
             <dd>
-              No. It covers getting a building SwiftUI iOS app to TestFlight,
-              max 5 testers, and one fix round within 7 days. Excludes App
-              Store submission, external TestFlight, feature work, IAP and
-              pricing, and listings.
+              Within 14 days, if the kit was not substantially used, or if a
+              file is broken and we cannot fix it. See the
+              <a href="/refunds/">refund policy</a>.
+            </dd>
+          </div>
+          <div>
+            <dt>What does the $299 service include?</dt>
+            <dd>
+              It is not on sale yet. The scope is a building SwiftUI iOS app to
+              internal TestFlight, max 5 testers, and one fix round within 7
+              days. If the 48-hour turnaround target is missed, the refund is
+              50% of the done-for-you fee. It excludes App Store submission,
+              external TestFlight, feature work, IAP and pricing, and listings.
             </dd>
           </div>
         </dl>
       </section>
 
-      <footer>
-        <p>Copyright NixonMade</p>
-        <p><a href="/">Nixon Made</a></p>
-      </footer>
+      <p class="fine">
+        NixonMade is not affiliated with, endorsed by, or sponsored by Apple.
+      </p>
+      <div class="actions">
+        <a class="btn" href="mailto:hello@nixonmade.com?subject=Ship%20Kit%20list"
+          >Join the list</a
+        >
+      </div>
     </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Legal">
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
     <script src="/ship-kit/config.js"></script>
+    <script src="/preview-checkout.js"></script>
   </body>
 </html>
