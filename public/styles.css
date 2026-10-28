@@ -162,20 +162,10 @@ footer p {
   gap: 1.25rem;
 }
 
-.tee-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(2, 1fr);
-}
-
 .card {
   border: 1px solid var(--rule);
   padding: 1.25rem;
   background: var(--paper);
-}
-
-.card.ink {
-  background: var(--ink);
 }
 
 .card img {
@@ -188,109 +178,6 @@ footer p {
   color: var(--mute);
   font-size: 0.95rem;
   margin-top: 0.75rem;
-}
-
-.card.ink figcaption,
-.card.ink a {
-  color: #f3eee4;
-}
-
-.tee-card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  border: 1px solid var(--rule);
-  padding: 0.85rem 0.85rem 1.1rem;
-}
-
-.tee-card:hover .tee-name {
-  color: var(--link);
-}
-
-.tee-name {
-  display: block;
-  font-weight: 600;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-  margin-top: 0.85rem;
-}
-
-.tee-desc {
-  display: block;
-  color: var(--mute);
-  font-size: 0.95rem;
-}
-
-.tee-card .pill {
-  display: block;
-  margin-top: 0.35rem;
-}
-
-.tee {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-}
-
-.tee .shirt {
-  position: absolute;
-  inset: 0;
-  background: #e7dfd0;
-  -webkit-mask: url("/shop/shirt.svg") center / contain no-repeat;
-  mask: url("/shop/shirt.svg") center / contain no-repeat;
-  filter: drop-shadow(0 10px 18px rgba(28, 22, 18, 0.08));
-}
-
-.tee.ink .shirt {
-  background: var(--ink);
-}
-
-.tee .mark {
-  position: absolute;
-  left: 50%;
-  top: 34%;
-  width: 36%;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.tee.stamp .mark {
-  top: 29%;
-  left: 50%;
-  width: 26%;
-  transform: translateX(-50%);
-}
-
-.tee.press .mark {
-  top: 30%;
-  width: 34%;
-  transform: translateX(-50%) rotate(-8deg);
-}
-
-.product {
-  display: grid;
-  gap: 2rem;
-}
-
-.product .tee {
-  max-width: 22rem;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.product-copy .pill {
-  margin: 0 0 0.35rem;
-}
-
-.product-copy h1 {
-  font-size: 1.65rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.35rem;
-}
-
-.product-copy .lede {
-  margin-bottom: 1.5rem;
 }
 
 .actions {
@@ -325,24 +212,6 @@ footer p {
   display: inline-block;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
-}
-
-@media (min-width: 720px) {
-  .product {
-    grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
-    align-items: center;
-  }
-
-  .product .tee {
-    margin: 0;
-  }
-}
-
-@media (max-width: 720px) {
-  .tee-grid {
-    grid-template-columns: 1fr;
-    max-width: 22rem;
-  }
 }
 
 @media (max-width: 540px) {
