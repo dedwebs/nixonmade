@@ -1,0 +1,6 @@
+# Draft service pages stay out of search indexes.
+/fleet-health-check
+  X-Robots-Tag: noindex
+
+/fleet-health-check/*
+  X-Robots-Tag: noindex
