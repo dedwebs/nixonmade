@@ -9,8 +9,5 @@
 /relnotes
   X-Robots-Tag: noindex
 
-/relnotes/
-  X-Robots-Tag: noindex
-
 /relnotes/*
   X-Robots-Tag: noindex
