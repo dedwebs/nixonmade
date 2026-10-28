@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>relnotes — Release notes that write themselves.</title>
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="relnotes turns your merged pull requests into clean, readable release notes automatically, so you ship the changelog along with the code."
+    />
+    <link rel="canonical" href="https://nixonmade.com/relnotes/" />
+    <meta property="og:title" content="relnotes — Release notes that write themselves." />
+    <meta
+      property="og:description"
+      content="relnotes turns your merged pull requests into clean, readable release notes automatically, so you ship the changelog along with the code."
+    />
+    <meta property="og:url" content="https://nixonmade.com/relnotes/" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#f3eee4" />
+    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="relnotes">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="hero product-page">
+      <p class="relnotes-mark"><a href="/relnotes/">relnotes</a></p>
+    </header>
+    <main id="content" tabindex="-1">
+      <h1>Release notes that write themselves.</h1>
+      <p class="lede">
+        relnotes turns your merged pull requests into clean, readable release
+        notes automatically, so you ship the changelog along with the code.
+      </p>
+      <p class="actions">
+        <a class="btn" data-config="STRIPE_LINK_REPO" href="#">Get started, $19/mo</a>
+        <a class="btn btn-ghost" data-config="INSTALL_URL" href="#">Install on GitHub</a>
+      </p>
+
+      <section aria-labelledby="audience-heading">
+        <h2 id="audience-heading">Who it's for</h2>
+        <p>
+          Small dev teams, indie hackers, and open-source maintainers who merge
+          often and hate writing changelogs.
+        </p>
+      </section>
+
+      <section aria-labelledby="features-heading">
+        <h2 id="features-heading">Features</h2>
+        <ul class="relnotes-features">
+          <li>Install the GitHub App and pick your repos. Setup takes minutes.</li>
+          <li>AI summarizes each merged PR into grouped, human-friendly notes.</li>
+          <li>A hosted changelog page for each repo.</li>
+          <li>Read-only by design: it only reads PRs and never writes to your code.</li>
+          <li>Your data is deleted when you cancel.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="example-heading">
+        <h2 id="example-heading">Example</h2>
+        <article class="relnotes-sample">
+          <h3>v1.4.0 (example)</h3>
+          <h4>Features</h4>
+          <ul>
+            <li>Add CSV export to the reports page</li>
+          </ul>
+          <h4>Fixes</h4>
+          <ul>
+            <li>Fix login redirect loop on Safari</li>
+          </ul>
+          <h4>Maintenance</h4>
+          <ul>
+            <li>Bump dependencies</li>
+          </ul>
+        </article>
+      </section>
+
+      <section aria-labelledby="pricing-heading">
+        <h2 id="pricing-heading">Pricing</h2>
+        <ul class="relnotes-plans">
+          <li>
+            <a data-config="STRIPE_LINK_REPO" href="#">Repo $19/mo for one repository.</a>
+          </li>
+          <li>
+            <a data-config="STRIPE_LINK_TEAM" href="#">Team $49/mo for multiple repositories.</a>
+          </li>
+        </ul>
+        <p class="note">Cancel anytime.</p>
+        <p class="actions">
+          <a class="btn" data-config="STRIPE_LINK_REPO" href="#">Get started, $19/mo</a>
+          <a class="btn btn-ghost" data-config="INSTALL_URL" href="#">Install on GitHub</a>
+        </p>
+      </section>
+
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading">FAQ</h2>
+        <dl class="relnotes-faq">
+          <dt>Does it touch my code?</dt>
+          <dd>No. It only has read access to pull requests and repo metadata.</dd>
+          <dt>Which AI does it use?</dt>
+          <dd>It uses a commercial LLM API to summarize PR titles and descriptions.</dd>
+          <dt>What happens if I cancel?</dt>
+          <dd>Your stored notes are purged.</dd>
+          <dt>Private repos?</dt>
+          <dd>Yes, for any repo you grant the App.</dd>
+        </dl>
+      </section>
+
+      <footer>
+        <p>Copyright <a href="/">NixonMade</a></p>
+      </footer>
+    </main>
+    <script src="/relnotes/config.js"></script>
+  </body>
+</html>

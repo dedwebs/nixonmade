@@ -485,3 +485,200 @@ main.ship-main {
     align-items: stretch;
   }
 }
+
+/* relnotes */
+.relnotes .skip {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 2;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+}
+
+.relnotes .skip:not(:focus) {
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.relnotes main {
+  padding-top: 2.25rem;
+  overflow-wrap: break-word;
+}
+
+.relnotes main:focus {
+  outline: none;
+}
+
+.relnotes-mark {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(2.25rem, 7vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.relnotes .relnotes-mark a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.relnotes .relnotes-mark a:hover {
+  color: var(--link);
+}
+
+.relnotes h1 {
+  font-size: clamp(1.85rem, 5vw, 2.45rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-wrap: balance;
+  margin: 0 0 0.85rem;
+}
+
+.relnotes .lede {
+  margin-bottom: 1.5rem;
+}
+
+.relnotes .actions + section {
+  margin-top: 3.25rem;
+}
+
+.relnotes .btn {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  line-height: 1.2;
+}
+
+.relnotes .btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.relnotes .btn-ghost:hover {
+  background: transparent;
+  color: var(--oxblood);
+  border-color: var(--oxblood);
+}
+
+.relnotes a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.relnotes-features,
+.relnotes-steps {
+  margin: 0;
+  padding: 0 0 0 1.15rem;
+}
+
+.relnotes-features li + li,
+.relnotes-steps li + li {
+  margin-top: 0.45rem;
+}
+
+.relnotes-steps {
+  margin-bottom: 1.5rem;
+}
+
+.relnotes-sample {
+  border: 1px solid var(--rule);
+  padding: 1.15rem 1.25rem 0.25rem;
+  margin: 0;
+}
+
+.relnotes-sample h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+}
+
+.relnotes-sample h4 {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mute);
+  margin: 0 0 0.35rem;
+}
+
+.relnotes-sample ul {
+  margin: 0 0 1rem;
+  padding-left: 1.15rem;
+}
+
+.relnotes-plans {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.relnotes-plans li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.relnotes-plans a {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.85rem 0;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.relnotes-plans a:hover {
+  color: var(--link);
+}
+
+.relnotes-faq {
+  margin: 0;
+}
+
+.relnotes-faq dt {
+  font-weight: 600;
+  margin: 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+.relnotes-faq dt:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.relnotes-faq dd {
+  margin: 0.25rem 0 0.9rem;
+  color: var(--mute);
+}
+
+.relnotes-support a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 540px) {
+  .relnotes .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (forced-colors: active) {
+  .relnotes .btn {
+    border: 1px solid ButtonText;
+  }
+}
