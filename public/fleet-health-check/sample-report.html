@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<title>Fleet Health Check by NixonMade - Example Org (EXAMPLE DATA - FABRICATED) - 2026-10-28</title>
+<style>
+:root { --ink:#1d2433; --muted:#5d6779; --line:#e3e7ee; --bg:#f6f8fb; --accent:#2f5bea;
+  --critical:#b42318; --high:#d9480f; --medium:#b7791f; --low:#2f6f4f; --info:#4a5568; }
+* { box-sizing:border-box; }
+body { margin:0; font:15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  color:var(--ink); background:var(--bg); }
+header { background:#111a2e; color:#fff; padding:28px 40px; }
+header .brand { font-size:13px; letter-spacing:.08em; text-transform:uppercase; opacity:.8; }
+header h1 { margin:6px 0 4px; font-size:26px; }
+header .meta { font-size:13px; opacity:.8; }
+main { max-width:1040px; margin:0 auto; padding:28px 40px 60px; }
+section { background:#fff; border:1px solid var(--line); border-radius:10px; padding:22px 26px; margin-bottom:22px; }
+h2 { margin:0 0 14px; font-size:19px; }
+h3 { font-size:16px; margin:18px 0 10px; }
+.summary { display:flex; gap:26px; align-items:flex-start; flex-wrap:wrap; }
+.score { min-width:150px; text-align:center; border-radius:10px; padding:16px; color:#fff; }
+.score.good { background:#2f6f4f; } .score.warn { background:#b7791f; } .score.bad { background:#b42318; }
+.score .num { font-size:44px; font-weight:700; line-height:1; }
+.score .lbl { font-size:13px; margin-top:6px; }
+.summary .text { flex:1; min-width:280px; }
+.counts { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.count { border:1px solid var(--line); border-radius:8px; padding:8px 12px; font-size:13px; min-width:90px; }
+.count span { display:block; font-size:22px; font-weight:700; }
+.count.critical span { color:var(--critical); } .count.high span { color:var(--high); }
+.count.medium span { color:var(--medium); } .count.low span { color:var(--low); } .count.info span { color:var(--info); }
+table { border-collapse:collapse; width:100%; font-size:14px; }
+td { border-bottom:1px solid var(--line); padding:6px 8px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+.finding { border:1px solid var(--line); border-left:5px solid var(--info); border-radius:8px; padding:14px 18px; margin:10px 0; }
+.finding.critical { border-left-color:var(--critical); } .finding.high { border-left-color:var(--high); }
+.finding.medium { border-left-color:var(--medium); } .finding.low { border-left-color:var(--low); }
+.finding h4 { margin:0 0 6px; font-size:15px; }
+.finding ul { margin:6px 0 8px; padding-left:20px; font-size:13.5px; }
+.badge { display:inline-block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  padding:2px 7px; border-radius:4px; color:#fff; background:var(--info); vertical-align:middle; }
+.badge.critical { background:var(--critical); } .badge.high { background:var(--high); }
+.badge.medium { background:var(--medium); } .badge.low { background:var(--low); }
+.sev-head.critical { color:var(--critical); } .sev-head.high { color:var(--high); }
+.sev-head.medium { color:var(--medium); } .sev-head.low { color:var(--low); }
+.muted { color:var(--muted); font-size:13px; }
+.fix { background:var(--bg); border-radius:6px; padding:8px 10px; font-size:13.5px; }
+code { font:12.5px ui-monospace, Menlo, Consolas, monospace; background:#eef1f6; padding:1px 4px; border-radius:3px; }
+ol li { margin-bottom:8px; }
+footer { text-align:center; color:var(--muted); font-size:12px; padding:10px 0 30px; }
+@media print { body { background:#fff; } section { break-inside:avoid-page; border:none; } header { padding:16px 0; } }
+@media (max-width:720px) { main { padding:16px; } .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Fleet Health Check by NixonMade</div>
+  <h1>Mac fleet health report: Example Org (EXAMPLE DATA - FABRICATED)</h1>
+  <div class="meta">As of 2026-10-28 &middot; Source: folder export (sample-data) &middot; Read-only assessment</div>
+</header>
+<main>
+<section>
+  <h2>Executive summary</h2>
+  <div class="summary">
+    <div class="score bad"><div class="num">27</div><div class="lbl">Health score / 100<br>Critical</div></div>
+    <div class="text"><p>This read-only review covered 12 computers, 6 policies, 6 smart groups, 4 configuration profiles, 5 extension attributes and 3 scripts from folder export (sample-data) as of 2026-10-28.</p><p>29 of 30 automated checks found issues (3 critical, 10 high, 10 medium, 6 low). The overall health score is 27/100: Critical.</p> <p><strong>Top priorities:</strong></p><ol><li><strong>FV-01</strong> Computers without FileVault encryption (2 of 12 affected)</li><li><strong>CERT-01</strong> APNs push certificate expiry (1 affected)</li><li><strong>SCR-01</strong> Scripts containing hard-coded secrets (1 of 7 affected)</li></ol></div>
+  </div>
+  <div class="counts"><div class="count critical"><span>3</span>Critical</div><div class="count high"><span>10</span>High</div><div class="count medium"><span>10</span>Medium</div><div class="count low"><span>6</span>Low</div><div class="count info"><span>0</span>Info</div></div>
+</section>
+
+<section class="grid">
+  <div><h2>Data reviewed</h2><table><tr><td>Computers</td><td>12</td></tr><tr><td>Policies</td><td>6</td></tr><tr><td>Smart groups</td><td>6</td></tr><tr><td>Configuration profiles</td><td>4</td></tr><tr><td>Extension attributes</td><td>5</td></tr><tr><td>Scripts</td><td>3</td></tr></table></div>
+  <div><h2>Assessment settings</h2><table><tr><td>Minimum OS</td><td>15.0</td></tr><tr><td>Stale check-in threshold</td><td>30 days</td></tr><tr><td>Inventory freshness threshold</td><td>14 days</td></tr><tr><td>Maximum update deferral</td><td>30 days</td></tr><tr><td>Certificate warning window</td><td>90 days</td></tr><tr><td>Approved admin accounts</td><td>example-mgmt</td></tr></table></div>
+</section>
+
+<section>
+  <h2>Findings by severity</h2>
+  <h3 class="sev-head critical">Critical (3)</h3>
+<div class="finding critical">
+  <h4><span class="badge critical">critical</span> FV-01 &middot; Computers without FileVault encryption</h4>
+  <div class="muted">Disk encryption &middot; Affected: 2 of 12</div>
+  <ul><li>EXAMPLE-MBA-003 (FAKESN00003)</li><li>EXAMPLE-MBP-006 (FAKESN00006)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Scope a FileVault payload (deferred enablement at next login) to unencrypted computers and track them with a smart group until encrypted.</div>
+</div>
+<div class="finding critical">
+  <h4><span class="badge critical">critical</span> CERT-01 &middot; APNs push certificate expiry</h4>
+  <div class="muted">Certificates &middot; Affected: 1</div>
+  <ul><li>APNs push certificate expires 2026-11-20 (23 days)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Renew the push certificate with the SAME managed Apple Account before it expires; a new account breaks MDM for every device.</div>
+</div>
+<div class="finding critical">
+  <h4><span class="badge critical">critical</span> SCR-01 &middot; Scripts containing hard-coded secrets</h4>
+  <div class="muted">Scripts &middot; Affected: 1 of 7</div>
+  <ul><li>Script &#x27;EXAMPLE Printer Setup Script&#x27; line 4: credential assignment (value redacted)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Remove the secret from the script, rotate it immediately, and pass values via policy parameters with a least-privilege, short-lived credential.</div>
+</div>
+
+<h3 class="sev-head high">High (10)</h3>
+<div class="finding high">
+  <h4><span class="badge high">high</span> ADM-02 &middot; Computers with extra local administrator accounts</h4>
+  <div class="muted">Local admin &middot; Affected: 4 of 12</div>
+  <ul><li>EXAMPLE-MBA-003: admin accounts user03</li><li>EXAMPLE-MBP-006: admin accounts user06</li><li>EXAMPLE-MBP-007: admin accounts dev07</li><li>EXAMPLE-MBA-012: admin accounts user12, helpdesk-temp</li></ul>
+  <div class="fix"><strong>Fix:</strong> Demote standard users to non-admin, use a privilege-elevation tool with logging, and keep only the approved management admin account(s).</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> FV-02 &middot; FileVault recovery keys missing or invalid in Jamf Pro</h4>
+  <div class="muted">Disk encryption &middot; Affected: 2 of 10</div>
+  <ul><li>EXAMPLE-MBP-004: recovery key INVALID</li><li>EXAMPLE-MBP-010: recovery key UNKNOWN</li></ul>
+  <div class="fix"><strong>Fix:</strong> Deploy a FileVault recovery key escrow payload and a key reissue workflow; confirm each computer reports a VALID individual recovery key.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> OSU-01 &middot; Computers below the minimum supported OS version</h4>
+  <div class="muted">OS updates &middot; Affected: 2 of 12</div>
+  <ul><li>EXAMPLE-MBP-004: 14.6.1 (minimum 15.0)</li><li>EXAMPLE-MBP-006: 13.6.9 (minimum 15.0)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Use declarative software update enforcement (or a managed update plan) with a deadline; investigate devices that cannot upgrade and plan replacements.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> ADM-01 &middot; LAPS for the managed local admin account not enabled</h4>
+  <div class="muted">Local admin &middot; Affected: 1</div>
+  <ul><li>Local Admin Password Settings: autoDeployEnabled = false</li></ul>
+  <div class="fix"><strong>Fix:</strong> Enable Jamf Pro LAPS for the management account (auto-deploy) with rotation after view.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> CERT-03 &middot; Server certificates expiring soon</h4>
+  <div class="muted">Certificates &middot; Affected: 1</div>
+  <ul><li>EXAMPLE SSO signing certificate: expires 2026-12-15</li></ul>
+  <div class="fix"><strong>Fix:</strong> Renew the certificate authority / server certificates before expiry and plan the profile redistribution that a CA renewal requires.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> DEV-01 &middot; Unmanaged computers in inventory</h4>
+  <div class="muted">Devices &middot; Affected: 1 of 12</div>
+  <ul><li>EXAMPLE-MBP-006 (FAKESN00006)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Re-enroll unmanaged computers (user-initiated or Automated Device Enrollment) or remove retired records.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> PPPC-01 &middot; PPPC entries without a code requirement</h4>
+  <div class="muted">Privacy (PPPC/TCC) &middot; Affected: 1</div>
+  <ul><li>Profile &#x27;EXAMPLE PPPC - Example Agent&#x27;: Accessibility -&gt; com.example.helper has no CodeRequirement</li></ul>
+  <div class="fix"><strong>Fix:</strong> Add a CodeRequirement (from <code>codesign -dr - /path/to/app</code>) to every PPPC entry so the grant cannot be claimed by a different binary with the same identifier.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> PPPC-02 &middot; PPPC grants to shells, interpreters or terminals</h4>
+  <div class="muted">Privacy (PPPC/TCC) &middot; Affected: 1</div>
+  <ul><li>Profile &#x27;EXAMPLE PPPC - Example Agent&#x27;: SystemPolicyAllFiles granted to /bin/bash</li></ul>
+  <div class="fix"><strong>Fix:</strong> Remove broad grants to shells/interpreters/terminal apps. Grant the specific signed tool or agent that needs access instead.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> SEC-01 &middot; System Integrity Protection disabled</h4>
+  <div class="muted">Platform security &middot; Affected: 1 of 12</div>
+  <ul><li>EXAMPLE-MBP-007: SIP disabled</li></ul>
+  <div class="fix"><strong>Fix:</strong> Re-enable SIP from Recovery (<code>csrutil enable</code>) and find out why it was disabled.</div>
+</div>
+<div class="finding high">
+  <h4><span class="badge high">high</span> SEC-02 &middot; Gatekeeper disabled</h4>
+  <div class="muted">Platform security &middot; Affected: 1 of 12</div>
+  <ul><li>EXAMPLE-MBA-008: Gatekeeper disabled</li></ul>
+  <div class="fix"><strong>Fix:</strong> Deploy a System Policy (Gatekeeper) payload allowing App Store and identified developers.</div>
+</div>
+
+<h3 class="sev-head medium">Medium (10)</h3>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> SEC-03 &middot; Application firewall off</h4>
+  <div class="muted">Platform security &middot; Affected: 3 of 12</div>
+  <ul><li>EXAMPLE-MBP-006: firewall disabled</li><li>EXAMPLE-MBA-008: firewall disabled</li><li>EXAMPLE-MBP-009: firewall disabled</li></ul>
+  <div class="fix"><strong>Fix:</strong> Deploy a firewall payload (EnableFirewall true) and confirm via inventory.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> DEV-02 &middot; Computers that have not checked in for 30+ days</h4>
+  <div class="muted">Devices &middot; Affected: 2 of 12</div>
+  <ul><li>EXAMPLE-IMAC-005: last check-in 2026-08-02</li><li>EXAMPLE-MBP-006: last check-in 2026-06-11</li></ul>
+  <div class="fix"><strong>Fix:</strong> Contact owners or re-enroll; retire records for disposed hardware so reports stay accurate.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> OSU-02 &middot; Software update deferral longer than policy</h4>
+  <div class="muted">OS updates &middot; Affected: 2</div>
+  <ul><li>Profile &#x27;EXAMPLE Software Update Deferral&#x27;: enforcedSoftwareUpdateDelay = 60 days (policy 30)</li><li>Profile &#x27;EXAMPLE Software Update Deferral&#x27;: enforcedSoftwareUpdateMajorOSDeferredInstallDelay = 90 days (policy 30)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Reduce enforced update deferral to the agreed window (commonly 30 days or less) and pair it with an enforcement deadline.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> POL-02 &middot; Policies with failed executions</h4>
+  <div class="muted">Policies &middot; Affected: 2 of 6</div>
+  <ul><li>Policy &#x27;EXAMPLE Nightly Maintenance&#x27;: 12 failed / 300 completed</li><li>Policy &#x27;EXAMPLE Install Browser&#x27;: 3 failed / 40 completed</li></ul>
+  <div class="fix"><strong>Fix:</strong> Review policy logs for the failing step, fix the payload/script, then flush the failed logs so the policy retries.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> CERT-02 &middot; Device MDM profiles expiring soon</h4>
+  <div class="muted">Certificates &middot; Affected: 1 of 12</div>
+  <ul><li>EXAMPLE-MBP-010: MDM profile expires 2026-12-01</li></ul>
+  <div class="fix"><strong>Fix:</strong> Renew MDM profiles (Jamf Pro renews automatically when enabled) and check devices that have not renewed.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> EA-03 &middot; Extension attribute scripts with slow or network commands</h4>
+  <div class="muted">Inventory &middot; Affected: 1 of 5</div>
+  <ul><li>EA &#x27;Pending Software Updates&#x27;: softwareupdate --list (contacts update servers)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Replace slow commands (softwareupdate, system_profiler without a data type, network calls, sleeps) with cached values written by a separate scheduled task.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> INV-01 &middot; Stale inventory on checking-in computers</h4>
+  <div class="muted">Inventory &middot; Affected: 1 of 12</div>
+  <ul><li>EXAMPLE-MBP-009: last inventory 2026-09-20 (checked in 2026-10-27)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Ensure an inventory update policy runs at least weekly; check for EA scripts that hang and stop inventory from completing.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> PIV-02 &middot; Smart card certificate trust checking disabled</h4>
+  <div class="muted">Smart card / PIV &middot; Affected: 1</div>
+  <ul><li>Profile &#x27;EXAMPLE Smart Card and Firewall&#x27;: checkCertificateTrust = 0</li></ul>
+  <div class="fix"><strong>Fix:</strong> Set checkCertificateTrust to 1-3 (validity, or validity plus revocation) in the smart card payload and deploy the issuing CA chain.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> POL-03 &middot; Policies scoped to All Computers</h4>
+  <div class="muted">Policies &middot; Affected: 1 of 6</div>
+  <ul><li>Policy &#x27;EXAMPLE Nightly Maintenance&#x27; (runs scripts: EXAMPLE Maintenance Script; triggers: checkin; frequency: Ongoing; no exclusions)</li></ul>
+  <div class="fix"><strong>Fix:</strong> Scope to smart groups that express the real target, add exclusions, and avoid Ongoing frequency on recurring check-in for All Computers.</div>
+</div>
+<div class="finding medium">
+  <h4><span class="badge medium">medium</span> PPPC-03 &middot; Conflicting PPPC entries across profiles</h4>
+  <div class="muted">Privacy (PPPC/TCC) &middot; Affected: 1</div>
+  <ul><li>SystemPolicyAllFiles -&gt; com.example.agent: Allow in &#x27;EXAMPLE PPPC - Example Agent&#x27;, Deny in &#x27;EXAMPLE PPPC - Legacy Agent Deny&#x27;</li></ul>
+  <div class="fix"><strong>Fix:</strong> Consolidate PPPC settings so each identifier/service pair is defined once, with a single decision.</div>
+</div>
+
+<h3 class="sev-head low">Low (6)</h3>
+<div class="finding low">
+  <h4><span class="badge low">low</span> POL-01 &middot; Stale policies (disabled or with no scope)</h4>
+  <div class="muted">Policies &middot; Affected: 3 of 6</div>
+  <ul><li>Policy &#x27;EXAMPLE Legacy VPN Client&#x27;: disabled</li><li>Policy &#x27;EXAMPLE Set Wallpaper&#x27;: no scope</li><li>Policy &#x27;EXAMPLE Printer Setup&#x27;: last ran 2026-05-01</li></ul>
+  <div class="fix"><strong>Fix:</strong> Archive or delete disabled and unscoped policies after confirming they are not referenced; keep a change log.</div>
+</div>
+<div class="finding low">
+  <h4><span class="badge low">low</span> EA-02 &middot; Script extension attributes not used by any smart group</h4>
+  <div class="muted">Inventory &middot; Affected: 2 of 5</div>
+  <ul><li>EA &#x27;FileVault Status (EA)&#x27; is not a criterion in any smart group</li><li>EA &#x27;Pending Software Updates&#x27; is not a criterion in any smart group</li></ul>
+  <div class="fix"><strong>Fix:</strong> Confirm each script EA is still used (reports, searches, groups); remove unused ones to shorten inventory updates.</div>
+</div>
+<div class="finding low">
+  <h4><span class="badge low">low</span> SG-01 &middot; Empty smart groups</h4>
+  <div class="muted">Smart groups &middot; Affected: 2 of 6</div>
+  <ul><li>Group &#x27;EXAMPLE Legacy VPN Users&#x27; has 0 members</li><li>Group &#x27;EXAMPLE Old Test Group&#x27; has 0 members</li></ul>
+  <div class="fix"><strong>Fix:</strong> Delete empty smart groups that are not intentionally empty (e.g. alerting groups); document the ones that are.</div>
+</div>
+<div class="finding low">
+  <h4><span class="badge low">low</span> SG-02 &middot; Smart groups not used for scoping or nesting</h4>
+  <div class="muted">Smart groups &middot; Affected: 2 of 6</div>
+  <ul><li>Group &#x27;EXAMPLE FileVault Not Encrypted&#x27; is not used in any scope, exclusion or nested group</li><li>Group &#x27;EXAMPLE Old Test Group&#x27; is not used in any scope, exclusion or nested group</li></ul>
+  <div class="fix"><strong>Fix:</strong> Remove unused smart groups; every group is re-evaluated on inventory and adds load.</div>
+</div>
+<div class="finding low">
+  <h4><span class="badge low">low</span> EA-01 &middot; Disabled extension attributes</h4>
+  <div class="muted">Inventory &middot; Affected: 1 of 5</div>
+  <ul><li>EA &#x27;Old Asset Tag&#x27; is disabled</li></ul>
+  <div class="fix"><strong>Fix:</strong> Delete extension attributes that are no longer needed, or re-enable and document them.</div>
+</div>
+<div class="finding low">
+  <h4><span class="badge low">low</span> SG-03 &middot; Complex smart groups</h4>
+  <div class="muted">Smart groups &middot; Affected: 1 of 6</div>
+  <ul><li>Group &#x27;EXAMPLE Complex Compliance Group&#x27;: 10 criteria</li></ul>
+  <div class="fix"><strong>Fix:</strong> Simplify groups with many criteria or deep nesting; split into building-block groups.</div>
+</div>
+
+</section>
+
+<section>
+  <h2>Remediation plan (prioritised)</h2>
+  <p class="muted">Ordered by severity, then by impact (severity weight &times; share of fleet affected).</p>
+  <h3>Phase 1 - Immediately (0-7 days)</h3><ol start="1"><li><span class="badge critical">critical</span> <strong>CERT-01</strong> APNs push certificate expiry <span class="muted">(1 affected)</span><br>Renew the push certificate with the SAME managed Apple Account before it expires; a new account breaks MDM for every device.</li><li><span class="badge critical">critical</span> <strong>FV-01</strong> Computers without FileVault encryption <span class="muted">(2 of 12 affected)</span><br>Scope a FileVault payload (deferred enablement at next login) to unencrypted computers and track them with a smart group until encrypted.</li><li><span class="badge critical">critical</span> <strong>SCR-01</strong> Scripts containing hard-coded secrets <span class="muted">(1 of 7 affected)</span><br>Remove the secret from the script, rotate it immediately, and pass values via policy parameters with a least-privilege, short-lived credential.</li></ol>
+<h3>Phase 2 - Within 30 days</h3><ol start="4"><li><span class="badge high">high</span> <strong>ADM-01</strong> LAPS for the managed local admin account not enabled <span class="muted">(1 affected)</span><br>Enable Jamf Pro LAPS for the management account (auto-deploy) with rotation after view.</li><li><span class="badge high">high</span> <strong>CERT-03</strong> Server certificates expiring soon <span class="muted">(1 affected)</span><br>Renew the certificate authority / server certificates before expiry and plan the profile redistribution that a CA renewal requires.</li><li><span class="badge high">high</span> <strong>PPPC-01</strong> PPPC entries without a code requirement <span class="muted">(1 affected)</span><br>Add a CodeRequirement (from <code>codesign -dr - /path/to/app</code>) to every PPPC entry so the grant cannot be claimed by a different binary with the same identifier.</li><li><span class="badge high">high</span> <strong>PPPC-02</strong> PPPC grants to shells, interpreters or terminals <span class="muted">(1 affected)</span><br>Remove broad grants to shells/interpreters/terminal apps. Grant the specific signed tool or agent that needs access instead.</li><li><span class="badge high">high</span> <strong>ADM-02</strong> Computers with extra local administrator accounts <span class="muted">(4 of 12 affected)</span><br>Demote standard users to non-admin, use a privilege-elevation tool with logging, and keep only the approved management admin account(s).</li><li><span class="badge high">high</span> <strong>FV-02</strong> FileVault recovery keys missing or invalid in Jamf Pro <span class="muted">(2 of 10 affected)</span><br>Deploy a FileVault recovery key escrow payload and a key reissue workflow; confirm each computer reports a VALID individual recovery key.</li><li><span class="badge high">high</span> <strong>OSU-01</strong> Computers below the minimum supported OS version <span class="muted">(2 of 12 affected)</span><br>Use declarative software update enforcement (or a managed update plan) with a deadline; investigate devices that cannot upgrade and plan replacements.</li><li><span class="badge high">high</span> <strong>DEV-01</strong> Unmanaged computers in inventory <span class="muted">(1 of 12 affected)</span><br>Re-enroll unmanaged computers (user-initiated or Automated Device Enrollment) or remove retired records.</li><li><span class="badge high">high</span> <strong>SEC-01</strong> System Integrity Protection disabled <span class="muted">(1 of 12 affected)</span><br>Re-enable SIP from Recovery (<code>csrutil enable</code>) and find out why it was disabled.</li><li><span class="badge high">high</span> <strong>SEC-02</strong> Gatekeeper disabled <span class="muted">(1 of 12 affected)</span><br>Deploy a System Policy (Gatekeeper) payload allowing App Store and identified developers.</li></ol>
+<h3>Phase 3 - Within 90 days</h3><ol start="14"><li><span class="badge medium">medium</span> <strong>OSU-02</strong> Software update deferral longer than policy <span class="muted">(2 affected)</span><br>Reduce enforced update deferral to the agreed window (commonly 30 days or less) and pair it with an enforcement deadline.</li><li><span class="badge medium">medium</span> <strong>PIV-02</strong> Smart card certificate trust checking disabled <span class="muted">(1 affected)</span><br>Set checkCertificateTrust to 1-3 (validity, or validity plus revocation) in the smart card payload and deploy the issuing CA chain.</li><li><span class="badge medium">medium</span> <strong>PPPC-03</strong> Conflicting PPPC entries across profiles <span class="muted">(1 affected)</span><br>Consolidate PPPC settings so each identifier/service pair is defined once, with a single decision.</li><li><span class="badge medium">medium</span> <strong>POL-02</strong> Policies with failed executions <span class="muted">(2 of 6 affected)</span><br>Review policy logs for the failing step, fix the payload/script, then flush the failed logs so the policy retries.</li><li><span class="badge medium">medium</span> <strong>SEC-03</strong> Application firewall off <span class="muted">(3 of 12 affected)</span><br>Deploy a firewall payload (EnableFirewall true) and confirm via inventory.</li><li><span class="badge medium">medium</span> <strong>EA-03</strong> Extension attribute scripts with slow or network commands <span class="muted">(1 of 5 affected)</span><br>Replace slow commands (softwareupdate, system_profiler without a data type, network calls, sleeps) with cached values written by a separate scheduled task.</li><li><span class="badge medium">medium</span> <strong>DEV-02</strong> Computers that have not checked in for 30+ days <span class="muted">(2 of 12 affected)</span><br>Contact owners or re-enroll; retire records for disposed hardware so reports stay accurate.</li><li><span class="badge medium">medium</span> <strong>POL-03</strong> Policies scoped to All Computers <span class="muted">(1 of 6 affected)</span><br>Scope to smart groups that express the real target, add exclusions, and avoid Ongoing frequency on recurring check-in for All Computers.</li><li><span class="badge medium">medium</span> <strong>CERT-02</strong> Device MDM profiles expiring soon <span class="muted">(1 of 12 affected)</span><br>Renew MDM profiles (Jamf Pro renews automatically when enabled) and check devices that have not renewed.</li><li><span class="badge medium">medium</span> <strong>INV-01</strong> Stale inventory on checking-in computers <span class="muted">(1 of 12 affected)</span><br>Ensure an inventory update policy runs at least weekly; check for EA scripts that hang and stop inventory from completing.</li></ol>
+<h3>Phase 4 - Housekeeping backlog</h3><ol start="24"><li><span class="badge low">low</span> <strong>POL-01</strong> Stale policies (disabled or with no scope) <span class="muted">(3 of 6 affected)</span><br>Archive or delete disabled and unscoped policies after confirming they are not referenced; keep a change log.</li><li><span class="badge low">low</span> <strong>EA-02</strong> Script extension attributes not used by any smart group <span class="muted">(2 of 5 affected)</span><br>Confirm each script EA is still used (reports, searches, groups); remove unused ones to shorten inventory updates.</li><li><span class="badge low">low</span> <strong>SG-01</strong> Empty smart groups <span class="muted">(2 of 6 affected)</span><br>Delete empty smart groups that are not intentionally empty (e.g. alerting groups); document the ones that are.</li><li><span class="badge low">low</span> <strong>SG-02</strong> Smart groups not used for scoping or nesting <span class="muted">(2 of 6 affected)</span><br>Remove unused smart groups; every group is re-evaluated on inventory and adds load.</li><li><span class="badge low">low</span> <strong>EA-01</strong> Disabled extension attributes <span class="muted">(1 of 5 affected)</span><br>Delete extension attributes that are no longer needed, or re-enable and document them.</li><li><span class="badge low">low</span> <strong>SG-03</strong> Complex smart groups <span class="muted">(1 of 6 affected)</span><br>Simplify groups with many criteria or deep nesting; split into building-block groups.</li></ol>
+</section>
+
+<section>
+  <h2>Coverage</h2>
+  <div class="grid">
+    <div><h3>Checks passed</h3><ul><li><strong>PIV-01</strong> No smart card configuration profile detected</li></ul></div>
+    <div><h3>Not evaluated</h3><ul><li>None</li></ul></div>
+  </div>
+  <h3>Data collection notes</h3>
+  <ul><li>None</li></ul>
+  <p class="muted">30 automated checks are defined; manual checklist items are covered during the review call.
+  Score = weighted share of evaluated checks passed (critical 10, high 6, medium 3, low 1, info 0), with partial
+  credit when only part of the fleet is affected.</p>
+</section>
+</main>
+<footer>
+  Fleet Health Check by NixonMade v0.1.0 &middot; Copyright &copy; 2026 NixonMade. Confidential - prepared for Example Org (EXAMPLE DATA - FABRICATED).<br>
+  Generated from read-only data. Jamf Pro is a trademark of its owner; this report is not affiliated with or endorsed by Jamf.
+</footer>
+</body>
+</html>

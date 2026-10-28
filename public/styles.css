@@ -467,41 +467,30 @@ main.fhc-page {
 
 .fhc-sample {
   margin: 0;
-}
-
-.fhc-sample-slot {
-  min-height: 18rem;
-  border: 1px dashed var(--oxblood);
   display: grid;
-  align-content: center;
-  justify-items: center;
-  text-align: center;
-  gap: 0.35rem;
-  padding: 1.5rem 1rem;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 8px,
-    rgba(143, 45, 33, 0.05) 8px,
-    rgba(143, 45, 33, 0.05) 9px
-  );
+  gap: 0.85rem 1.25rem;
+  align-items: center;
 }
 
-.fhc-sample-slot p,
-.fhc-sample-slot .note,
-.fhc-sample-slot .pill {
-  margin: 0;
-}
-
-.fhc-sample-title {
-  font-weight: 600;
-  color: var(--ink);
+.fhc-sample img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
 }
 
 .fhc-sample figcaption {
-  color: var(--mute);
+  color: var(--ink);
   font-size: 0.95rem;
-  margin-top: 0.75rem;
+  margin: 0;
+}
+
+.fhc-sample figcaption p {
+  margin: 0;
+}
+
+.fhc-sample figcaption p + p {
+  margin-top: 0.45rem;
 }
 
 .fhc-prices {
@@ -753,6 +742,10 @@ button.btn:hover {
   .fhc-prices {
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
+  }
+
+  .fhc-sample {
+    grid-template-columns: minmax(0, 1fr) 9.5rem;
   }
 }
 
