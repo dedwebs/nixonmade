@@ -5,6 +5,13 @@
 /field-kit/*
   X-Robots-Tag: noindex
 
+# Ship Kit draft pages stay out of search indexes.
+/ship-kit
+  X-Robots-Tag: noindex
+
+/ship-kit/*
+  X-Robots-Tag: noindex
+
 # relnotes is not ready to be indexed
 /relnotes
   X-Robots-Tag: noindex
