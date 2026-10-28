@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book my health check — Fleet Health Check by NixonMade</title>
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="Intake form for Fleet Health Check by NixonMade. No credentials are collected."
+    />
+    <link rel="canonical" href="https://nixonmade.com/fleet-health-check/intake/" />
+    <meta property="og:title" content="Book my health check — Fleet Health Check by NixonMade" />
+    <meta
+      property="og:description"
+      content="Intake form for Fleet Health Check by NixonMade. No credentials are collected."
+    />
+    <meta property="og:url" content="https://nixonmade.com/fleet-health-check/intake/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/brand/press-stamp-on-paper.svg" />
+    <meta name="theme-color" content="#f3eee4" />
+    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="product-page fhc-body">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="hero">
+      <p class="back"><a href="/fleet-health-check/">← Fleet Health Check</a></p>
+      <p class="wordmark">
+        <a href="/">
+          <img
+            src="/brand/press-stamp.svg"
+            alt="Nixon Made"
+            width="520"
+            height="520"
+          />
+        </a>
+      </p>
+    </header>
+
+    <main id="main" class="fhc-page" tabindex="-1">
+      <p class="fhc-kicker">Fleet Health Check by NixonMade</p>
+      <h1>Book my health check</h1>
+      <p class="note" id="required-hint">Required fields are marked with an asterisk.</p>
+
+      <form
+        class="fhc-form"
+        data-intake-form
+        method="post"
+        action=""
+        onsubmit="return false"
+        autocomplete="on"
+      >
+        <p class="fhc-preview" id="preview-notice" data-preview-notice role="status" tabindex="-1">
+          <strong>Preview only.</strong> This form does not send your answers anywhere yet.
+        </p>
+
+        <div class="fhc-field">
+          <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            aria-required="true"
+            maxlength="200"
+          />
+        </div>
+
+        <div class="fhc-field">
+          <label for="email">Work email <span class="req" aria-hidden="true">*</span></label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+            aria-required="true"
+            maxlength="200"
+          />
+        </div>
+
+        <div class="fhc-field">
+          <label for="organization">Organization <span class="req" aria-hidden="true">*</span></label>
+          <input
+            id="organization"
+            name="organization"
+            type="text"
+            autocomplete="organization"
+            required
+            aria-required="true"
+            maxlength="200"
+          />
+        </div>
+
+        <div class="fhc-field">
+          <label for="role">Role</label>
+          <input
+            id="role"
+            name="role"
+            type="text"
+            autocomplete="organization-title"
+            maxlength="200"
+          />
+        </div>
+
+        <div class="fhc-field">
+          <label for="fleet-size">Fleet size</label>
+          <select id="fleet-size" name="fleet_size">
+            <option value="">Select fleet size</option>
+            <option value="under-50">&lt;50</option>
+            <option value="50-250">50-250</option>
+            <option value="250-1000">250-1,000</option>
+            <option value="1000-plus">1,000+</option>
+          </select>
+        </div>
+
+        <div class="fhc-field">
+          <label for="jamf-version">Jamf Pro version</label>
+          <input id="jamf-version" name="jamf_pro_version" type="text" maxlength="100" />
+        </div>
+
+        <fieldset class="fhc-field">
+          <legend>Hosting</legend>
+          <div class="fhc-choices">
+            <label class="fhc-choice">
+              <input type="radio" name="hosting" value="jamf-cloud" />
+              <span>Jamf Cloud</span>
+            </label>
+            <label class="fhc-choice">
+              <input type="radio" name="hosting" value="on-prem" />
+              <span>on-prem</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="fhc-field">
+          <label for="other-tools">Other tools (EDR, Jamf Protect, Connect, etc.)</label>
+          <input id="other-tools" name="other_tools" type="text" maxlength="300" />
+        </div>
+
+        <fieldset class="fhc-field">
+          <legend>Data method</legend>
+          <div class="fhc-choices">
+            <label class="fhc-choice">
+              <input type="radio" name="data_method" value="read-only-api" />
+              <span>read-only API client</span>
+            </label>
+            <label class="fhc-choice">
+              <input type="radio" name="data_method" value="exports" />
+              <span>exports</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="fhc-field">
+          <label for="goals">Top 3 goals or pain points</label>
+          <textarea id="goals" name="goals" rows="5" maxlength="4000"></textarea>
+        </div>
+
+        <div class="fhc-field">
+          <label for="deadline">Deadline</label>
+          <input id="deadline" name="deadline" type="text" maxlength="200" />
+        </div>
+
+        <fieldset class="fhc-field">
+          <legend>Tier</legend>
+          <div class="fhc-choices">
+            <label class="fhc-choice">
+              <input type="radio" name="tier" value="standard" />
+              <span>Standard</span>
+            </label>
+            <label class="fhc-choice">
+              <input type="radio" name="tier" value="pro" />
+              <span>Pro</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="fhc-field">
+          <legend>NDA needed?</legend>
+          <div class="fhc-choices">
+            <label class="fhc-choice">
+              <input type="radio" name="nda" value="yes" />
+              <span>Yes</span>
+            </label>
+            <label class="fhc-choice">
+              <input type="radio" name="nda" value="no" />
+              <span>No</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="fhc-field">
+          <div class="fhc-agree">
+            <input
+              id="data-policy"
+              name="data_policy"
+              type="checkbox"
+              value="yes"
+              required
+              aria-required="true"
+            />
+            <label for="data-policy">
+              I agree to the
+              <a
+                data-config-href="POLICY_URL"
+                aria-disabled="true"
+                aria-describedby="agree-policy-placeholder"
+                >data-handling policy</a
+              >
+              <span class="req" aria-hidden="true">*</span>
+              <span
+                id="agree-policy-placeholder"
+                class="fhc-token"
+                data-config-placeholder="POLICY_URL"
+                >[POLICY_URL]</span
+              >
+            </label>
+          </div>
+        </div>
+
+        <button class="btn" type="submit" data-intake-submit aria-describedby="preview-notice">
+          Book my health check
+        </button>
+      </form>
+
+      <footer class="fhc-footer">
+        <p>
+          Not affiliated with or endorsed by Jamf or Apple. Jamf and Jamf Pro
+          are trademarks of their respective owners.
+        </p>
+        <p class="fhc-legal-links">
+          <span class="fhc-legal-item">
+            <a
+              data-config-href="POLICY_URL"
+              aria-disabled="true"
+              aria-describedby="policy-placeholder"
+              >Data-handling policy</a
+            >
+            <span
+              id="policy-placeholder"
+              class="fhc-token"
+              data-config-placeholder="POLICY_URL"
+              >[POLICY_URL]</span
+            >
+          </span>
+          <span class="dot" aria-hidden="true">·</span>
+          <span class="fhc-legal-item">
+            <a
+              data-config-href="TERMS_URL"
+              aria-disabled="true"
+              aria-describedby="terms-placeholder"
+              >Terms</a
+            >
+            <span
+              id="terms-placeholder"
+              class="fhc-token"
+              data-config-placeholder="TERMS_URL"
+              >[TERMS_URL]</span
+            >
+          </span>
+        </p>
+        <p>© 2026 NixonMade</p>
+      </footer>
+    </main>
+    <script src="/fleet-health-check/config.js"></script>
+  </body>
+</html>

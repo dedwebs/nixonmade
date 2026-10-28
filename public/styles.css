@@ -394,3 +394,386 @@ footer p {
   background: var(--ink);
   color: var(--paper);
 }
+
+/* Fleet Health Check */
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  transform: translateY(-200%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.45rem 0.75rem;
+  z-index: 2;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.fhc-body {
+  color-scheme: light;
+}
+
+.fhc-page:focus {
+  outline: none;
+}
+
+main.fhc-page {
+  max-width: 46rem;
+}
+
+.fhc-kicker {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.fhc-page h1 {
+  font-size: clamp(1.7rem, 4.2vw, 2.35rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 0.85rem;
+  text-wrap: balance;
+}
+
+.fhc-page .lede {
+  max-width: 38rem;
+  margin-bottom: 1.5rem;
+}
+
+.fhc-intro {
+  margin-bottom: 3rem;
+}
+
+.fhc-page h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.fhc-list {
+  margin: 0;
+  padding: 0 0 0 1.15rem;
+}
+
+.fhc-list li + li {
+  margin-top: 0.35rem;
+}
+
+.fhc-sample {
+  margin: 0;
+}
+
+.fhc-sample-slot {
+  min-height: 18rem;
+  border: 1px dashed var(--oxblood);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  padding: 1.5rem 1rem;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgba(143, 45, 33, 0.05) 8px,
+    rgba(143, 45, 33, 0.05) 9px
+  );
+}
+
+.fhc-sample-slot p,
+.fhc-sample-slot .note,
+.fhc-sample-slot .pill {
+  margin: 0;
+}
+
+.fhc-sample-title {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.fhc-sample figcaption {
+  color: var(--mute);
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+}
+
+.fhc-prices {
+  display: grid;
+  gap: 1rem;
+}
+
+.fhc-prices .card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+}
+
+.fhc-prices .card p {
+  margin: 0;
+}
+
+.fhc-price {
+  font-size: 2rem;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.fhc-prices .btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.fhc-draft {
+  margin: 1.25rem 0 0;
+}
+
+.fhc-pricing-actions {
+  margin-top: 1.25rem;
+}
+
+.fhc-token {
+  color: var(--oxblood);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.fhc-secondary-wrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.7rem;
+  align-items: center;
+}
+
+a.fhc-secondary {
+  display: inline-block;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid var(--ink);
+}
+
+a.fhc-secondary:hover {
+  background: var(--oxblood);
+  border-color: var(--oxblood);
+  color: var(--paper);
+}
+
+a.fhc-secondary[aria-disabled="true"],
+a.fhc-secondary[aria-disabled="true"]:hover {
+  color: var(--mute);
+  border-color: var(--rule);
+  background: transparent;
+  cursor: default;
+}
+
+.fhc-page a[data-config-href]:not(.fhc-secondary) {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.fhc-page a[data-config-email] {
+  overflow-wrap: anywhere;
+}
+
+.fhc-faq {
+  margin: 0;
+}
+
+.fhc-faq div {
+  border-top: 1px solid var(--rule);
+  padding: 0.9rem 0;
+}
+
+.fhc-faq div:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.fhc-faq dt {
+  font-weight: 600;
+}
+
+.fhc-faq dd {
+  margin: 0.3rem 0 0;
+}
+
+.fhc-steps {
+  margin: 0 0 1.5rem;
+  padding: 0 0 0 1.15rem;
+}
+
+.fhc-steps li + li {
+  margin-top: 0.65rem;
+}
+
+.fhc-footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+}
+
+.fhc-footer p + p {
+  margin-top: 0.75rem;
+}
+
+.fhc-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.15rem;
+}
+
+.fhc-legal-item {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.fhc-form {
+  margin-top: 1.5rem;
+}
+
+.fhc-preview {
+  border: 1px solid var(--oxblood);
+  padding: 0.75rem 0.9rem;
+  margin: 0 0 1.35rem;
+}
+
+.fhc-preview:focus {
+  outline: 2px solid var(--oxblood);
+  outline-offset: 2px;
+}
+
+.fhc-field {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0 0 1.1rem;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.fhc-field > label,
+.fhc-page legend {
+  font-weight: 600;
+  padding: 0;
+}
+
+.fhc-page legend {
+  margin-bottom: 0.35rem;
+}
+
+.req {
+  color: var(--oxblood);
+  font-weight: 600;
+}
+
+.fhc-field input[type="text"],
+.fhc-field input[type="email"],
+.fhc-field select,
+.fhc-field textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: #fffdf8;
+  border: 1px solid #c9bfb0;
+  border-radius: 0;
+  padding: 0.55rem 0.65rem;
+  min-height: 2.75rem;
+}
+
+.fhc-field textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.fhc-choices {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.fhc-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  font-weight: 400;
+}
+
+.fhc-choice input,
+.fhc-agree input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--ink);
+  flex: 0 0 auto;
+}
+
+.fhc-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.fhc-agree label {
+  font-weight: 500;
+}
+
+button.btn {
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: 0;
+  cursor: pointer;
+  min-height: 2.75rem;
+}
+
+button.btn:hover {
+  background: var(--oxblood);
+  color: var(--paper);
+}
+
+.fhc-page :focus-visible {
+  outline: 2px solid var(--oxblood);
+  outline-offset: 2px;
+}
+
+@media (min-width: 720px) {
+  .fhc-prices {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 540px) {
+  .fhc-page .actions {
+    display: grid;
+  }
+
+  .fhc-secondary-wrap {
+    display: grid;
+  }
+
+  .fhc-page .actions .btn,
+  .fhc-page .actions .fhc-secondary,
+  .fhc-prices .btn,
+  .fhc-form button.btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .fhc-prices .btn {
+    align-self: stretch;
+  }
+}
