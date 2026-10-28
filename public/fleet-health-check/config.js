@@ -8,7 +8,7 @@ const FLEET_HEALTH_CHECK = {
   FORM_ENDPOINT: "",
   FIELD_KIT_URL: "",
   CONTACT_EMAIL: "",
-  POLICY_URL: "",
+  POLICY_URL: "/fleet-health-check/data-handling/",
   TERMS_URL: "",
 };
 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fleet Health Check by NixonMade: data handling policy</title>
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="DRAFT - NOT FOR PUBLICATION. Data handling policy for Fleet Health Check by NixonMade."
+    />
+    <link rel="canonical" href="https://nixonmade.com/fleet-health-check/data-handling/" />
+    <meta name="theme-color" content="#f3eee4" />
+    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="product-page fhc-body">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="hero">
+      <p class="back"><a href="/fleet-health-check/">← Fleet Health Check</a></p>
+      <p class="wordmark">
+        <a href="/">
+          <img
+            src="/brand/press-stamp.svg"
+            alt="Nixon Made"
+            width="520"
+            height="520"
+          />
+        </a>
+      </p>
+    </header>
+
+    <main id="main" class="fhc-page fhc-policy" tabindex="-1">
+      <p class="fhc-draft-banner">DRAFT - NOT FOR PUBLICATION</p>
+      <h1>Fleet Health Check by NixonMade: data handling policy</h1>
+      <p>
+        <em>Draft for legal review. This isn't legal advice and isn't yet a binding commitment.</em>
+      </p>
+
+      <h2>1. Scope</h2>
+      <p>This policy covers all client data that NixonMade receives while delivering a Fleet Health Check:</p>
+      <ul>
+        <li>data collected through a client-created API client</li>
+        <li>files the client exports</li>
+        <li>reports and notes NixonMade produces from that data</li>
+      </ul>
+
+      <h2>2. Read-only access only</h2>
+      <ul>
+        <li>NixonMade asks only for <strong>read-only</strong> access. Clients create a dedicated API role with Read privileges only, using the published privilege list (<code>api-permissions.md</code>).</li>
+        <li>Our tooling enforces GET-only requests in code. The only exception is the standard OAuth token request.</li>
+        <li><strong>We never ask for, accept, or use admin credentials.</strong> That covers Jamf Pro administrator accounts, local admin passwords, FileVault recovery keys, and the account that owns the push certificate. If any of these are sent to us by mistake, we delete them immediately, tell the client, and recommend rotating them.</li>
+        <li>The client keeps full control of access. We ask clients to disable or delete the API client as soon as collection is finished.</li>
+      </ul>
+
+      <h2>3. Credentials in transit</h2>
+      <ul>
+        <li>API client secrets are exchanged only through the channel agreed at intake, such as a password-manager share or encrypted message. They are never sent by plain email or chat.</li>
+        <li>Secrets are held only in memory or environment variables while the collection runs. They are never written to disk, logs or reports.</li>
+      </ul>
+
+      <h2>4. Data minimisation</h2>
+      <ul>
+        <li>We collect only what the checks need. That means inventory status fields, policy, group and profile configuration, extension attribute and script contents, and certificate expiry dates.</li>
+        <li>Reports show secret-like values found in scripts as <strong>"value redacted"</strong>. We never reproduce them.</li>
+        <li>Clients may withhold any section (for example scripts). The report will then list the affected checks as "not evaluated".</li>
+      </ul>
+
+      <h2>5. Storage and encryption</h2>
+      <ul>
+        <li>Client data and reports are stored <strong>encrypted at rest</strong>: an encrypted volume or container on a FileVault-encrypted, managed work device, with access limited to NixonMade personnel delivering the engagement.</li>
+        <li>No client data is uploaded to third-party AI services, public repositories, or shared drives without the client's written consent.</li>
+        <li>Reports are delivered through the agreed secure channel.</li>
+      </ul>
+
+      <h2>6. Retention and deletion</h2>
+      <ul>
+        <li>All raw client data (API output and exported files) and working copies are <strong>deleted within 30 days</strong> of report delivery, or sooner on request.</li>
+        <li>If the client requests it, the final report may be kept for up to 30 days to answer follow-up questions. It is deleted on the same schedule unless the client asks in writing for it to be kept longer.</li>
+        <li><strong>Deletion confirmation:</strong> once data has been deleted, NixonMade sends the client written confirmation listing what was deleted and when.</li>
+      </ul>
+
+      <h2>7. Confidentiality and NDA</h2>
+      <ul>
+        <li>All client data and reports are treated as confidential.</li>
+        <li>A mutual <strong>NDA is available</strong> on request, and can be signed before any access is granted.</li>
+        <li>No client is named, and no client data, screenshots or findings are used in marketing, without explicit written permission. Sample reports use fabricated data only.</li>
+      </ul>
+
+      <h2>8. Incidents</h2>
+      <p>If NixonMade becomes aware of unauthorised access to client data, we will notify the client without undue delay and include what is known. We will help with the client's own incident process, including rotating any credentials involved.</p>
+
+      <h2>9. Contact</h2>
+      <p>Questions or deletion requests: <em>[NixonMade contact address - TBD]</em>.</p>
+
+      <hr />
+      <p>Copyright (c) 2026 NixonMade.</p>
+
+      <footer class="fhc-footer">
+        <p>
+          Not affiliated with or endorsed by Jamf or Apple. Jamf and Jamf Pro
+          are trademarks of their respective owners.
+        </p>
+        <p class="fhc-legal-links">
+          <span class="fhc-legal-item">
+            <a
+              data-config-href="POLICY_URL"
+              aria-disabled="true"
+              aria-describedby="policy-placeholder"
+              >Data-handling policy</a
+            >
+            <span
+              id="policy-placeholder"
+              class="fhc-token"
+              data-config-placeholder="POLICY_URL"
+              >[POLICY_URL]</span
+            >
+          </span>
+          <span class="dot" aria-hidden="true">·</span>
+          <span class="fhc-legal-item">
+            <a
+              data-config-href="TERMS_URL"
+              aria-disabled="true"
+              aria-describedby="terms-placeholder"
+              >Terms</a
+            >
+            <span
+              id="terms-placeholder"
+              class="fhc-token"
+              data-config-placeholder="TERMS_URL"
+              >[TERMS_URL]</span
+            >
+          </span>
+        </p>
+        <p>© 2026 NixonMade</p>
+      </footer>
+    </main>
+    <script src="/fleet-health-check/config.js"></script>
+  </body>
+</html>
