@@ -12,6 +12,13 @@
 /ship-kit/*
   X-Robots-Tag: noindex
 
+# Fleet Sheets draft pages stay out of search indexes.
+/fleet-sheets
+  X-Robots-Tag: noindex
+
+/fleet-sheets/*
+  X-Robots-Tag: noindex
+
 # relnotes is not ready to be indexed
 /relnotes
   X-Robots-Tag: noindex
