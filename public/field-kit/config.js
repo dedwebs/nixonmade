@@ -6,7 +6,7 @@
  */
 const FIELD_KIT = Object.freeze({
   KIT_PRICE: "[$19-29 suggested, TBD]",
-  STRIPE_LINK_FIELD_KIT: "STRIPE_LINK_FIELD_KIT",
+  STRIPE_LINK_FIELD_KIT: "https://buy.stripe.com/4gMaER94Z7tEfQ96tbeQM00",
   SUPPORT_EMAIL: "hello@nixonmade.com",
 });
 
