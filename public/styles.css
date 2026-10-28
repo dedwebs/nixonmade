@@ -486,6 +486,83 @@ main.ship-main {
   }
 }
 
+.fleet-sheets .skip {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  transform: translateY(-150%);
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  padding: 0.55rem 0.8rem;
+  z-index: 2;
+}
+
+.fleet-sheets .skip:focus {
+  transform: translateY(0.75rem);
+}
+
+.fleet-sheets a:focus-visible {
+  outline: 2px solid var(--oxblood);
+  outline-offset: 3px;
+}
+
+main.fleet-main {
+  max-width: 42rem;
+}
+
+.fleet-sheets h1 {
+  font-size: clamp(1.7rem, 4vw, 2.05rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  margin: 0 0 0.9rem;
+  text-wrap: balance;
+}
+
+.fleet-sheets .lede {
+  max-width: none;
+  margin-bottom: 0.85rem;
+}
+
+.fleet-sheets .facts {
+  margin: 0 0 0.75rem;
+}
+
+.fleet-sheets .price {
+  margin: 0 0 1.5rem;
+  font-weight: 600;
+}
+
+.fleet-sheets .btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fleet-sheets a.btn[aria-disabled="true"] {
+  cursor: default;
+}
+
+.fleet-sheets a.btn[aria-disabled="true"]:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.fleet-sheets a[aria-disabled="true"]:not(.btn) {
+  color: inherit;
+  text-decoration: none;
+  cursor: default;
+}
+
+.fleet-sheets .support {
+  margin: 0 0 1rem;
+}
+
+.fleet-sheets footer p + p {
+  margin-top: 0.45rem;
+}
+
 /* relnotes */
 .relnotes .skip {
   position: absolute;
