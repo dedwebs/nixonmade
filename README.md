@@ -1,8 +1,8 @@
 # Nixon Made
 
-Company site for [nixonmade.com](https://nixonmade.com). Tees and software in one shop.
+Company site for [nixonmade.com](https://nixonmade.com).
 
-Wordmarks live in `public/brand/` (outlined SVGs for print and merch). Tee SKUs and print notes: `docs/MERCH.md`.
+Wordmarks live in `public/brand/`.
 
 ```bash
 npm install

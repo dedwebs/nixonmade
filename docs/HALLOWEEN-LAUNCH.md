@@ -19,11 +19,7 @@ Reject immediately: logos, movie witches, garbled type, photoreal faces, cute-ka
 5. Upload the zip from `python3 scripts/export-print-sizes.py --set <slug>` after you approve.
 6. Do not run ads on the first listing. Organic sale is the cleanest proof. Log: prompt, file, listing URL, order ID.
 
-## 3. Site
-
-`/halloween/` is a waitlist until an Etsy URL exists. Then replace the mailto with the shop link. Deploy: `npm run deploy`.
-
-## 4. After first sale
+## 3. After first sale
 
 Park the profit minus ~25% tax in a separate house-savings account. W-2 still qualifies the mortgage.
 
