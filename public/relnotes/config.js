@@ -3,7 +3,7 @@ const RELNOTES_CONFIG = Object.freeze({
   STRIPE_LINK_REPO: "STRIPE_LINK_REPO",
   STRIPE_LINK_TEAM: "STRIPE_LINK_TEAM",
   INSTALL_URL: "INSTALL_URL",
-  SUPPORT_EMAIL: "SUPPORT_EMAIL",
+  SUPPORT_EMAIL: "hello@nixonmade.com",
 });
 
 function applyRelnotesConfig() {
