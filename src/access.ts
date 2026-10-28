@@ -155,7 +155,14 @@ export async function openSignedFile(
   token: string,
   nowMs = Date.now(),
 ): Promise<
-  | { ok: true; body: ReadableStream; size: number; filename: string }
+  | {
+      ok: true;
+      body: ReadableStream;
+      size: number;
+      filename: string;
+      mediaType: string;
+      contentDisposition: string;
+    }
   | ({ ok: false } & AccessFailure)
 > {
   if (!secretsForDownload(env)) {
@@ -189,5 +196,7 @@ export async function openSignedFile(
     body: object.body,
     size: object.size,
     filename: verified.product.filename,
+    mediaType: verified.product.mediaType,
+    contentDisposition: verified.product.contentDisposition,
   };
 }

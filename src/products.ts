@@ -9,11 +9,20 @@ const PRICE_RE = /^price_[A-Za-z0-9]{8,200}$/;
 const KEY_RE = /^[a-z0-9][a-z0-9./_-]{0,200}$/;
 const FILENAME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,80}$/;
 
+const MEDIA_TYPES = {
+  zip: "application/zip",
+  dmg: "application/x-apple-diskimage",
+} as const;
+
+export type DownloadMediaType = (typeof MEDIA_TYPES)[keyof typeof MEDIA_TYPES];
+
 export type CatalogProduct = {
   slug: ProductSlug;
   title: string;
   key: string;
   filename: string;
+  mediaType: DownloadMediaType;
+  contentDisposition: string;
   testLinks: string[];
   testPrices: string[];
   liveLinks: string[];
@@ -64,6 +73,23 @@ function readFilename(raw: string | undefined): string | null {
   return raw;
 }
 
+/** Last suffix, lowercased. `Fleet-Sheets.DMG` and `products/fleet-sheets.dmg` are both `dmg`. */
+export function fileSuffix(name: string): string | null {
+  const dot = name.lastIndexOf(".");
+  if (dot <= 0 || dot === name.length - 1) return null;
+  return name.slice(dot + 1).toLowerCase();
+}
+
+export function mediaTypeForSuffix(suffix: string | null): DownloadMediaType | null {
+  if (suffix === "zip" || suffix === "dmg") return MEDIA_TYPES[suffix];
+  return null;
+}
+
+/** ASCII filename only. The catalog regex rejects quotes, spaces, and newlines. */
+export function contentDisposition(filename: string): string {
+  return `attachment; filename="${filename}"`;
+}
+
 export function loadCatalog(env: Env): CatalogProduct[] {
   const products: CatalogProduct[] = [];
   for (const slug of PRODUCT_SLUGS) {
@@ -71,12 +97,18 @@ export function loadCatalog(env: Env): CatalogProduct[] {
     const record = env as unknown as Record<string, string | undefined>;
     const key = readKey(record[`${prefix}_KEY`]);
     const filename = readFilename(record[`${prefix}_FILENAME`]);
-    if (!key || !filename) continue;
+    const keyType = mediaTypeForSuffix(key ? fileSuffix(key) : null);
+    const fileType = mediaTypeForSuffix(filename ? fileSuffix(filename) : null);
+    // The object key and the saved filename must be the same kind of file.
+    // A .dmg labeled as a .zip would get the wrong Content-Type.
+    if (!key || !filename || !keyType || keyType !== fileType) continue;
     products.push({
       slug,
       title: readTitle(record[`${prefix}_TITLE`], slug),
       key,
       filename,
+      mediaType: keyType,
+      contentDisposition: contentDisposition(filename),
       testLinks: splitIds(record[`${prefix}_TEST_LINKS`], LINK_RE),
       testPrices: splitIds(record[`${prefix}_TEST_PRICES`], PRICE_RE),
       liveLinks: splitIds(record[`${prefix}_LIVE_LINKS`], LINK_RE),

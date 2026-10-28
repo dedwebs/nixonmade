@@ -67,8 +67,8 @@
     "PRODUCT_FLEET_SHEETS_TEST_PRICES": "",
     "PRODUCT_FLEET_SHEETS_LIVE_LINKS": "",
     "PRODUCT_FLEET_SHEETS_LIVE_PRICES": "",
-    "PRODUCT_FLEET_SHEETS_KEY": "products/fleet-sheets.zip",
-    "PRODUCT_FLEET_SHEETS_FILENAME": "nixonmade-fleet-sheets.zip",
+    "PRODUCT_FLEET_SHEETS_KEY": "products/fleet-sheets.dmg",
+    "PRODUCT_FLEET_SHEETS_FILENAME": "nixonmade-fleet-sheets.dmg",
     "PRODUCT_FLEET_SHEETS_TITLE": "Fleet Sheets"
   }
 }

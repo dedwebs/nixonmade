@@ -27,8 +27,8 @@ const testBindings = {
   PRODUCT_FLEET_SHEETS_TEST_PRICES: "price_fleettest01",
   PRODUCT_FLEET_SHEETS_LIVE_LINKS: "plink_fleetlive01",
   PRODUCT_FLEET_SHEETS_LIVE_PRICES: "price_fleetlive01",
-  PRODUCT_FLEET_SHEETS_KEY: "products/fleet-sheets.zip",
-  PRODUCT_FLEET_SHEETS_FILENAME: "nixonmade-fleet-sheets.zip",
+  PRODUCT_FLEET_SHEETS_KEY: "products/fleet-sheets.dmg",
+  PRODUCT_FLEET_SHEETS_FILENAME: "nixonmade-fleet-sheets.dmg",
   PRODUCT_FLEET_SHEETS_TITLE: "Fleet Sheets",
 };
 

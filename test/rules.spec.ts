@@ -2,7 +2,7 @@ import { env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import { escapeHtml } from "../src/http";
 import { safeLog } from "../src/log";
-import { loadCatalog, matchProduct } from "../src/products";
+import { contentDisposition, loadCatalog, matchProduct, mediaTypeForSuffix } from "../src/products";
 import { signDownloadToken, timingSafeEqual, verifyDownloadToken } from "../src/sign";
 import { parseCheckoutSession, restrictedKeyMode } from "../src/stripe";
 import { refundedPaymentIntent, verifyStripeWebhook } from "../src/webhook";
@@ -119,6 +119,30 @@ describe("allowlist", () => {
     } as Cloudflare.Env);
     expect(parsed).toEqual([]);
     expect(escapeHtml(`<script>"'`)).toBe("&lt;script&gt;&quot;&#39;");
+  });
+
+  it("pairs each object key with a filename of the same type", () => {
+    expect(mediaTypeForSuffix("zip")).toBe("application/zip");
+    expect(mediaTypeForSuffix("dmg")).toBe("application/x-apple-diskimage");
+    expect(mediaTypeForSuffix("txt")).toBeNull();
+    expect(contentDisposition("nixonmade-fleet-sheets.dmg")).toBe(
+      'attachment; filename="nixonmade-fleet-sheets.dmg"',
+    );
+
+    const parsed = loadCatalog({
+      PRODUCT_FIELD_KIT_KEY: "products/field-kit.zip",
+      PRODUCT_FIELD_KIT_FILENAME: "nixonmade-field-kit.zip",
+      PRODUCT_SHIP_KIT_KEY: "products/ship-kit.dmg",
+      PRODUCT_SHIP_KIT_FILENAME: "nixonmade-ship-kit.zip",
+      PRODUCT_FLEET_SHEETS_KEY: "products/fleet-sheets.dmg",
+      PRODUCT_FLEET_SHEETS_FILENAME: "NixonMade-Fleet-Sheets.DMG",
+    } as Cloudflare.Env);
+    expect(parsed.map((product) => product.slug)).toEqual(["field-kit", "fleet-sheets"]);
+    expect(parsed[0]?.mediaType).toBe("application/zip");
+    expect(parsed[1]?.mediaType).toBe("application/x-apple-diskimage");
+    expect(parsed[1]?.contentDisposition).toBe(
+      'attachment; filename="NixonMade-Fleet-Sheets.DMG"',
+    );
   });
 });
 

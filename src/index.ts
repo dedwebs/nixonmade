@@ -157,8 +157,8 @@ async function handleFile(request: Request, env: Env, url: URL): Promise<Respons
     return textResponse(url, "This download isn't available.\n", 404);
   }
   const headers = new Headers({
-    "content-type": opened.filename.endsWith(".zip") ? "application/zip" : "application/octet-stream",
-    "content-disposition": `attachment; filename="${opened.filename}"`,
+    "content-type": opened.mediaType,
+    "content-disposition": opened.contentDisposition,
     "content-length": String(opened.size),
   });
   applySecurityHeaders(headers, url);

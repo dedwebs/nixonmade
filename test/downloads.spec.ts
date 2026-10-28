@@ -128,17 +128,33 @@ describe("verified downloads", () => {
       }),
     });
     await putProduct("products/ship-kit.zip", "ship");
-    await putProduct("products/fleet-sheets.zip", "fleet");
+    await putProduct("products/fleet-sheets.dmg", "fleet-dmg");
 
     const ship = await SELF.fetch(request(`/api/download?session_id=${shipId}`, nextIp()));
     expect(ship.status).toBe(200);
-    expect(((await ship.json()) as { product: string }).product).toBe("ship-kit");
+    const shipBody = (await ship.json()) as { product: string; files: { url: string }[] };
+    expect(shipBody.product).toBe("ship-kit");
+    const shipFile = await SELF.fetch(request(shipBody.files[0]!.url, nextIp()));
+    expect(shipFile.headers.get("content-type")).toBe("application/zip");
+    expect(shipFile.headers.get("content-disposition")).toBe(
+      'attachment; filename="nixonmade-ship-kit.zip"',
+    );
 
     const fleet = await SELF.fetch(request(`/api/download?session_id=${fleetId}`, nextIp()));
     expect(fleet.status).toBe(200);
-    const fleetBody = (await fleet.json()) as { product: string; files: { filename: string }[] };
+    const fleetBody = (await fleet.json()) as {
+      product: string;
+      files: { filename: string; url: string }[];
+    };
     expect(fleetBody.product).toBe("fleet-sheets");
-    expect(fleetBody.files[0]?.filename).toBe("nixonmade-fleet-sheets.zip");
+    expect(fleetBody.files[0]?.filename).toBe("nixonmade-fleet-sheets.dmg");
+    const fleetFile = await SELF.fetch(request(fleetBody.files[0]!.url, nextIp()));
+    expect(fleetFile.status).toBe(200);
+    expect(fleetFile.headers.get("content-type")).toBe("application/x-apple-diskimage");
+    expect(fleetFile.headers.get("content-disposition")).toBe(
+      'attachment; filename="nixonmade-fleet-sheets.dmg"',
+    );
+    expect(new TextDecoder().decode(await fleetFile.arrayBuffer())).toBe("fleet-dmg");
   });
 
   it("uses the same response for bad, unpaid, expired, unknown, and cross-mode sessions", async () => {

@@ -18,7 +18,7 @@ python3 scripts/build_marks.py   # regenerate marks (needs Fraunces ttf)
 
 Field Kit, Ship Kit, and Fleet Sheets are delivered from a private R2 bucket after Stripe confirms the Checkout Session. The bucket is never public. A buyer gets a file link that lasts 15 minutes, and each purchase can be downloaded 5 times.
 
-Fleet Sheets does not have a storefront page in this repo yet. Once its Payment Link ids and its R2 object are set, the same `/thanks` page delivers it.
+Fleet Sheets does not have a storefront page in this repo yet. Its file is a signed, stapled disk image, not a zip. Once its Payment Link ids and its R2 object are set, the same `/thanks` page delivers it. Field Kit and Ship Kit stay zips.
 
 ### Payment Links (do this in Stripe, not in this repo)
 
@@ -94,7 +94,11 @@ Vars in `wrangler.jsonc` (not secrets). Empty link and price lists fail closed: 
 | `PRODUCT_FIELD_KIT_FILENAME` | Name the browser saves. Default `nixonmade-field-kit.zip`. |
 | `PRODUCT_FIELD_KIT_TITLE` | Title on the download page. |
 | `PRODUCT_SHIP_KIT_*` | Same shape. Put both the $49 kit and the $299 done-for-you ids here if both should deliver the same zip. |
-| `PRODUCT_FLEET_SHEETS_*` | Same shape. |
+| `PRODUCT_FLEET_SHEETS_KEY` | Default `products/fleet-sheets.dmg`. |
+| `PRODUCT_FLEET_SHEETS_FILENAME` | Default `nixonmade-fleet-sheets.dmg`. |
+| `PRODUCT_FLEET_SHEETS_TITLE` | Title on the download page. Default `Fleet Sheets`. |
+
+Each product's object key and download filename are set on their own. Both must end in `.zip` or both must end in `.dmg`. A `.zip` is sent as `application/zip`. A `.dmg` is sent as `application/x-apple-diskimage`. `Content-Disposition` is `attachment` with the configured filename. A mismatched pair, or any other suffix, is ignored and that product does not download.
 
 A session matches a product only when its Payment Link id or a line-item price id is on that product's list for the session's own mode. A test id never unlocks a live session. If the link says Field Kit and the price says Ship Kit, nobody gets a file.
 
@@ -103,7 +107,7 @@ Upload the objects when the files exist. Local `wrangler dev` uses a local bucke
 ```bash
 npx wrangler r2 object put nixonmade-downloads/products/field-kit.zip --file=./field-kit.zip --local
 npx wrangler r2 object put nixonmade-downloads/products/ship-kit.zip --file=./ship-kit.zip --local
-npx wrangler r2 object put nixonmade-downloads/products/fleet-sheets.zip --file=./fleet-sheets.zip --local
+npx wrangler r2 object put nixonmade-downloads/products/fleet-sheets.dmg --file=./fleet-sheets.dmg --local
 ```
 
 The object keys above are the defaults. If you change `PRODUCT_*_KEY`, upload to that key instead.
@@ -112,7 +116,7 @@ The object keys above are the defaults. If you change `PRODUCT_*_KEY`, upload to
 
 - `GET /thanks?session_id=cs_...` confirms the payment and shows the button.
 - `GET /api/download?session_id=cs_...` returns the same decision as JSON: a path under `/api/file`, the expiry, and how many downloads are left.
-- `GET /api/file?t=...` checks the signature, checks Stripe and the refund flag again, then streams the object. The signature is an HMAC-SHA256 compared with a fixed-length XOR loop.
+- `GET /api/file?t=...` checks the signature, checks Stripe and the refund flag again, then streams the object. The signature is an HMAC-SHA256 compared with a fixed-length XOR loop. The response `Content-Type` follows the file: `application/zip` or `application/x-apple-diskimage`. `Content-Disposition` is `attachment` with that product's filename.
 - `GET /redownload` and `POST /redownload` take a checkout session id, or a `nixonmade.com` URL that contains one, and send the browser to `/thanks`.
 - `POST /api/stripe/webhook` records refunds.
 
@@ -132,10 +136,10 @@ Stripe's own receipt does not include our download page unless you add a sentenc
 
 ### TEST checklist
 
-Do this against `npm run dev` with a **test** restricted key in `.dev.vars`, the test Payment Link ids filled in, and a small zip uploaded with `--local`. Use card `4242 4242 4242 4242`. Do not use a live key.
+Do this against `npm run dev` with a **test** restricted key in `.dev.vars`, the test Payment Link ids filled in, and a small file uploaded with `--local` (a zip for Field Kit and Ship Kit, a `.dmg` for Fleet Sheets). Use card `4242 4242 4242 4242`. Do not use a live key.
 
 1. **Buy.** Open the test Payment Link. After payment you should land on `/thanks?session_id=cs_test_...`. The page names the product and shows a download button. Bookmark the page.
-2. **Download.** The button saves the zip. `SESSION_ID=cs_test_... npm run e2e:download` checks the same path and checks that a damaged link is rejected.
+2. **Download.** The button saves the file: a zip for Field Kit and Ship Kit, and `nixonmade-fleet-sheets.dmg` for Fleet Sheets. `SESSION_ID=cs_test_... npm run e2e:download` checks the same path and checks that a damaged link is rejected.
 3. **Expired link.** Wait 15 minutes, then use the old button. It should fail. Refresh the bookmarked `/thanks` page. A new button should work, and it should not have used an extra download if you never successfully fetched the old one.
 4. **Download limit.** From the bookmarked page, download, then refresh so you get a new button, and repeat until you have done it 5 times. Leave at least 30 seconds between two clicks on the *same* button, or just refresh each time. The sixth page should say the 5 downloads are used.
 5. **Re-download.** Open `/redownload`, paste the `cs_test_...` id (or the whole thanks URL), and confirm you land on the download page. The form has no email field. Two made-up email addresses get the same reply.
@@ -147,7 +151,7 @@ Do this against `npm run dev` with a **test** restricted key in `.dev.vars`, the
 
 - **Workers Paid, $5/month.** Required for the Durable Object. Included usage covers this shop.
 - **Durable Objects.** A few storage operations per download. Not a separate monthly fee beyond Workers Paid at this volume.
-- **R2.** The private bucket has a free tier (about 10 GB stored, and generous read/write operations). Egress from R2 to the Worker is free. A zip for three products stays inside the free tier.
+- **R2.** The private bucket has a free tier (about 10 GB stored, and generous read/write operations). Egress from R2 to the Worker is free. The two zips and the Fleet Sheets disk image stay inside the free tier.
 - **KV.** Not used. Do not create a namespace for this.
 - **Workers Rate Limiting.** Not used. The same Durable Object enforces the per-IP and per-session limits, so there is no second product to turn on.
 - **Stripe.** Reading a Checkout Session and receiving webhooks is included with Stripe. No extra Stripe product.
