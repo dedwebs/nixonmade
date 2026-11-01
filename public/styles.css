@@ -348,14 +348,32 @@ section + section {
   color: var(--muted);
 }
 
-.figure-slot {
-  margin: var(--space-6) 0;
+.figure-slot,
+.card-shot {
+  margin: var(--space-5) 0 0;
+  min-width: 0;
 }
 
-.figure-slot img {
+.figure-slot picture,
+.card-shot picture {
+  display: block;
+}
+
+.figure-slot img,
+.card-shot img {
   display: block;
   width: 100%;
   height: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.figure-slot figcaption,
+.card-shot figcaption {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .section-label {

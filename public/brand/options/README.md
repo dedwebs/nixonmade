@@ -30,26 +30,8 @@ It does not modify `public/brand/press-stamp.svg`.
 
 The script needs Pillow, fontTools, and the Inter fonts installed on the machine (`Inter-Regular.ttf`, `Inter-SemiBold.ttf`, `Inter-Bold.ttf`).
 
-## Figure slots
+## Product screenshots
 
-Product screenshots are not in the repo. Pages look for these files and show them only after they load. Until then, no image box is rendered.
+Field Kit and Fleet Sheets use the owner's sample-data screenshots in `public/img/field-kit/` and `public/img/fleet-sheets/`. Each shot is a `picture` with AVIF and WebP at 640, 960, and 1440, plus a PNG fallback at 640 and 960. The Fleet Sheets summary crop stops above the workbook footer so the 0.1.0 line is not shown.
 
-| File | Alt text |
-| --- | --- |
-| `public/img/field-kit/profiles.webp` | Three PPPC privacy profile templates from the NixonMade Field Kit. |
-| `public/img/field-kit/scripts.webp` | Five read-only extension attribute scripts from the NixonMade Field Kit. |
-| `public/img/ship-kit/contents.webp` | The Ship Kit file list, including the Mac gate script, archive script, and RUNBOOK. |
-| `public/img/fleet-sheets/workbook.webp` | A Fleet Sheets Excel workbook with a summary dashboard, tables, charts, and pivot tables. |
-| `public/img/relnotes/changelog.webp` | A relnotes changelog grouped into features, fixes, and maintenance. |
-
-Drop the real screenshot in place. Do not draw a fake product interface.
-
-When the file exists, add it to the product page. `public/styles.css` scales it to the column. There is no empty frame before that.
-
-```html
-<figure class="figure-slot">
-  <img src="/img/field-kit/profiles.webp" alt="Three PPPC privacy profile templates from the NixonMade Field Kit." />
-</figure>
-```
-
-Use the alt text from the table above. `public/figure-slots.js` can load a `data-src` image and remove the figure if the file 404s. The live pages do not use it yet, so a missing file never becomes a broken box or a console error.
+Ship Kit and relnotes still have no product screenshots. Do not draw stand-ins. When a real file exists, add a `figure.figure-slot` with width, height, and `loading="lazy"` if it sits below the hero.
