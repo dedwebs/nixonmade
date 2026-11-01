@@ -77,6 +77,61 @@
         </ul>
       </section>
 
+      <section aria-labelledby="dry-run-heading">
+        <h2 id="dry-run-heading">Dry run</h2>
+        <p>
+          A dry run on a sample app. The transcripts are the Mac gate, the
+          drift check, a build-number bump with <code>--dry-run</code>, and
+          the archive.
+        </p>
+
+        <figure class="terminal">
+          <figcaption>Dry run on a sample app. Mac gate.</figcaption>
+          <pre tabindex="0"><code>$ scripts/mac-gate.sh 24cf38b1d6bfb7db3a41c073498590f383733186
+==&gt; Simulator: iPhone 18 Pro,OS=27.0
+OK: committed ShipKitDryRun.xcodeproj matches xcodegen output.
+==&gt; xcodebuild -project ShipKitDryRun.xcodeproj -scheme ShipKitDryRun -configuration Release -destination platform=iOS Simulator,name=iPhone 18 Pro,OS=27.0 CODE_SIGNING_ALLOWED=NO build (timeout 900s, log build/gate-24cf38b/build.log)
+==&gt; xcodebuild -project ShipKitDryRun.xcodeproj -scheme ShipKitDryRun -destination platform=iOS Simulator,name=iPhone 18 Pro,OS=27.0 -resultBundlePath build/gate-24cf38b/tests.xcresult CODE_SIGNING_ALLOWED=NO test (timeout 900s, log build/gate-24cf38b/test.log)
+GATE PASS at 24cf38b1d6bfb7db3a41c073498590f383733186. Logs: build/gate-24cf38b. Paste the summary from templates/gate-report.md into the PR.
+[exit 0]</code></pre>
+        </figure>
+
+        <figure class="terminal">
+          <figcaption>Dry run on a sample app. Drift check.</figcaption>
+          <pre tabindex="0"><code>$ scripts/check-pbxproj-drift.sh
+OK: committed ShipKitDryRun.xcodeproj matches xcodegen output.
+[exit 0]</code></pre>
+        </figure>
+
+        <figure class="terminal">
+          <figcaption>Dry run on a sample app. Build-number bump.</figcaption>
+          <pre tabindex="0"><code>$ scripts/bump-build.sh 53 --dry-run
+[dry-run] would set CURRENT_PROJECT_VERSION to 53 in project.yml (currently: CURRENT_PROJECT_VERSION: 1) and run xcodegen generate
+[exit 0]</code></pre>
+        </figure>
+
+        <figure class="terminal">
+          <figcaption>Dry run on a sample app. Archive only.</figcaption>
+          <pre tabindex="0"><code>$ scripts/archive.sh 24cf38b1d6bfb7db3a41c073498590f383733186
+OK: committed ShipKitDryRun.xcodeproj matches xcodegen output.
+==&gt; xcodebuild -project ShipKitDryRun.xcodeproj -scheme ShipKitDryRun -configuration Release -destination generic/platform=iOS -archivePath build/archives/ShipKitDryRun-1.xcarchive DEVELOPMENT_TEAM=&lt;TEAM_ID&gt; PRODUCT_BUNDLE_IDENTIFIER=com.example.shipkitdryrun -allowProvisioningUpdates archive (timeout 900s, log build/archives/archive-1.log)
+Dict {
+    CFBundleShortVersionString = 1.0.0
+    CFBundleIdentifier = com.example.shipkitdryrun
+    Team = &lt;TEAM_ID&gt;
+    ApplicationPath = Applications/ShipKitDryRun.app
+    SigningIdentity = Apple Development: &lt;NAME&gt; (&lt;CERT_TEAM_ID&gt;)
+    Architectures = Array {
+        arm64
+    }
+    CFBundleVersion = 1
+}
+Archive: build/archives/ShipKitDryRun-1.xcarchive
+Note: it is normal for this archive to be signed 'Apple Development'. export-upload.sh re-signs it for distribution.
+[exit 0]</code></pre>
+        </figure>
+      </section>
+
       <section aria-labelledby="who-heading">
         <h2 id="who-heading">Who it's for</h2>
         <p>

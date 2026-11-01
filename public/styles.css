@@ -280,6 +280,44 @@ section + section {
   margin-top: 0.7rem;
 }
 
+.terminal {
+  margin: 0 0 var(--space-5);
+  min-width: 0;
+}
+
+.terminal figcaption {
+  margin: 0 0 var(--space-2);
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.terminal pre {
+  margin: 0;
+  padding: var(--space-4);
+  max-width: 100%;
+  overflow-x: auto;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.terminal pre:focus-visible {
+  outline: 2px solid var(--bg);
+  outline-offset: -4px;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.terminal code {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .offer {
   padding: var(--space-5);
   background: var(--card);
