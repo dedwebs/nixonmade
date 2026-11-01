@@ -62,14 +62,10 @@ function fieldKitApply() {
       return;
     }
     if (key !== "STRIPE_LINK_FIELD_KIT") return;
-    if (!fieldKitIsHttpsUrl(value)) {
-      el.removeAttribute("href");
-      el.setAttribute("aria-disabled", "true");
-      return;
-    }
-    el.setAttribute("href", value);
-    el.setAttribute("rel", "noopener noreferrer");
-    el.removeAttribute("aria-disabled");
+    // Checkout hrefs are applied only by /preview-checkout.js, and only on
+    // nixonmade.com. Do not write a Stripe URL into the DOM here.
+    el.removeAttribute("href");
+    el.setAttribute("aria-disabled", "true");
   });
 }
 
