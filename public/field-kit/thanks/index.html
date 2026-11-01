@@ -25,6 +25,8 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="product">
@@ -34,6 +36,9 @@
         <a class="brand" href="/">
           <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
         </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/docs/">Docs</a>
+        </nav>
       </div>
     </header>
     <main id="content" tabindex="-1">
@@ -51,7 +56,8 @@
     <footer class="site-footer">
       <div class="inner">
         <p class="footer-name">NixonMade</p>
-        <nav class="footer-nav" aria-label="Legal">
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/docs/">Docs</a>
           <a href="/terms/">Terms</a>
           <a href="/refunds/">Refunds</a>
           <a href="/privacy/">Privacy</a>

@@ -24,6 +24,8 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="product">
@@ -33,6 +35,9 @@
         <a class="brand" href="/">
           <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
         </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/docs/">Docs</a>
+        </nav>
       </div>
     </header>
     <main id="content" tabindex="-1">
@@ -62,6 +67,9 @@
         was not substantially used, or if a file is broken and we cannot fix
         it.
         <a href="/refunds/">Refund policy</a>.
+      </p>
+      <p class="docs-call">
+        <a href="/docs/fleet-sheets/">Fleet Sheets documentation</a>
       </p>
 
       <section aria-labelledby="samples-heading">
@@ -95,6 +103,7 @@
       <section aria-labelledby="inside-heading">
         <h2 id="inside-heading">What's inside</h2>
         <ul class="content-list">
+          <li>A macOS disk image (.dmg)</li>
           <li>The jxr universal2 binary</li>
           <li>A Python wheel</li>
           <li>README, QUICKSTART, CHANGELOG, and LICENSE</li>
@@ -108,7 +117,7 @@
         <h2 id="who-heading">Who it's for</h2>
         <p>
           Jamf Pro admins who already export CSV or Excel and want that export
-          as a workbook. One organization per purchase. There is no MSP or
+          as a workbook. One organization per license. There is no MSP or
           multi-client tier.
         </p>
       </section>
@@ -134,8 +143,8 @@
           <div>
             <dt>What does one purchase cover?</dt>
             <dd>
-              One organization. There is no MSP or multi-client tier. A second
-              organization needs its own purchase.
+              One organization per license. There is no MSP or multi-client tier.
+              A second organization needs its own purchase.
             </dd>
           </div>
           <div>
@@ -174,7 +183,8 @@
     <footer class="site-footer">
       <div class="inner">
         <p class="footer-name">NixonMade</p>
-        <nav class="footer-nav" aria-label="Legal">
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/docs/">Docs</a>
           <a href="/terms/">Terms</a>
           <a href="/refunds/">Refunds</a>
           <a href="/privacy/">Privacy</a>

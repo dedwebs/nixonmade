@@ -1,8 +1,18 @@
+/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'
+  X-Content-Type-Options: nosniff
+
 # Ship Kit checkout is closed.
 /ship-kit
   X-Robots-Tag: noindex
 
 /ship-kit/*
+  X-Robots-Tag: noindex
+
+/docs/ship-kit
+  X-Robots-Tag: noindex
+
+/docs/ship-kit/*
   X-Robots-Tag: noindex
 
 # relnotes is not on sale.

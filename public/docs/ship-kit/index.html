@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ship Kit documentation — NixonMade</title>
+    <meta name="robots" content="noindex" />
+    <meta
+      name="description"
+      content="How to run the NixonMade Ship Kit: commit, drift check, Mac gate, live build number, bump, archive, and export for a SwiftUI iOS app."
+    />
+    <link rel="canonical" href="https://nixonmade.com/docs/ship-kit/" />
+    <meta property="og:title" content="Ship Kit documentation — NixonMade" />
+    <meta property="og:description" content="Drift check, gate, bump, archive, and export for a SwiftUI iOS app." />
+    <meta property="og:url" content="https://nixonmade.com/docs/ship-kit/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/og/ship-kit.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="docs">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/docs/" aria-current="page">Docs</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content" tabindex="-1">
+      <a class="back" href="/docs/">All documentation</a>
+      <p class="eyebrow">Ship Kit</p>
+      <h1>Ship Kit</h1>
+      <p class="lede">
+        Scripts, agent skills, checklists, and templates for a SwiftUI iOS
+        app, including an app with extensions. $49. Checkout is not open.
+      </p>
+      <p class="docs-call"><a href="/ship-kit/">Ship Kit product page</a></p>
+      <nav class="docs-subnav" aria-label="Documentation">
+        <a href="/docs/field-kit/">Field Kit</a>
+        <a href="/docs/ship-kit/" aria-current="page">Ship Kit</a>
+        <a href="/docs/fleet-sheets/">Fleet Sheets</a>
+      </nav>
+
+      <section aria-labelledby="contents-heading">
+        <h2 id="contents-heading">What's in it</h2>
+        <ul class="content-list">
+          <li>Mac gate script (Release build and tests, auto-picks a simulator)</li>
+          <li>pbxproj drift check for XcodeGen projects</li>
+          <li>Safe build-number bump with dry-run mode</li>
+          <li>Archive script, plus an export and TestFlight upload script</li>
+          <li>asc.py, an App Store Connect helper for internal groups, testers, and What to Test notes</li>
+          <li>Secret scan script</li>
+          <li>Agent rules and skills for Cursor and Claude Code (iOS ship gates, TestFlight internal)</li>
+          <li>RUNBOOK, TROUBLESHOOTING, and ROLES</li>
+          <li>Checklists: Mac gate, QA gate, archive smoke test, upload</li>
+          <li>Templates: ship.env, ExportOptions.plist, gate report, and What to Test</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="requirements-heading">
+        <h2 id="requirements-heading">Requirements</h2>
+        <ul class="content-list">
+          <li>A Mac, with Xcode, because the scripts run xcodebuild</li>
+          <li>An Apple Developer account</li>
+          <li>A SwiftUI iOS app. Apps with extensions are supported.</li>
+          <li>An XcodeGen project. The drift check compares the committed project with xcodegen output.</li>
+          <li>Apple's latest Program License Agreement, accepted. Preflight reports <code>PLA_NOT_ACCEPTED</code> until you accept it.</li>
+          <li>For cloud signing, an App Store Connect API key with the Admin role. Otherwise, sign in to Xcode.</li>
+          <li>Cursor or Claude Code if you use the included skills. The runbook is for an agent that can run shell commands.</li>
+        </ul>
+        <!-- TODO: A minimum Xcode version is not in the materials. -->
+      </section>
+
+      <section aria-labelledby="install-heading">
+        <h2 id="install-heading">Install and getting started</h2>
+        <p>
+          Checkout is not open. Join the list from the
+          <a href="/ship-kit/">product page</a>. When checkout opens, you pay
+          on Stripe and Stripe emails a verified download link.
+        </p>
+        <p>
+          After you have the files, start with the RUNBOOK and point your
+          agent at the included skills for Cursor or Claude Code.
+        </p>
+        <!-- TODO: How the download is packed, and the setup command inside the RUNBOOK, are not in the materials. -->
+      </section>
+
+      <section aria-labelledby="walkthrough-heading">
+        <h2 id="walkthrough-heading">Walkthrough</h2>
+        <p>
+          A dry run on the sample app ShipKitDryRun ran the drift check, the
+          Mac gate, a build-number bump with <code>--dry-run</code>, and the
+          archive. That dry run did not run export or upload.
+        </p>
+        <ol class="steps">
+          <li>
+            Commit the project before the drift check. The check looks at the
+            committed <code>.xcodeproj</code>.
+          </li>
+          <li>
+            Run the drift check.
+            <pre class="terminal" tabindex="0"><code>$ scripts/check-pbxproj-drift.sh</code></pre>
+            On the sample app it printed that the committed project matches
+            xcodegen output.
+          </li>
+          <li>
+            Run the Mac gate before the bump. Pass the commit you just
+            recorded.
+            <pre class="terminal" tabindex="0"><code>$ scripts/mac-gate.sh &lt;commit&gt;</code></pre>
+            On the sample dry run the gate picked a simulator, ran a Release
+            build and the tests with <code>CODE_SIGNING_ALLOWED=NO</code>, and
+            printed <code>GATE PASS</code>.
+          </li>
+          <li>
+            Read the maximum build number live. Do this after the gate and
+            before the bump.
+          </li>
+          <!-- TODO: The command or asc.py invocation that reads the live maximum build number is not in the materials. -->
+          <li>
+            Bump only after the gate has passed. Use dry-run first.
+            <pre class="terminal" tabindex="0"><code>$ scripts/bump-build.sh &lt;number&gt; --dry-run</code></pre>
+            On the sample app, dry-run reported that it would set
+            <code>CURRENT_PROJECT_VERSION</code> in <code>project.yml</code>
+            and then run <code>xcodegen generate</code>. Dry-run does not
+            apply that change.
+          </li>
+          <li>
+            Archive the same commit the gate passed.
+            <pre class="terminal" tabindex="0"><code>$ scripts/archive.sh &lt;commit&gt;</code></pre>
+            The sample dry run wrote
+            <code>build/archives/ShipKitDryRun-1.xcarchive</code>.
+          </li>
+          <li>
+            Export with the export and TestFlight upload script. The archive
+            transcript names <code>export-upload.sh</code>. The sample dry run
+            did not run it.
+          </li>
+          <!-- TODO: Arguments for export-upload.sh are not in the materials. Do not invent them. -->
+        </ol>
+      </section>
+
+      <section aria-labelledby="config-heading">
+        <h2 id="config-heading">Configuration</h2>
+        <ul class="content-list">
+          <li>
+            The bump script changes <code>CURRENT_PROJECT_VERSION</code> in
+            <code>project.yml</code>, then runs xcodegen. Use
+            <code>--dry-run</code> to see the change without writing it.
+          </li>
+          <li>
+            The sample archive invocation passed <code>DEVELOPMENT_TEAM</code>
+            and <code>PRODUCT_BUNDLE_IDENTIFIER</code> to xcodebuild.
+          </li>
+          <li>
+            The kit includes <code>ship.env</code> and
+            <code>ExportOptions.plist</code> templates.
+          </li>
+          <li>
+            Cloud signing needs an App Store Connect API key with the Admin
+            role. If the key is not Admin, sign in to Xcode instead.
+          </li>
+          <li>
+            The scripts read keys from your own environment. The kit does not
+            send those keys to NixonMade.
+          </li>
+        </ul>
+        <!-- TODO: The key names inside ship.env and ExportOptions.plist are not in the materials. -->
+      </section>
+
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading">FAQ</h2>
+        <dl class="faq">
+          <div>
+            <dt>Which apps does it cover?</dt>
+            <dd>SwiftUI iOS apps, including apps with extensions.</dd>
+          </div>
+          <div>
+            <dt>What order do the scripts run in?</dt>
+            <dd>
+              Commit, then the drift check. The gate runs before the bump.
+              Read the maximum build number live before you bump. Archive
+              after that. Export is a separate script and was not part of the
+              sample dry run.
+            </dd>
+          </div>
+          <div>
+            <dt>Does the kit submit to App Store review?</dt>
+            <dd>No. App Store submission is outside this kit.</dd>
+          </div>
+          <div>
+            <dt>What do updates cover?</dt>
+            <dd>Updates cover 1.0.x. A later major version is not included.</dd>
+          </div>
+          <div>
+            <dt>Who is the licence for?</dt>
+            <dd>One developer. No resale. See the <a href="/terms/">terms</a>.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="trouble-heading">
+        <h2 id="trouble-heading">Troubleshooting</h2>
+        <ul class="content-list">
+          <li>
+            Commit before the drift check. The check compares the committed
+            project with xcodegen output. On the sample app, success was the
+            line that the committed project matches xcodegen output.
+          </li>
+          <li>
+            Do not bump before the gate passes.
+          </li>
+          <li>
+            If preflight reports <code>PLA_NOT_ACCEPTED</code>, accept Apple's
+            latest Program License Agreement, then run the preflight again.
+          </li>
+          <li>
+            If cloud signing fails because the App Store Connect key is not
+            Admin, sign in to Xcode instead.
+          </li>
+        </ul>
+        <p>
+          The kit also includes TROUBLESHOOTING and the checklists for the Mac
+          gate, the QA gate, the archive smoke test, and upload.
+        </p>
+        <!-- TODO: The body of TROUBLESHOOTING is not in the materials, so this page does not restate it. -->
+      </section>
+
+      <section aria-labelledby="support-heading">
+        <h2 id="support-heading">Download again and support</h2>
+        <p>
+          When the kit is on sale, the verified download link is emailed after
+          Stripe checkout. For a replacement link, or for help, email
+          <a href="mailto:hello@nixonmade.com?subject=Ship%20Kit">hello@nixonmade.com</a>.
+        </p>
+        <!-- TODO: A self-serve page for resending the download link is not in the materials. -->
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/docs/">Docs</a>
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
