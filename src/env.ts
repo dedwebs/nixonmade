@@ -15,6 +15,9 @@ export interface Env {
   DOWNLOAD_TTL_SECONDS?: string;
   RATE_LIMIT_IP_PER_MINUTE?: string;
   RATE_LIMIT_SESSION_PER_MINUTE?: string;
+  /** Checkout Session reads for one connection. Checked before the shared cap. */
+  RATE_LIMIT_STRIPE_IP_PER_MINUTE?: string;
+  /** Checkout Session reads for the whole worker. Default 300 per minute. */
   RATE_LIMIT_STRIPE_PER_MINUTE?: string;
   PRODUCT_FIELD_KIT_TEST_LINKS?: string;
   PRODUCT_FIELD_KIT_TEST_PRICES?: string;

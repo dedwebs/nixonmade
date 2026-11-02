@@ -1,6 +1,11 @@
 import { env, runInDurableObject, SELF } from "cloudflare:test";
 import { afterEach, describe, expect, it } from "vitest";
-import { STRIPE_LOOKUP_GATE } from "../src/access";
+import {
+  DEFAULT_STRIPE_IP_LIMIT,
+  DEFAULT_STRIPE_LIMIT,
+  STRIPE_IP_LABEL,
+  STRIPE_LOOKUP_GATE,
+} from "../src/access";
 import { clientIp, hashName } from "../src/http";
 import { signDownloadToken } from "../src/sign";
 import {
@@ -15,9 +20,48 @@ import {
   stripeSignature,
 } from "./support";
 
-afterEach(() => {
+afterEach(async () => {
   restoreFetch();
+  await resetStripeBook();
 });
+
+function positiveInt(value: string | undefined, fallback: number): number {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+async function gateHits(name: string): Promise<number> {
+  const stub = env.PURCHASE_GATE.getByName(name);
+  return runInDurableObject(stub, async (_instance, state) => {
+    return state.storage.transactionSync(() => (state.storage.kv.get<number[]>("hits") ?? []).length);
+  });
+}
+
+async function fillHits(name: string, count: number, now = Date.now()): Promise<void> {
+  const stub = env.PURCHASE_GATE.getByName(name);
+  await runInDurableObject(stub, async (_instance, state) => {
+    state.storage.transactionSync(() => {
+      state.storage.kv.put(
+        "hits",
+        Array.from({ length: count }, () => now),
+      );
+    });
+  });
+}
+
+async function resetStripeBook(): Promise<void> {
+  const stub = env.PURCHASE_GATE.getByName(STRIPE_LOOKUP_GATE);
+  await runInDurableObject(stub, async (_instance, state) => {
+    state.storage.transactionSync(() => {
+      state.storage.kv.delete("hits");
+      state.storage.kv.delete("expandForbiddenUntil");
+      state.storage.kv.delete("svCursor");
+      const keys: string[] = [];
+      for (const [key] of state.storage.kv.list({ prefix: "sv:" })) keys.push(key);
+      for (const key of keys) state.storage.kv.delete(key);
+    });
+  });
+}
 
 function headersOf(response: Response): string {
   return [...response.headers.entries()].map(([key, value]) => `${key}: ${value}`).join("\n");
@@ -619,33 +663,177 @@ describe("verified downloads", () => {
   });
 
   it("stops Stripe lookups after the global cap, including fake session ids", async () => {
-    const stub = env.PURCHASE_GATE.getByName(STRIPE_LOOKUP_GATE);
+    const limit = positiveInt(env.RATE_LIMIT_STRIPE_PER_MINUTE, DEFAULT_STRIPE_LIMIT);
+    expect(limit).toBe(300);
+    await fillHits(STRIPE_LOOKUP_GATE, limit);
+    const calls = installStripe({ [FIELD_SESSION]: paidSession() });
+    const response = await SELF.fetch(request(`/api/download?session_id=${FIELD_SESSION}`, nextIp()));
+    expect(response.status).toBe(429);
+    expect(calls.calls).toHaveLength(0);
+    const fake = await SELF.fetch(request("/api/download?session_id=cs_test_fakeglobal000001", nextIp()));
+    expect(fake.status).toBe(429);
+    expect(calls.calls).toHaveLength(0);
+  });
+
+  it("spends the per-IP Stripe cap before the shared cap", async () => {
+    expect(env.RATE_LIMIT_STRIPE_IP_PER_MINUTE).toBe("10");
+    const ip = nextIp();
+    const name = await hashName(STRIPE_IP_LABEL, SIGNING_SECRET, ip);
+    await fillHits(name, DEFAULT_STRIPE_IP_LIMIT);
+    const before = await gateHits(STRIPE_LOOKUP_GATE);
+    const sessionId = "cs_test_ipcapblocks00001";
+    const calls = installStripe({
+      [sessionId]: paidSession({ id: sessionId, payment_intent: "pi_ipcapblocks000001" }),
+    });
+    const response = await SELF.fetch(request(`/api/download?session_id=${sessionId}`, ip));
+    expect(response.status).toBe(429);
+    expect(await response.text()).not.toContain(sessionId);
+    expect(calls.calls).toHaveLength(0);
+    expect(await gateHits(STRIPE_LOOKUP_GATE)).toBe(before);
+  });
+
+  it("does not let one IP's fake session ids lock out another buyer", async () => {
+    const stripeIpLimit = positiveInt(env.RATE_LIMIT_STRIPE_IP_PER_MINUTE, DEFAULT_STRIPE_IP_LIMIT);
+    const globalLimit = positiveInt(env.RATE_LIMIT_STRIPE_PER_MINUTE, DEFAULT_STRIPE_LIMIT);
+    expect(stripeIpLimit).toBe(10);
+    expect(globalLimit).toBe(300);
+    const flood = stripeIpLimit + 25;
+    expect(flood).toBeLessThan(60);
+    // Leave room for this IP's cap plus the buyer, and not for the whole flood.
+    // A shared cap spent first would be full before the buyer's /thanks.
+    const prefill = globalLimit - stripeIpLimit - 2;
     const now = Date.now();
-    await runInDurableObject(stub, async (_instance, state) => {
-      state.storage.transactionSync(() => {
-        state.storage.kv.put(
-          "hits",
-          Array.from({ length: 120 }, () => now),
-        );
+    await fillHits(STRIPE_LOOKUP_GATE, prefill, now);
+
+    const attacker = nextIp();
+    const buyer = nextIp();
+    const buyerSession = "cs_test_buyerkeepsopen01";
+    const calls = installStripe((url) => {
+      const id = decodeURIComponent(url.split("/checkout/sessions/")[1]?.split("?")[0] ?? "");
+      if (id !== buyerSession) return new Response("{}", { status: 404 });
+      return new Response(
+        JSON.stringify(paidSession({ id: buyerSession, payment_intent: "pi_buyerkeepsopen001" })),
+        { status: 200, headers: { "content-type": "application/json" } },
+      );
+    });
+    await putProduct("products/field-kit.zip", "field-kit-zip");
+
+    const statuses: number[] = [];
+    for (let i = 0; i < flood; i++) {
+      const id = `cs_test_fakeflood${i.toString(36).padStart(8, "0")}`;
+      const response = await SELF.fetch(request(`/api/download?session_id=${id}`, attacker));
+      statuses.push(response.status);
+      expect(await response.text()).not.toContain(id);
+    }
+    expect(statuses.slice(0, stripeIpLimit).every((status) => status === 404)).toBe(true);
+    expect(statuses.slice(stripeIpLimit).every((status) => status === 429)).toBe(true);
+    expect(calls.calls.filter((url) => !url.includes(buyerSession))).toHaveLength(stripeIpLimit);
+
+    const thanks = await SELF.fetch(request(`/thanks?session_id=${buyerSession}`, buyer));
+    expect(thanks.status).toBe(200);
+    expect(await thanks.text()).toContain("You're in.");
+    const issued = await SELF.fetch(request(`/api/download?session_id=${buyerSession}`, buyer));
+    expect(issued.status).toBe(200);
+    const url = ((await issued.json()) as { files: { url: string }[] }).files[0]!.url;
+    const file = await SELF.fetch(request(url, buyer));
+    expect(file.status).toBe(200);
+    expect(calls.calls.filter((url) => url.includes(buyerSession))).toHaveLength(1);
+    expect(await gateHits(STRIPE_LOOKUP_GATE)).toBe(prefill + stripeIpLimit + 1);
+  });
+
+  it("remembers a forbidden expand and skips it on the next lookup", async () => {
+    const first = "cs_test_expandmemo000001";
+    const second = "cs_test_expandmemo000002";
+    const calls: string[] = [];
+    installStripe((url) => {
+      calls.push(url);
+      if (url.includes("payment_intent")) return new Response("nope", { status: 403 });
+      const id = decodeURIComponent(url.split("/checkout/sessions/")[1]?.split("?")[0] ?? "");
+      if (id !== first && id !== second) return new Response("{}", { status: 404 });
+      const intent = id === first ? "pi_expandmemo0000001" : "pi_expandmemo0000002";
+      return new Response(JSON.stringify(paidSession({ id, payment_intent: intent })), {
+        status: 200,
+        headers: { "content-type": "application/json" },
       });
     });
-    const calls = installStripe({ [FIELD_SESSION]: paidSession() });
-    try {
-      const response = await SELF.fetch(request(`/api/download?session_id=${FIELD_SESSION}`, nextIp()));
-      expect(response.status).toBe(429);
-      expect(calls.calls).toHaveLength(0);
-      const fake = await SELF.fetch(
-        request("/api/download?session_id=cs_test_fakeglobal000001", nextIp()),
-      );
-      expect(fake.status).toBe(429);
-      expect(calls.calls).toHaveLength(0);
-    } finally {
-      await runInDurableObject(stub, async (_instance, state) => {
-        state.storage.transactionSync(() => {
-          state.storage.kv.delete("hits");
-        });
+    await putProduct("products/field-kit.zip", "field-kit-zip");
+    const book = env.PURCHASE_GATE.getByName(STRIPE_LOOKUP_GATE);
+    expect(await book.expandForbidden()).toBe(false);
+
+    const opened = await SELF.fetch(request(`/api/download?session_id=${first}`, nextIp()));
+    expect(opened.status).toBe(200);
+    await opened.text();
+    const firstCalls = calls.filter((url) => url.includes(first));
+    expect(firstCalls).toHaveLength(2);
+    expect(firstCalls.some((url) => url.includes("payment_intent.latest_charge"))).toBe(true);
+    expect(await book.expandForbidden()).toBe(true);
+
+    calls.length = 0;
+    const next = await SELF.fetch(request(`/api/download?session_id=${second}`, nextIp()));
+    expect(next.status).toBe(200);
+    await next.text();
+    expect(calls).toHaveLength(1);
+    expect(calls[0]).not.toContain("payment_intent");
+    expect(calls[0]).toContain("expand[]=line_items");
+  });
+
+  it("does not call Stripe again for a session it already checked", async () => {
+    const sessionId = "cs_test_cachedvalid00001";
+    const fake = "cs_test_cachedinvalid001";
+    const calls = installStripe({
+      [sessionId]: paidSession({ id: sessionId, payment_intent: "pi_cachedvalid000001" }),
+    });
+    await putProduct("products/field-kit.zip", "field-kit-zip");
+
+    const first = await SELF.fetch(request(`/api/download?session_id=${sessionId}`, nextIp()));
+    expect(first.status).toBe(200);
+    await first.text();
+    const afterValid = calls.calls.length;
+    expect(afterValid).toBeGreaterThan(0);
+    const sharedBefore = await gateHits(STRIPE_LOOKUP_GATE);
+
+    const second = await SELF.fetch(request(`/api/download?session_id=${sessionId}`, nextIp()));
+    expect(second.status).toBe(200);
+    await second.text();
+    expect(calls.calls.length).toBe(afterValid);
+    expect(await gateHits(STRIPE_LOOKUP_GATE)).toBe(sharedBefore);
+
+    const missed = await SELF.fetch(request(`/api/download?session_id=${fake}`, nextIp()));
+    expect(missed.status).toBe(404);
+    await missed.text();
+    const afterFake = calls.calls.length;
+    expect(afterFake).toBe(afterValid + 1);
+
+    const again = await SELF.fetch(request(`/api/download?session_id=${fake}`, nextIp()));
+    expect(again.status).toBe(404);
+    await again.text();
+    expect(calls.calls.length).toBe(afterFake);
+  });
+
+  it("does not put a thrown Stripe body read into the response or the log", async () => {
+    const sessionId = "cs_test_bodyread00000001";
+    installStripe(() => {
+      const body = new ReadableStream<Uint8Array>({
+        pull(controller) {
+          controller.error(new Error(`stream broke ${sessionId} rk_test_bodyreadleak`));
+        },
       });
-    }
+      return new Response(body, { status: 200, headers: { "content-type": "application/json" } });
+    });
+    const lines: string[] = [];
+    const original = console.log;
+    console.log = (...args: unknown[]) => {
+      lines.push(args.map(String).join(" "));
+    };
+    const response = await SELF.fetch(request(`/api/download?session_id=${sessionId}`, nextIp()));
+    console.log = original;
+    expect(response.status).toBe(404);
+    const text = await response.text();
+    expect(text).not.toContain(sessionId);
+    expect(text).not.toContain("rk_test_");
+    expect(lines.join("\n")).toContain("stripe_body_read");
+    expect(lines.join("\n")).not.toContain(sessionId);
+    expect(lines.join("\n")).not.toContain("rk_test_");
   });
 
   it("rejects a re-download body over the size cap", async () => {

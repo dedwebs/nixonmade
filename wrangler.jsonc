@@ -49,7 +49,10 @@
     "DOWNLOAD_TTL_SECONDS": "900",
     "RATE_LIMIT_IP_PER_MINUTE": "60",
     "RATE_LIMIT_SESSION_PER_MINUTE": "20",
-    "RATE_LIMIT_STRIPE_PER_MINUTE": "120",
+    // Checkout Session reads. The per-IP cap is spent before the shared cap,
+    // so one connection cannot empty the worker-wide budget of 300/min.
+    "RATE_LIMIT_STRIPE_IP_PER_MINUTE": "10",
+    "RATE_LIMIT_STRIPE_PER_MINUTE": "300",
     "PRODUCT_FIELD_KIT_TEST_LINKS": "plink_1UVfCn9YvevV3dxlI1EAEamw",
     "PRODUCT_FIELD_KIT_TEST_PRICES": "price_1UVfB19YvevV3dxlEIDjHeqA",
     "PRODUCT_FIELD_KIT_LIVE_LINKS": "",

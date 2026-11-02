@@ -1,5 +1,5 @@
 import type { Env } from "./env";
-import { PurchaseGate } from "./gate";
+import { PurchaseGate, type SessionCacheRecord } from "./gate";
 import { clientIp, hashName, readPositiveInt } from "./http";
 import { safeLog } from "./log";
 import { loadCatalog, matchProduct, type CatalogProduct } from "./products";
@@ -18,8 +18,16 @@ export const DEFAULT_LIMIT = 5;
 export const DEFAULT_TTL_SECONDS = 900;
 export const DEFAULT_IP_LIMIT = 60;
 export const DEFAULT_SESSION_LIMIT = 20;
-export const DEFAULT_STRIPE_LIMIT = 120;
+/** Shared Checkout Session reads per minute. One IP cannot spend this alone. */
+export const DEFAULT_STRIPE_LIMIT = 300;
+/** Per-connection Checkout Session reads per minute, spent before the shared cap. */
+export const DEFAULT_STRIPE_IP_LIMIT = 10;
 export const STRIPE_LOOKUP_GATE = "stripe:global";
+export const STRIPE_IP_LABEL = "stripe-ip";
+/** Remember a paid or rejected session id so a repeat does not call Stripe. */
+export const SESSION_CACHE_TTL_MS = 10 * 60 * 1000;
+/** Remember a 403 on the expanded charge read so the next lookup is one call. */
+export const EXPAND_FORBIDDEN_TTL_MS = 60 * 60 * 1000;
 
 export type IssuedDownload = {
   product: CatalogProduct;
@@ -57,6 +65,10 @@ function stripeLimit(env: Env): number {
   return readPositiveInt(env.RATE_LIMIT_STRIPE_PER_MINUTE, DEFAULT_STRIPE_LIMIT, 1, 5000);
 }
 
+function stripeIpLimit(env: Env): number {
+  return readPositiveInt(env.RATE_LIMIT_STRIPE_IP_PER_MINUTE, DEFAULT_STRIPE_IP_LIMIT, 1, 1000);
+}
+
 export function secretsForDownload(env: Env): boolean {
   return restrictedKeyMode(env.STRIPE_RESTRICTED_KEY) !== null && signingSecretOk(env.DOWNLOAD_SIGNING_SECRET);
 }
@@ -74,9 +86,30 @@ export async function allowIp(request: Request, env: Env): Promise<boolean> {
   return gate(env, name).hit(ipLimit(env), 60_000);
 }
 
-/** One worker-wide cap on Checkout Session reads. Fake session ids share it. */
+/**
+ * Shared cap on Checkout Session reads. Default 300 per minute.
+ * Fake session ids share it, but only after the per-IP cap below.
+ */
 export async function allowStripeLookups(env: Env): Promise<boolean> {
   return gate(env, STRIPE_LOOKUP_GATE).hit(stripeLimit(env), 60_000);
+}
+
+/**
+ * Checkout Session reads for this connection. Default 10 per minute, under the
+ * 60/min request cap, and always spent before `allowStripeLookups`.
+ */
+async function allowStripeIp(request: Request, env: Env): Promise<boolean> {
+  const secret = env.DOWNLOAD_SIGNING_SECRET;
+  if (!signingSecretOk(secret)) return false;
+  const ip = clientIp(request);
+  if (!ip) return false;
+  const name = await hashName(STRIPE_IP_LABEL, secret, ip);
+  return gate(env, name).hit(stripeIpLimit(env), 60_000);
+}
+
+async function allowStripeRequest(request: Request, env: Env): Promise<boolean> {
+  if (!(await allowStripeIp(request, env))) return false;
+  return allowStripeLookups(env);
 }
 
 async function allowSession(env: Env, sessionId: string): Promise<boolean> {
@@ -91,32 +124,89 @@ export async function markPaymentRefunded(env: Env, paymentIntentId: string): Pr
   await gate(env, `pi:${paymentIntentId}`).markRefunded();
 }
 
-async function verifiedSession(
-  env: Env,
-  sessionId: string,
-): Promise<
+type VerifiedSession =
   | { ok: true; session: CheckoutSession; product: CatalogProduct }
-  | { ok: false; error: "rate" | "unavailable" }
-> {
+  | { ok: false; error: "rate" | "unavailable" };
+
+type AcceptedSession =
+  | { ok: true; session: CheckoutSession; product: CatalogProduct }
+  | { ok: false; error: "unavailable"; cacheInvalid: boolean };
+
+function sessionFromCache(record: Extract<SessionCacheRecord, { state: "valid" }>): CheckoutSession {
+  return {
+    livemode: record.livemode,
+    paymentIntentId: record.paymentIntentId,
+    paymentLinkId: record.paymentLinkId,
+    priceIds: record.priceIds,
+    chargeRefunded: false,
+  };
+}
+
+async function acceptSession(env: Env, sessionId: string, session: CheckoutSession): Promise<AcceptedSession> {
+  if (session.chargeRefunded) {
+    await markPaymentRefunded(env, session.paymentIntentId);
+    return { ok: false, error: "unavailable", cacheInvalid: true };
+  }
+  if (await refunded(env, session.paymentIntentId)) {
+    return { ok: false, error: "unavailable", cacheInvalid: true };
+  }
+  const product = matchProduct(loadCatalog(env), {
+    livemode: session.livemode,
+    paymentLinkId: session.paymentLinkId,
+    priceIds: session.priceIds,
+  });
+  if (!product) return { ok: false, error: "unavailable", cacheInvalid: true };
+  const mode = sessionMode(sessionId);
+  if (!mode || (session.livemode ? "live" : "test") !== mode) {
+    return { ok: false, error: "unavailable", cacheInvalid: true };
+  }
+  return { ok: true, session, product };
+}
+
+async function rememberSession(env: Env, sessionId: string, record: SessionCacheRecord): Promise<void> {
+  await gate(env, STRIPE_LOOKUP_GATE).writeSessionCache(sessionId, record, SESSION_CACHE_TTL_MS);
+}
+
+async function verifiedSession(request: Request, env: Env, sessionId: string): Promise<VerifiedSession> {
+  const book = gate(env, STRIPE_LOOKUP_GATE);
+  const cached = await book.readSessionCache(sessionId);
+  if (cached?.state === "invalid") return { ok: false, error: "unavailable" };
+  if (cached?.state === "valid") {
+    const accepted = await acceptSession(env, sessionId, sessionFromCache(cached));
+    if (!accepted.ok && accepted.cacheInvalid) await rememberSession(env, sessionId, { state: "invalid" });
+    return accepted.ok ? accepted : { ok: false, error: "unavailable" };
+  }
+
   const key = env.STRIPE_RESTRICTED_KEY;
   if (!key) return { ok: false, error: "unavailable" };
-  const lookup = await retrieveCheckoutSession(sessionId, key, () => allowStripeLookups(env));
-  if (!lookup.ok) return { ok: false, error: lookup.rateLimited ? "rate" : "unavailable" };
-  if (lookup.session.chargeRefunded) {
-    await markPaymentRefunded(env, lookup.session.paymentIntentId);
-    return { ok: false, error: "unavailable" };
+  const skipExpand = await book.expandForbidden();
+  const lookup = await retrieveCheckoutSession(
+    sessionId,
+    key,
+    () => allowStripeRequest(request, env),
+    { skipExpand },
+  );
+  if (lookup.expandForbidden) await book.noteExpandForbidden(EXPAND_FORBIDDEN_TTL_MS);
+  if (!lookup.ok) {
+    if (lookup.knownInvalid && !lookup.rateLimited) {
+      await rememberSession(env, sessionId, { state: "invalid" });
+    }
+    return { ok: false, error: lookup.rateLimited ? "rate" : "unavailable" };
   }
-  if (await refunded(env, lookup.session.paymentIntentId)) return { ok: false, error: "unavailable" };
-  const product = matchProduct(loadCatalog(env), {
-    livemode: lookup.session.livemode,
-    paymentLinkId: lookup.session.paymentLinkId,
-    priceIds: lookup.session.priceIds,
-  });
-  if (!product) return { ok: false, error: "unavailable" };
-  const mode = sessionMode(sessionId);
-  if (!mode) return { ok: false, error: "unavailable" };
-  if ((lookup.session.livemode ? "live" : "test") !== mode) return { ok: false, error: "unavailable" };
-  return { ok: true, session: lookup.session, product };
+
+  const accepted = await acceptSession(env, sessionId, lookup.session);
+  if (accepted.ok) {
+    await rememberSession(env, sessionId, {
+      state: "valid",
+      livemode: lookup.session.livemode,
+      paymentIntentId: lookup.session.paymentIntentId,
+      paymentLinkId: lookup.session.paymentLinkId,
+      priceIds: lookup.session.priceIds,
+    });
+    return accepted;
+  }
+  if (accepted.cacheInvalid) await rememberSession(env, sessionId, { state: "invalid" });
+  return { ok: false, error: "unavailable" };
 }
 
 export async function issueDownload(
@@ -132,7 +222,7 @@ export async function issueDownload(
   if (!SESSION_ID_RE.test(sessionId)) return { ok: false, error: "unavailable" };
   if (!(await allowIp(request, env))) return { ok: false, error: "rate" };
 
-  const verified = await verifiedSession(env, sessionId);
+  const verified = await verifiedSession(request, env, sessionId);
   if (!verified.ok) return { ok: false, error: verified.error };
   if (!(await allowSession(env, sessionId))) return { ok: false, error: "rate" };
 
@@ -196,7 +286,7 @@ export async function openSignedFile(
   if (!payload) return { ok: false, error: "unavailable" };
   if (!(await allowSession(env, payload.sid))) return { ok: false, error: "rate" };
 
-  const verified = await verifiedSession(env, payload.sid);
+  const verified = await verifiedSession(request, env, payload.sid);
   if (!verified.ok) return { ok: false, error: verified.error };
   if (verified.product.slug !== payload.product) {
     return { ok: false, error: "unavailable" };

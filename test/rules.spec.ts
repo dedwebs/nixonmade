@@ -378,4 +378,38 @@ describe("purchase gate atomicity", () => {
     await stub.markRefunded();
     expect(await stub.isRefunded()).toBe(true);
   });
+
+  it("forgets a checkout session and a forbidden expand when the TTL passes", async () => {
+    const stub = env.PURCHASE_GATE.getByName("stripe:unit-cache");
+    const now = Date.now();
+    const sessionId = "cs_test_cachettl0000001";
+    await stub.writeSessionCache(
+      sessionId,
+      {
+        state: "valid",
+        livemode: false,
+        paymentIntentId: "pi_cachettl000000001",
+        paymentLinkId: "plink_fieldkittest",
+        priceIds: ["price_fieldkittest"],
+      },
+      600_000,
+      now,
+    );
+    expect(await stub.readSessionCache(sessionId, now + 1_000)).toEqual({
+      state: "valid",
+      livemode: false,
+      paymentIntentId: "pi_cachettl000000001",
+      paymentLinkId: "plink_fieldkittest",
+      priceIds: ["price_fieldkittest"],
+    });
+    expect(await stub.readSessionCache(sessionId, now + 600_000)).toBeNull();
+    expect(await stub.readSessionCache(sessionId, now + 600_001)).toBeNull();
+
+    await stub.writeSessionCache("not-a-session", { state: "invalid" }, 600_000, now);
+    expect(await stub.readSessionCache("not-a-session", now + 1)).toBeNull();
+
+    await stub.noteExpandForbidden(3_600_000, now);
+    expect(await stub.expandForbidden(now + 1_000)).toBe(true);
+    expect(await stub.expandForbidden(now + 3_600_000)).toBe(false);
+  });
 });
