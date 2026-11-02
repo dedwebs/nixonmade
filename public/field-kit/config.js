@@ -1,11 +1,10 @@
 /**
- * Field Kit price, checkout, and support.
- * KIT_PRICE matches the live Stripe Payment Link ($20.00).
- * STRIPE_LINK_FIELD_KIT is that Payment Link.
+ * Field Kit price and support.
+ * Checkout is closed while the kit is being upgraded. This file has no
+ * Payment Link and does not write a checkout URL into the page.
  */
 const FIELD_KIT = Object.freeze({
   KIT_PRICE: "$20",
-  STRIPE_LINK_FIELD_KIT: "https://buy.stripe.com/4gMaER94Z7tEfQ96tbeQM00",
   SUPPORT_EMAIL: "hello@nixonmade.com",
 });
 

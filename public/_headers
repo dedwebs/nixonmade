@@ -1,6 +1,12 @@
+# Security headers for static files. The worker sets the same ones, including
+# HSTS on https://nixonmade.com without preload. Download pages use a stricter
+# Content-Security-Policy of their own. Fonts are self-hosted. Google Fonts
+# are not allowed.
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data:; font-src 'self'; style-src 'self'; script-src 'self'
   X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 # Ship Kit checkout is closed.
 /ship-kit

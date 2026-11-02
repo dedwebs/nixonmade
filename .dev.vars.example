@@ -1,0 +1,14 @@
+# Copy to .dev.vars for `wrangler dev`. .dev.vars is gitignored.
+# These values are fake. Do not put a live key here.
+
+STRIPE_RESTRICTED_KEY=rk_test_replace_with_restricted_key
+DOWNLOAD_SIGNING_SECRET=replace-with-32-plus-random-characters-not-a-real-secret
+STRIPE_WEBHOOK_SECRET=whsec_replace_me
+
+# Optional local allowlist overrides. Not secrets. Example only:
+# PRODUCT_FIELD_KIT_TEST_LINKS=plink_replace_me
+# PRODUCT_FIELD_KIT_TEST_PRICES=price_replace_me
+# PRODUCT_SHIP_KIT_TEST_LINKS=plink_kit_replace_me,plink_dfy_replace_me
+# PRODUCT_SHIP_KIT_TEST_PRICES=price_kit_replace_me,price_dfy_replace_me
+# PRODUCT_FLEET_SHEETS_TEST_LINKS=plink_replace_me
+# PRODUCT_FLEET_SHEETS_TEST_PRICES=price_replace_me

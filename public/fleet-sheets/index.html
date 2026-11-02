@@ -56,6 +56,7 @@
         <a
           class="btn"
           data-checkout
+          data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc"
           data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02"
           aria-disabled="true"
           >Get Fleet Sheets — $29</a
@@ -125,7 +126,15 @@
         <h2 id="delivery-heading">Delivery</h2>
         <ol class="steps">
           <li>You check out on Stripe.</li>
-          <li>Stripe then emails a verified download link.</li>
+          <li>
+            Stripe opens your download page. Bookmark that page. The button
+            lasts 15 minutes, and you can download five times. That page is
+            how you download again.
+          </li>
+          <li>
+            If you saved the checkout session id, enter it on the
+            <a href="/redownload">re-download page</a>.
+          </li>
         </ol>
       </section>
 
@@ -172,6 +181,7 @@
         <a
           class="btn"
           data-checkout
+          data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc"
           data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02"
           aria-disabled="true"
           >Get Fleet Sheets — $29</a
