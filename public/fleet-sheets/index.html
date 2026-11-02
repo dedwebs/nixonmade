@@ -6,13 +6,13 @@
     <title>Fleet Sheets — $29 — NixonMade</title>
     <meta
       name="description"
-      content="Fleet Sheets turns Jamf Pro CSV and Excel exports into an Excel workbook with a dashboard, tables, charts, and pivot tables. $29."
+      content="Fleet Sheets turns a device export into an Excel workbook. Jamf Pro, Kandji, Intune, Addigy, or another CSV. $29. macOS download. The workbook needs Microsoft Excel."
     />
     <link rel="canonical" href="https://nixonmade.com/fleet-sheets/" />
     <meta property="og:title" content="Fleet Sheets — $29 — NixonMade" />
     <meta
       property="og:description"
-      content="Jamf Pro exports as an Excel workbook. $29."
+      content="Your device export, turned into a finished report. $29."
     />
     <meta property="og:url" content="https://nixonmade.com/fleet-sheets/" />
     <meta property="og:type" content="website" />
@@ -47,14 +47,13 @@
         <div class="hero-copy">
           <p class="back-row"><a class="back" href="/">NixonMade</a></p>
           <img class="app-icon" src="/img/marks/fleet-sheets.svg" alt="" width="88" height="88" />
-          <p class="eyebrow">Jamf Pro workbook · macOS</p>
-          <h1 id="product-heading">The Jamf export, already built into a workbook.</h1>
+          <p class="eyebrow">Device report · macOS</p>
+          <h1 id="product-heading">Your device export, turned into a finished report.</h1>
           <p class="lede">
-            A summary, formatted tables, charts, and real pivot tables from
-            the CSV and Excel you already pulled. Import-only: no API access
-            and no credentials.
+            A summary, tables, charts, and pivot tables from a file you already
+            exported. Import only: no API access and no credentials.
           </p>
-          <p class="who">For Jamf Pro admins who report on one organization.</p>
+          <p class="who">For Mac and MDM admins reporting on one organization.</p>
           <div class="buy-cluster">
             <p class="price-row">
               <span class="price-amount">$29</span>
@@ -93,20 +92,20 @@
         <h2 id="highlights-heading">What you get</h2>
         <ul class="feature-grid">
           <li>
-            <h3>A summary you can send</h3>
-            <p>Computers, mobile devices, FileVault, OS version, check-in, and patch compliance, calculated from the export.</p>
+            <h3>A summary sheet</h3>
+            <p>Figures come from columns in the file. If a column is missing, that figure is left out.</p>
           </li>
           <li>
             <h3>Tables that are already formatted</h3>
             <p>The imported rows land on sheets with headers, so you are not starting from a blank grid.</p>
           </li>
           <li>
-            <h3>Charts and real pivots</h3>
-            <p>A computers-by-OS chart, and Excel pivot tables you can filter. They are pivots, not pictures of pivots.</p>
+            <h3>Charts and pivot tables</h3>
+            <p>A computers-by-OS chart, and Excel pivot tables you can filter.</p>
           </li>
           <li>
-            <h3>No credentials on the disk</h3>
-            <p>Fleet Sheets never calls the Jamf API. If the export is not on your Mac, the workbook does not exist.</p>
+            <h3>No connection to the MDM</h3>
+            <p>Fleet Sheets does not call an API and does not take credentials. The export has to be a file on your Mac.</p>
           </li>
         </ul>
       </section>
@@ -154,11 +153,32 @@
         </p>
       </section>
 
+      <section aria-labelledby="sources-heading">
+        <h2 id="sources-heading">Sources</h2>
+        <ul class="content-list">
+          <li>Jamf Pro: CSV or .xlsx</li>
+          <li>Kandji: Device Views CSV export</li>
+          <li>Microsoft Intune: the device list export from the portal, or the Graph Devices report</li>
+          <li>Addigy: the devices table export</li>
+          <li>Any other CSV, by mapping the columns</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="reads-heading">
+        <h2 id="reads-heading">What it reads</h2>
+        <ul class="content-list">
+          <li>Mosyle is not supported yet.</li>
+          <li>Kandji FileVault status is not in the Device Views export, so that figure is skipped for Kandji.</li>
+          <li>Other Kandji Prism or category exports are not supported. Other Intune reports are not supported.</li>
+          <li>The download is a macOS disk image. The workbook needs Microsoft Excel.</li>
+        </ul>
+      </section>
+
       <section aria-labelledby="who-heading">
         <h2 id="who-heading">Who it's for</h2>
         <p>
-          Jamf Pro admins who already export CSV or Excel and want that export
-          as a workbook. One organization per license. There is no MSP or
+          Mac and MDM admins who already export a device list and want that
+          file as a workbook. One organization per license. There is no MSP or
           multi-client tier. A second organization needs its own purchase.
         </p>
       </section>
@@ -183,10 +203,10 @@
         <h2 id="faq-heading">FAQ</h2>
         <dl class="faq">
           <div>
-            <dt>Does it connect to Jamf?</dt>
+            <dt>Does it connect to the MDM?</dt>
             <dd>
-              No. Fleet Sheets is import-only. It does not use the Jamf API,
-              and it does not need your credentials.
+              No. You import a file you already exported. Fleet Sheets does not
+              use an API and does not need credentials.
             </dd>
           </div>
           <div>
@@ -222,8 +242,8 @@
       </section>
 
       <p class="fine">
-        NixonMade is not affiliated with, endorsed by, or sponsored by Jamf or
-        Apple.
+        NixonMade is not affiliated with, endorsed by, or sponsored by Jamf,
+        Kandji, Microsoft, Addigy, Mosyle, or Apple.
       </p>
     </main>
     <footer class="site-footer">

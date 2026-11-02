@@ -6,11 +6,11 @@
     <title>Fleet Sheets documentation — NixonMade</title>
     <meta
       name="description"
-      content="How to use Fleet Sheets: a macOS disk image that turns Jamf Pro CSV and Excel exports into an Excel workbook. One organization per license."
+      content="How to use Fleet Sheets: a macOS disk image that turns a device export into an Excel workbook. Jamf Pro, Kandji, Intune, Addigy, or another CSV. One organization per license."
     />
     <link rel="canonical" href="https://nixonmade.com/docs/fleet-sheets/" />
     <meta property="og:title" content="Fleet Sheets documentation — NixonMade" />
-    <meta property="og:description" content="Install the macOS disk image and turn Jamf Pro exports into a workbook." />
+    <meta property="og:description" content="Install the macOS disk image and turn a device export into a workbook." />
     <meta property="og:url" content="https://nixonmade.com/docs/fleet-sheets/" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://nixonmade.com/og/fleet-sheets.png" />
@@ -43,10 +43,10 @@
       <p class="eyebrow">Fleet Sheets</p>
       <h1>Fleet Sheets</h1>
       <p class="lede">
-        A macOS disk image. It turns Jamf Pro CSV and Excel exports into an
-        Excel workbook with a summary, tables, charts, and pivot tables.
-        Import-only: no API access and no credentials. One organization per
-        license.
+        A macOS disk image. It turns a device export into an Excel workbook
+        with a summary, tables, charts, and pivot tables. Import only: no API
+        access and no credentials. One organization per license. The workbook
+        needs Microsoft Excel.
       </p>
       <p class="docs-call"><a href="/fleet-sheets/">Fleet Sheets product page</a></p>
       <nav class="docs-subnav" aria-label="Documentation">
@@ -76,8 +76,29 @@
         <h2 id="requirements-heading">Requirements</h2>
         <ul class="content-list">
           <li>A Mac, because the download is a .dmg</li>
-          <li>Jamf Pro CSV or Excel exports you already have</li>
-          <li>No Jamf API credentials. Fleet Sheets does not connect to Jamf.</li>
+          <li>Microsoft Excel, to open the workbook</li>
+          <li>A device export you already have. Fleet Sheets does not connect to the MDM.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="sources-heading">
+        <h2 id="sources-heading">Sources</h2>
+        <ul class="content-list">
+          <li>Jamf Pro: CSV or .xlsx</li>
+          <li>Kandji: Device Views CSV export</li>
+          <li>Microsoft Intune: the device list export from the portal, or the Graph Devices report</li>
+          <li>Addigy: the devices table export</li>
+          <li>Any other CSV, by mapping the columns</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="reads-heading">
+        <h2 id="reads-heading">What it reads</h2>
+        <ul class="content-list">
+          <li>Mosyle is not supported yet.</li>
+          <li>Kandji FileVault status is not in the Device Views export, so that figure is skipped for Kandji.</li>
+          <li>Other Kandji Prism or category exports are not supported. Other Intune reports are not supported.</li>
+          <li>The download is a macOS disk image. The workbook needs Microsoft Excel.</li>
         </ul>
       </section>
 
@@ -115,7 +136,7 @@
             mobile devices, and patch status. The computers-by-OS sheet has a
             table and a bar chart. Those numbers are example data.
           </li>
-          <li>Import your own Jamf Pro CSV or Excel export.</li>
+          <li>Import your own device export: Jamf Pro, Kandji Device Views, an Intune device list or Graph Devices report, an Addigy devices table, or another CSV with the columns mapped.</li>
         </ol>
         <!-- TODO: The control or command that starts an import is not in the materials. -->
       </section>
@@ -133,8 +154,8 @@
         <h2 id="faq-heading">FAQ</h2>
         <dl class="faq">
           <div>
-            <dt>Does it connect to Jamf?</dt>
-            <dd>No. It reads the CSV or Excel file you already exported.</dd>
+            <dt>Does it connect to the MDM?</dt>
+            <dd>No. It reads a file you already exported. It does not use an API and does not need credentials.</dd>
           </div>
           <div>
             <dt>What does one purchase cover?</dt>
