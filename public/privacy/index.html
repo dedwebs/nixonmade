@@ -16,34 +16,35 @@
     />
     <meta property="og:url" content="https://nixonmade.com/privacy/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://nixonmade.com/brand/press-stamp-on-paper.svg" />
-    <meta name="theme-color" content="#f3eee4" />
-    <link rel="icon" href="/brand/press-stamp.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <meta property="og:image" content="https://nixonmade.com/og/privacy.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="legal-page">
-    <header class="hero product-page">
-      <p class="back"><a href="/">← Nixon Made</a></p>
-      <p class="wordmark">
-        <a href="/">
-          <img
-            src="/brand/press-stamp.svg"
-            alt="Nixon Made"
-            width="520"
-            height="520"
-          />
+  <body class="legal">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
         </a>
-      </p>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/docs/">Docs</a>
+        </nav>
+      </div>
     </header>
-    <main>
+    <main id="content" tabindex="-1">
+      <a class="back" href="/">Back to NixonMade</a>
+
       <h1>Privacy</h1>
-      <p class="note">Effective date: [EFFECTIVE DATE TBD]</p>
+      <p class="note">Effective date: November 1, 2026</p>
       <p class="lede">
         NixonMade is Joe Nixon's shop. This page covers personal data for kits,
         services, and subscriptions sold on this site. Questions go to
@@ -73,6 +74,22 @@
           date, or card security code. Those details stay with Stripe.
           <a href="https://stripe.com/privacy">Stripe's privacy policy</a>
           applies to the payment.
+        </p>
+      </section>
+
+      <section aria-labelledby="downloads-heading">
+        <h2 id="downloads-heading">Downloads</h2>
+        <p>
+          When you finish paying, Stripe sends your browser to this site with a
+          checkout session id in the page address. We send that id to Stripe to
+          confirm the payment, then give you a short-lived link to the file.
+          We do not write the session id into our own application logs.
+        </p>
+        <p>
+          To slow abuse, we keep a short-lived counter for the connection. The
+          counter is stored under a hash, not the raw IP address, and it is
+          only used to rate-limit download requests. We do not use it for
+          marketing. A refund stops further downloads of that purchase.
         </p>
       </section>
 
@@ -123,19 +140,18 @@
           <a href="mailto:hello@nixonmade.com?subject=Privacy">hello@nixonmade.com</a>.
         </p>
       </section>
-
-      <footer>
-        <p>
-          <a href="/terms/">Terms</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="/refunds/">Refunds</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="/privacy/">Privacy</a>
-          <span class="dot" aria-hidden="true">·</span>
-          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
-        </p>
-        <p>Copyright NixonMade</p>
-      </footer>
     </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/docs/">Docs</a>
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
   </body>
 </html>

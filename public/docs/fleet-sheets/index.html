@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fleet Sheets documentation — NixonMade</title>
+    <meta
+      name="description"
+      content="How to use Fleet Sheets: a macOS disk image that turns Jamf Pro CSV and Excel exports into an Excel workbook. One organization per license."
+    />
+    <link rel="canonical" href="https://nixonmade.com/docs/fleet-sheets/" />
+    <meta property="og:title" content="Fleet Sheets documentation — NixonMade" />
+    <meta property="og:description" content="Install the macOS disk image and turn Jamf Pro exports into a workbook." />
+    <meta property="og:url" content="https://nixonmade.com/docs/fleet-sheets/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/og/fleet-sheets.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="docs">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/docs/" aria-current="page">Docs</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content" tabindex="-1">
+      <a class="back" href="/docs/">All documentation</a>
+      <p class="eyebrow">Fleet Sheets</p>
+      <h1>Fleet Sheets</h1>
+      <p class="lede">
+        A macOS disk image. It turns Jamf Pro CSV and Excel exports into an
+        Excel workbook with a summary, tables, charts, and pivot tables.
+        Import-only: no API access and no credentials. One organization per
+        license.
+      </p>
+      <p class="docs-call"><a href="/fleet-sheets/">Fleet Sheets product page</a></p>
+      <nav class="docs-subnav" aria-label="Documentation">
+        <a href="/docs/field-kit/">Field Kit</a>
+        <a href="/docs/ship-kit/">Ship Kit</a>
+        <a href="/docs/fleet-sheets/" aria-current="page">Fleet Sheets</a>
+      </nav>
+
+      <section aria-labelledby="contents-heading">
+        <h2 id="contents-heading">What's in it</h2>
+        <ul class="content-list">
+          <li>A macOS disk image (.dmg)</li>
+          <li>The jxr universal2 binary</li>
+          <li>A Python wheel</li>
+          <li>README, QUICKSTART, CHANGELOG, and LICENSE</li>
+          <li>Third-party notices</li>
+          <li>Sample exports and a sample workbook (example data)</li>
+        </ul>
+        <p>
+          The sample workbook is example data, not a real fleet. Its sheets
+          include a summary, pivot tables, and a computers-by-OS chart.
+        </p>
+        <!-- TODO: Minimum macOS version for the disk image is not in the materials. -->
+      </section>
+
+      <section aria-labelledby="requirements-heading">
+        <h2 id="requirements-heading">Requirements</h2>
+        <ul class="content-list">
+          <li>A Mac, because the download is a .dmg</li>
+          <li>Jamf Pro CSV or Excel exports you already have</li>
+          <li>No Jamf API credentials. Fleet Sheets does not connect to Jamf.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="install-heading">
+        <h2 id="install-heading">Install and getting started</h2>
+        <ol class="steps">
+          <li>
+            Buy Fleet Sheets on the
+            <a href="/fleet-sheets/">product page</a>. Checkout is on Stripe.
+          </li>
+          <li>
+            After payment, Stripe opens your download page. Bookmark that
+            page. The button lasts 15 minutes, and you can download five
+            times. That page is how you download again. If you saved the
+            checkout session id, enter it on the
+            <a href="/redownload">re-download page</a>.
+          </li>
+          <li>Open the .dmg on your Mac.</li>
+          <li>Read QUICKSTART and README inside the disk image.</li>
+          <li>
+            Open the sample workbook if you want to see the example summary,
+            pivots, and chart before you use your own export.
+          </li>
+        </ol>
+        <!-- TODO: Whether the .dmg asks you to drag an app into Applications, or how jxr is launched from the image, is not in the materials. -->
+      </section>
+
+      <section aria-labelledby="walkthrough-heading">
+        <h2 id="walkthrough-heading">Walkthrough</h2>
+        <ol class="steps">
+          <li>Open the disk image and read QUICKSTART.</li>
+          <li>
+            Look at the sample workbook. The summary sheet lists example KPIs.
+            The pivot sheet has computers by OS and model, FileVault status,
+            mobile devices, and patch status. The computers-by-OS sheet has a
+            table and a bar chart. Those numbers are example data.
+          </li>
+          <li>Import your own Jamf Pro CSV or Excel export.</li>
+        </ol>
+        <!-- TODO: The control or command that starts an import is not in the materials. -->
+      </section>
+
+      <section aria-labelledby="config-heading">
+        <h2 id="config-heading">Configuration</h2>
+        <p>
+          A license covers one organization. There is no MSP or multi-client
+          tier. A second organization needs its own purchase.
+        </p>
+        <!-- TODO: Settings for the stale window, the current OS value, or an output path are not described outside the sample report itself. Do not treat those report labels as preferences. -->
+      </section>
+
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading">FAQ</h2>
+        <dl class="faq">
+          <div>
+            <dt>Does it connect to Jamf?</dt>
+            <dd>No. It reads the CSV or Excel file you already exported.</dd>
+          </div>
+          <div>
+            <dt>What does one purchase cover?</dt>
+            <dd>One organization. One license. No multi-client tier.</dd>
+          </div>
+          <div>
+            <dt>What is the founder price?</dt>
+            <dd>
+              $29 for the first 20 buyers, then $49. Checkout currently
+              charges the founder price.
+            </dd>
+          </div>
+          <div>
+            <dt>Is the sample workbook my fleet?</dt>
+            <dd>No. It is example data shipped with the kit.</dd>
+          </div>
+          <div>
+            <dt>How do refunds work?</dt>
+            <dd>See the <a href="/refunds/">refund policy</a>.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section aria-labelledby="trouble-heading">
+        <h2 id="trouble-heading">Troubleshooting</h2>
+        <p>
+          If a file in the disk image will not open, email
+          <a href="mailto:hello@nixonmade.com?subject=Fleet%20Sheets">hello@nixonmade.com</a>
+          with the file name and what failed.
+        </p>
+        <!-- TODO: No Fleet Sheets error list or support log is in the materials. -->
+      </section>
+
+      <section aria-labelledby="support-heading">
+        <h2 id="support-heading">Download again and support</h2>
+        <p>
+          Bookmark the download page Stripe opens after checkout. If you saved
+          the checkout session id, use the
+          <a href="/redownload">re-download page</a>. If you lost it, email
+          <a href="mailto:hello@nixonmade.com?subject=Fleet%20Sheets%20download">hello@nixonmade.com</a>
+          from the address you used at checkout and include the Stripe receipt.
+        </p>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/docs/">Docs</a>
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

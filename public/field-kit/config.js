@@ -1,12 +1,10 @@
 /**
- * Field Kit price, checkout, and support.
- * This object is the only place these placeholders live.
- * STRIPE_LINK_FIELD_KIT is a token, not a payment URL.
- * Nothing here is sent to a third party.
+ * Field Kit price and support.
+ * Checkout is closed while the kit is being upgraded. This file has no
+ * Payment Link and does not write a checkout URL into the page.
  */
 const FIELD_KIT = Object.freeze({
-  KIT_PRICE: "[$19-29 suggested, TBD]",
-  STRIPE_LINK_FIELD_KIT: "https://buy.stripe.com/4gMaER94Z7tEfQ96tbeQM00",
+  KIT_PRICE: "$20",
   SUPPORT_EMAIL: "hello@nixonmade.com",
 });
 
@@ -37,7 +35,7 @@ function fieldKitApply() {
   const price = FIELD_KIT.KIT_PRICE;
   const titleEl = document.querySelector("title[data-field-title]");
   if (titleEl && typeof price === "string") {
-    const title = "NixonMade Mac Admin Field Kit, " + price + ".";
+    const title = "Field Kit — " + price + " — NixonMade";
     titleEl.textContent = title;
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute("content", title);
@@ -63,14 +61,10 @@ function fieldKitApply() {
       return;
     }
     if (key !== "STRIPE_LINK_FIELD_KIT") return;
-    if (!fieldKitIsHttpsUrl(value)) {
-      el.removeAttribute("href");
-      el.setAttribute("aria-disabled", "true");
-      return;
-    }
-    el.setAttribute("href", value);
-    el.setAttribute("rel", "noopener noreferrer");
-    el.removeAttribute("aria-disabled");
+    // Checkout hrefs are applied only by /preview-checkout.js, and only on
+    // nixonmade.com. Do not write a Stripe URL into the DOM here.
+    el.removeAttribute("href");
+    el.setAttribute("aria-disabled", "true");
   });
 }
 

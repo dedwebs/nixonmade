@@ -1,27 +1,49 @@
-# Field Kit draft pages stay out of search indexes.
-/field-kit
-  X-Robots-Tag: noindex
+# Security headers for static files. The worker sets the same ones, including
+# HSTS on https://nixonmade.com without preload. Download pages use a stricter
+# Content-Security-Policy of their own. Fonts are self-hosted. Google Fonts
+# are not allowed.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; script-src 'self'; style-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
 
-/field-kit/*
-  X-Robots-Tag: noindex
-
-# Ship Kit draft pages stay out of search indexes.
+# Ship Kit checkout is closed.
 /ship-kit
   X-Robots-Tag: noindex
 
 /ship-kit/*
   X-Robots-Tag: noindex
 
-# Fleet Sheets draft pages stay out of search indexes.
-/fleet-sheets
+/docs/ship-kit
   X-Robots-Tag: noindex
 
-/fleet-sheets/*
+/docs/ship-kit/*
   X-Robots-Tag: noindex
 
-# relnotes is not ready to be indexed
+# relnotes is not on sale.
 /relnotes
   X-Robots-Tag: noindex
 
 /relnotes/*
+  X-Robots-Tag: noindex
+
+# Wordmark options are for review.
+/brand-options
+  X-Robots-Tag: noindex
+
+/brand-options/*
+  X-Robots-Tag: noindex
+
+# Thank-you pages.
+/field-kit/thanks
+  X-Robots-Tag: noindex
+
+/field-kit/thanks/*
+  X-Robots-Tag: noindex
+
+/fleet-sheets/thanks
+  X-Robots-Tag: noindex
+
+/fleet-sheets/thanks/*
   X-Robots-Tag: noindex

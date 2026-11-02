@@ -1,13 +1,15 @@
 /**
  * Ship Kit links and support contact.
- * Tokens stand in for checkout, intake, and email until those exist.
- * They are not payment URLs and nothing here is sent to a third party.
+ * Checkout is off in production until the owner opens it.
+ * STRIPE_LINK_KIT is the live Payment Link. Do not bind it to a button.
+ * STRIPE_LINK_DFY and INTAKE_URL are unset. The done-for-you service has no buy link.
  */
 const SHIP_KIT = Object.freeze({
   STRIPE_LINK_KIT: "https://buy.stripe.com/28EcMZ4OJbJUdI1eZHeQM01",
   STRIPE_LINK_DFY: "STRIPE_LINK_DFY",
   INTAKE_URL: "INTAKE_URL",
   SUPPORT_EMAIL: "hello@nixonmade.com",
+  CHECKOUT_ENABLED: false,
 });
 
 function shipKitIsHttpsUrl(value) {
@@ -43,6 +45,9 @@ function shipKitApply() {
       el.setAttribute("href", "mailto:" + value);
       el.removeAttribute("aria-disabled");
       return;
+    }
+    if (key === "STRIPE_LINK_KIT" || key === "STRIPE_LINK_DFY" || key === "INTAKE_URL") {
+      if (SHIP_KIT.CHECKOUT_ENABLED !== true) return;
     }
     if (!shipKitIsHttpsUrl(value)) return;
     el.setAttribute("href", value);
