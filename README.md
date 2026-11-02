@@ -93,15 +93,16 @@ Vars in `wrangler.jsonc` (not secrets). Empty link and price lists fail closed: 
 | `RATE_LIMIT_IP_PER_MINUTE` | Requests per connection. Default 60. Uses `CF-Connecting-IP` only. IPv6 is grouped by /64. A request with no usable address is refused, so missing addresses do not share one bucket. |
 | `RATE_LIMIT_SESSION_PER_MINUTE` | Requests per paid session. Default 20. |
 | `RATE_LIMIT_STRIPE_IP_PER_MINUTE` | Checkout Session reads for one connection. Default 10. Checked before the shared cap. A buyer refreshing a page, or one client sending fake `cs_` ids, stops here and cannot empty the shared budget. |
-| `RATE_LIMIT_STRIPE_PER_MINUTE` | Checkout Session reads for the whole worker. Default 300 per minute. This is the shared budget, raised so many buyers can open `/thanks` and `/api/file` at once. One connection can spend at most the per-IP cap above (10 of these 300). A session id already found valid or invalid is remembered for 10 minutes and does not call Stripe or spend either cap. The expanded charge read can add a second call, but only until a 403 is remembered for one hour. |
+| `RATE_LIMIT_STRIPE_PER_MINUTE` | Checkout Session reads for the whole worker. Default 300 per minute. This is the shared budget, raised so many buyers can open `/thanks` and `/api/file` at once. One connection can spend at most the per-IP cap above (10 of these 300). A session id already found valid, missing, or unmatched is remembered for 10 minutes and does not call Stripe or spend either cap. An unpaid session, or a body that is not JSON, is remembered for 30 seconds, because that answer can change. The expanded charge read can add a second call, but only until a 403 is remembered for one hour. |
 | `PRODUCT_FIELD_KIT_TEST_LINKS` / `PRODUCT_FIELD_KIT_TEST_PRICES` | Comma-separated `plink_` and `price_` ids for test mode. |
-| `PRODUCT_FIELD_KIT_LIVE_LINKS` / `PRODUCT_FIELD_KIT_LIVE_PRICES` | The same, for live mode. |
+| `PRODUCT_FIELD_KIT_LIVE_LINKS` / `PRODUCT_FIELD_KIT_LIVE_PRICES` | The same, for live mode. Empty until that product is on sale. A live session then fails closed. |
 | `PRODUCT_FIELD_KIT_KEY` | Private R2 object key. Default `products/field-kit.zip`. Upload the file later. |
 | `PRODUCT_FIELD_KIT_FILENAME` | Name the browser saves. Default `nixonmade-field-kit.zip`. |
 | `PRODUCT_FIELD_KIT_TITLE` | Title on the download page. |
 | `PRODUCT_SHIP_KIT_*` | Same shape. Put both the $49 kit and the $299 done-for-you ids here if both should deliver the same zip. |
-| `PRODUCT_FLEET_SHEETS_KEY` | Default `products/fleet-sheets.dmg`. |
-| `PRODUCT_FLEET_SHEETS_FILENAME` | Default `nixonmade-fleet-sheets.dmg`. |
+| `PRODUCT_FLEET_SHEETS_LIVE_LINKS` / `PRODUCT_FLEET_SHEETS_LIVE_PRICES` | Live Payment Link `plink_1UVcxz9YvevV3dxlEFkHsQlc` and price `price_1UVcxv9YvevV3dxllPPANBuz`. These are allowlist ids, not secrets. |
+| `PRODUCT_FLEET_SHEETS_KEY` | Private R2 object key `FleetSheets-v1.0.0-macOS.dmg`. SHA-256 `dedc5d0dbd8757a325290ae487ccd8f3da3ad66cbb9c7ebb54b45540dc17c41e`, 13225040 bytes. |
+| `PRODUCT_FLEET_SHEETS_FILENAME` | Name the browser saves. `nixonmade-fleet-sheets.dmg`. |
 | `PRODUCT_FLEET_SHEETS_TITLE` | Title on the download page. Default `Fleet Sheets`. |
 
 Each product's object key and download filename are set on their own. Both must end in `.zip` or both must end in `.dmg`. A `.zip` is sent as `application/zip`. A `.dmg` is sent as `application/x-apple-diskimage`. `Content-Disposition` is `attachment` with the configured filename. A mismatched pair, or any other suffix, is ignored and that product does not download.
@@ -113,7 +114,7 @@ Upload the objects when the files exist. Local `wrangler dev` uses a local bucke
 ```bash
 npx wrangler r2 object put nixonmade-downloads/products/field-kit.zip --file=./field-kit.zip --local
 npx wrangler r2 object put nixonmade-downloads/products/ship-kit.zip --file=./ship-kit.zip --local
-npx wrangler r2 object put nixonmade-downloads/products/fleet-sheets.dmg --file=./fleet-sheets.dmg --local
+npx wrangler r2 object put nixonmade-downloads/FleetSheets-v1.0.0-macOS.dmg --file=./FleetSheets-v1.0.0-macOS.dmg --local
 ```
 
 The object keys above are the defaults. If you change `PRODUCT_*_KEY`, upload to that key instead.

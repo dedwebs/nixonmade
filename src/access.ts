@@ -24,8 +24,10 @@ export const DEFAULT_STRIPE_LIMIT = 300;
 export const DEFAULT_STRIPE_IP_LIMIT = 10;
 export const STRIPE_LOOKUP_GATE = "stripe:global";
 export const STRIPE_IP_LABEL = "stripe-ip";
-/** Remember a paid or rejected session id so a repeat does not call Stripe. */
+/** Remember a paid session, a missing id, or a product mismatch. */
 export const SESSION_CACHE_TTL_MS = 10 * 60 * 1000;
+/** Unpaid and unparseable sessions can change. Keep them only briefly. */
+export const SESSION_CACHE_SHORT_TTL_MS = 30 * 1000;
 /** Remember a 403 on the expanded charge read so the next lookup is one call. */
 export const EXPAND_FORBIDDEN_TTL_MS = 60 * 60 * 1000;
 
@@ -163,8 +165,13 @@ async function acceptSession(env: Env, sessionId: string, session: CheckoutSessi
   return { ok: true, session, product };
 }
 
-async function rememberSession(env: Env, sessionId: string, record: SessionCacheRecord): Promise<void> {
-  await gate(env, STRIPE_LOOKUP_GATE).writeSessionCache(sessionId, record, SESSION_CACHE_TTL_MS);
+async function rememberSession(
+  env: Env,
+  sessionId: string,
+  record: SessionCacheRecord,
+  ttlMs = SESSION_CACHE_TTL_MS,
+): Promise<void> {
+  await gate(env, STRIPE_LOOKUP_GATE).writeSessionCache(sessionId, record, ttlMs);
 }
 
 async function verifiedSession(request: Request, env: Env, sessionId: string): Promise<VerifiedSession> {
@@ -189,7 +196,12 @@ async function verifiedSession(request: Request, env: Env, sessionId: string): P
   if (lookup.expandForbidden) await book.noteExpandForbidden(EXPAND_FORBIDDEN_TTL_MS);
   if (!lookup.ok) {
     if (lookup.knownInvalid && !lookup.rateLimited) {
-      await rememberSession(env, sessionId, { state: "invalid" });
+      await rememberSession(
+        env,
+        sessionId,
+        { state: "invalid" },
+        lookup.shortCache ? SESSION_CACHE_SHORT_TTL_MS : SESSION_CACHE_TTL_MS,
+      );
     }
     return { ok: false, error: lookup.rateLimited ? "rate" : "unavailable" };
   }

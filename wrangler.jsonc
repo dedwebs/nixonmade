@@ -69,9 +69,14 @@
     "PRODUCT_SHIP_KIT_TITLE": "Ship Kit",
     "PRODUCT_FLEET_SHEETS_TEST_LINKS": "plink_1UVfEr9YvevV3dxlpJxulJSC",
     "PRODUCT_FLEET_SHEETS_TEST_PRICES": "price_1UVfCg9YvevV3dxlnfp5voyQ",
-    "PRODUCT_FLEET_SHEETS_LIVE_LINKS": "",
-    "PRODUCT_FLEET_SHEETS_LIVE_PRICES": "",
-    "PRODUCT_FLEET_SHEETS_KEY": "products/fleet-sheets.dmg",
+    // Fleet Sheets is the only product on sale. Field Kit and Ship Kit live
+    // lists stay empty, so a live session for those products fails closed.
+    // R2 object FleetSheets-v1.0.0-macOS.dmg
+    // sha256 dedc5d0dbd8757a325290ae487ccd8f3da3ad66cbb9c7ebb54b45540dc17c41e
+    // 13225040 bytes
+    "PRODUCT_FLEET_SHEETS_LIVE_LINKS": "plink_1UVcxz9YvevV3dxlEFkHsQlc",
+    "PRODUCT_FLEET_SHEETS_LIVE_PRICES": "price_1UVcxv9YvevV3dxllPPANBuz",
+    "PRODUCT_FLEET_SHEETS_KEY": "FleetSheets-v1.0.0-macOS.dmg",
     "PRODUCT_FLEET_SHEETS_FILENAME": "nixonmade-fleet-sheets.dmg",
     "PRODUCT_FLEET_SHEETS_TITLE": "Fleet Sheets"
   }

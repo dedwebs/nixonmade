@@ -144,6 +144,52 @@ describe("allowlist", () => {
       'attachment; filename="NixonMade-Fleet-Sheets.DMG"',
     );
   });
+
+  it("maps the live Fleet Sheets ids onto that disk image and leaves the other live lists closed", () => {
+    const parsed = loadCatalog({
+      PRODUCT_FIELD_KIT_KEY: "products/field-kit.zip",
+      PRODUCT_FIELD_KIT_FILENAME: "nixonmade-field-kit.zip",
+      PRODUCT_FIELD_KIT_LIVE_LINKS: "",
+      PRODUCT_FIELD_KIT_LIVE_PRICES: "",
+      PRODUCT_SHIP_KIT_KEY: "products/ship-kit.zip",
+      PRODUCT_SHIP_KIT_FILENAME: "nixonmade-ship-kit.zip",
+      PRODUCT_SHIP_KIT_LIVE_LINKS: "",
+      PRODUCT_SHIP_KIT_LIVE_PRICES: "",
+      PRODUCT_FLEET_SHEETS_KEY: "FleetSheets-v1.0.0-macOS.dmg",
+      PRODUCT_FLEET_SHEETS_FILENAME: "nixonmade-fleet-sheets.dmg",
+      PRODUCT_FLEET_SHEETS_LIVE_LINKS: "plink_1UVcxz9YvevV3dxlEFkHsQlc",
+      PRODUCT_FLEET_SHEETS_LIVE_PRICES: "price_1UVcxv9YvevV3dxllPPANBuz",
+    } as Cloudflare.Env);
+    const fleet = matchProduct(parsed, {
+      livemode: true,
+      paymentLinkId: "plink_1UVcxz9YvevV3dxlEFkHsQlc",
+      priceIds: [],
+    });
+    expect(fleet?.slug).toBe("fleet-sheets");
+    expect(fleet?.key).toBe("FleetSheets-v1.0.0-macOS.dmg");
+    expect(fleet?.filename).toBe("nixonmade-fleet-sheets.dmg");
+    expect(
+      matchProduct(parsed, {
+        livemode: true,
+        paymentLinkId: null,
+        priceIds: ["price_1UVcxv9YvevV3dxllPPANBuz"],
+      })?.slug,
+    ).toBe("fleet-sheets");
+    expect(
+      matchProduct(parsed, {
+        livemode: false,
+        paymentLinkId: "plink_1UVcxz9YvevV3dxlEFkHsQlc",
+        priceIds: ["price_1UVcxv9YvevV3dxllPPANBuz"],
+      }),
+    ).toBeNull();
+    expect(
+      matchProduct(parsed, {
+        livemode: true,
+        paymentLinkId: "plink_1UVfCn9YvevV3dxlI1EAEamw",
+        priceIds: ["price_1UVfB19YvevV3dxlEIDjHeqA"],
+      }),
+    ).toBeNull();
+  });
 });
 
 describe("checkout session rules", () => {

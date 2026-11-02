@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   DEFAULT_STRIPE_IP_LIMIT,
   DEFAULT_STRIPE_LIMIT,
+  SESSION_CACHE_SHORT_TTL_MS,
+  SESSION_CACHE_TTL_MS,
   STRIPE_IP_LABEL,
   STRIPE_LOOKUP_GATE,
 } from "../src/access";
@@ -45,6 +47,27 @@ async function fillHits(name: string, count: number, now = Date.now()): Promise<
         "hits",
         Array.from({ length: count }, () => now),
       );
+    });
+  });
+}
+
+async function sessionCacheExp(sessionId: string): Promise<number | null> {
+  const stub = env.PURCHASE_GATE.getByName(STRIPE_LOOKUP_GATE);
+  return runInDurableObject(stub, async (_instance, state) => {
+    return state.storage.transactionSync(() => {
+      const raw = state.storage.kv.get<{ exp?: unknown }>(`sv:${sessionId}`);
+      return raw && typeof raw.exp === "number" ? raw.exp : null;
+    });
+  });
+}
+
+async function expireSessionCache(sessionId: string): Promise<void> {
+  const stub = env.PURCHASE_GATE.getByName(STRIPE_LOOKUP_GATE);
+  await runInDurableObject(stub, async (_instance, state) => {
+    state.storage.transactionSync(() => {
+      const raw = state.storage.kv.get<Record<string, unknown>>(`sv:${sessionId}`);
+      if (!raw) return;
+      state.storage.kv.put(`sv:${sessionId}`, { ...raw, exp: Date.now() - 1 });
     });
   });
 }
@@ -808,6 +831,70 @@ describe("verified downloads", () => {
     expect(again.status).toBe(404);
     await again.text();
     expect(calls.calls.length).toBe(afterFake);
+  });
+
+  it("remembers an unpaid session and a parse error for 30 seconds", async () => {
+    expect(SESSION_CACHE_SHORT_TTL_MS).toBe(30_000);
+    const unpaid = "cs_test_unpaidshort00001";
+    const broken = "cs_test_parseshort000001";
+    const missing = "cs_test_missinglong00001";
+    const calls = installStripe((url) => {
+      const id = decodeURIComponent(url.split("/checkout/sessions/")[1]?.split("?")[0] ?? "");
+      if (id === unpaid) {
+        return new Response(
+          JSON.stringify(
+            paidSession({
+              id: unpaid,
+              payment_status: "unpaid",
+              payment_intent: "pi_unpaidshort0000001",
+            }),
+          ),
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }
+      if (id === broken) return new Response("not-json", { status: 200 });
+      return new Response("{}", { status: 404 });
+    });
+
+    async function fetchOnce(sessionId: string): Promise<number> {
+      const response = await SELF.fetch(request(`/api/download?session_id=${sessionId}`, nextIp()));
+      const status = response.status;
+      expect(await response.text()).not.toContain(sessionId);
+      return status;
+    }
+
+    expect(await fetchOnce(unpaid)).toBe(404);
+    const afterUnpaid = calls.calls.length;
+    expect(afterUnpaid).toBeGreaterThan(0);
+    expect(await fetchOnce(unpaid)).toBe(404);
+    expect(calls.calls.length).toBe(afterUnpaid);
+    const unpaidExp = await sessionCacheExp(unpaid);
+    expect(unpaidExp).not.toBeNull();
+    const unpaidLeft = (unpaidExp ?? 0) - Date.now();
+    expect(unpaidLeft).toBeGreaterThan(20_000);
+    expect(unpaidLeft).toBeLessThanOrEqual(SESSION_CACHE_SHORT_TTL_MS);
+
+    await expireSessionCache(unpaid);
+    expect(await fetchOnce(unpaid)).toBe(404);
+    expect(calls.calls.length).toBe(afterUnpaid + 1);
+
+    const beforeParse = calls.calls.length;
+    expect(await fetchOnce(broken)).toBe(404);
+    expect(calls.calls.length).toBe(beforeParse + 1);
+    expect(await fetchOnce(broken)).toBe(404);
+    expect(calls.calls.length).toBe(beforeParse + 1);
+    const parseLeft = (await sessionCacheExp(broken) ?? 0) - Date.now();
+    expect(parseLeft).toBeGreaterThan(20_000);
+    expect(parseLeft).toBeLessThanOrEqual(SESSION_CACHE_SHORT_TTL_MS);
+
+    const beforeMissing = calls.calls.length;
+    expect(await fetchOnce(missing)).toBe(404);
+    expect(calls.calls.length).toBe(beforeMissing + 1);
+    expect(await fetchOnce(missing)).toBe(404);
+    expect(calls.calls.length).toBe(beforeMissing + 1);
+    const missingLeft = (await sessionCacheExp(missing) ?? 0) - Date.now();
+    expect(missingLeft).toBeGreaterThan(SESSION_CACHE_TTL_MS - 5_000);
+    expect(missingLeft).toBeLessThanOrEqual(SESSION_CACHE_TTL_MS);
   });
 
   it("does not put a thrown Stripe body read into the response or the log", async () => {

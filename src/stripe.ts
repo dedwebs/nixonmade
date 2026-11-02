@@ -27,6 +27,8 @@ type StripeFailure = {
   ok: false;
   rateLimited?: boolean;
   knownInvalid?: boolean;
+  /** Unpaid or unparseable. The caller keeps these for seconds, not minutes. */
+  shortCache?: boolean;
   expandForbidden?: boolean;
 };
 type StripeSuccess = { ok: true; session: CheckoutSession; expandForbidden?: boolean };
@@ -103,8 +105,10 @@ function chargeShowsRefund(paymentIntent: unknown): boolean {
  * The caller spends its per-IP budget before the shared budget. Return false
  * to stop. `skipExpand` skips the charge expand after a remembered 403.
  * A fresh 403 is reported as `expandForbidden` so the caller can remember it.
- * `knownInvalid` means this session id will not become a paid purchase on
- * retry (unknown id, or a session that is not a paid payment).
+ * `knownInvalid` means the caller should not ask Stripe again immediately.
+ * `shortCache` is a session that is not paid yet, or a body that is not JSON.
+ * Either can change, so those are remembered for about 30 seconds. A missing
+ * session stays on the longer cache.
  */
 export async function retrieveCheckoutSession(
   sessionId: string,
@@ -199,10 +203,12 @@ async function readSession(response: Response, keyMode: RestrictedKeyMode): Prom
     parsed = JSON.parse(text);
   } catch {
     safeLog("stripe_parse");
-    return { ok: false, knownInvalid: true };
+    return { ok: false, knownInvalid: true, shortCache: true };
   }
   const session = parseCheckoutSession(parsed);
-  if (!session) return { ok: false, knownInvalid: true };
+  // Unpaid, open, and expired sessions land here. They can still become a
+  // paid checkout, so this result is not kept for the long cache.
+  if (!session) return { ok: false, knownInvalid: true, shortCache: true };
   if ((session.livemode ? "live" : "test") !== keyMode) return { ok: false, knownInvalid: true };
   return { ok: true, session };
 }

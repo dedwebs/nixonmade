@@ -6,7 +6,9 @@ export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
 const LINK_RE = /^plink_[A-Za-z0-9]{8,200}$/;
 const PRICE_RE = /^price_[A-Za-z0-9]{8,200}$/;
-const KEY_RE = /^[a-z0-9][a-z0-9./_-]{0,200}$/;
+// Mixed case is allowed: R2 object keys such as FleetSheets-v1.0.0-macOS.dmg
+// are stored as uploaded. Quotes, spaces, and a leading slash are not.
+const KEY_RE = /^[A-Za-z0-9][A-Za-z0-9./_-]{0,200}$/;
 const FILENAME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,80}$/;
 
 const MEDIA_TYPES = {
