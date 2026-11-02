@@ -28,7 +28,10 @@ describe("constant-time compare and tokens", () => {
       },
       SIGNING_SECRET,
     );
-    const flipped = `${token.slice(0, -1)}${token.endsWith("a") ? "b" : "a"}`;
+    const dot = token.indexOf(".");
+    const mac = token.slice(dot + 1);
+    const flippedMac = `${mac.startsWith("a") ? "b" : "a"}${mac.slice(1)}`;
+    const flipped = `${token.slice(0, dot + 1)}${flippedMac}`;
     expect(await verifyDownloadToken(flipped, SIGNING_SECRET, Date.now())).toBeNull();
     expect(await verifyDownloadToken(token, SIGNING_SECRET, Date.now())).not.toBeNull();
 

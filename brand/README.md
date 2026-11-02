@@ -1,29 +1,29 @@
 # NixonMade monogram
 
-Three original interlocking N and M marks. The letters are a bold serif: flared terminals, thick stems, and a thinner diagonal. They overlap, and a gap follows the stroke that sits in front so you can see which stroke passes over the other. Variation 1 also lets the M pass back across the N, and it ends in a tapering swash. Variation 2 is the italic, with an entry swash. They are not a New York Yankees mark and they do not use that club’s drawing.
+The live mark is the badge: an interlocking N and M inside a ring. The file is `nm-03-badge.svg`, restored as drawn. The N sits in front of the M, and a gap keeps the two letters separate. It is the header and the favicon.
 
-Variation 1 is the live header and the favicon.
+The serif lockups stay in this folder as alternates. They are not in the header.
 
-| Variation | File | What it is |
+| Mark | File | Role |
 | --- | --- | --- |
-| 1. Roman weave | `nm-01-roman-weave.svg` | Upright serif. The N crosses in front of the M, then the M’s leg passes back across the diagonal. A swash leaves the right foot. This is the header and favicon. |
-| 2. Italic swash | `nm-02-italic-swash.svg` | Italic serif, with an entry swash on the N and the same over-under crossing. |
-| 3. N in front | `nm-03-n-in-front.svg` | Tighter overlap. The whole N sits in front, and the gap follows every crossing. No extra swash, so it stays quieter at small sizes. |
+| Badge | `nm-03-badge.svg` | Live header and favicon. |
+| Roman weave | `nm-01-roman-weave.svg` | Alternate. Upright serif, with the M passing back across the N and a swash on the right foot. |
+| Italic swash | `nm-02-italic-swash.svg` | Alternate. Italic serif with an entry swash. |
+| N in front | `nm-03-n-in-front.svg` | Alternate. Tighter serif overlap, N entirely in front. |
 
-Each `.png` is the mark in ink (`#1a1714`) on paper (`#f6f3ec`). Each `-ink.png` is the same mark in paper on ink.
+Each `.png` is ink (`#1a1714`) on paper (`#f6f3ec`). Each `-ink.png` is paper on ink.
 
-## Swap the live mark
+The badge SVG in this folder uses `currentColor`. The copies the site serves, `public/brand/nm-mark.svg` and `public/favicon.svg`, are the same drawing with the fill and the ring set to `#1a1714`, because an `<img>` does not inherit `currentColor`.
 
-1. Copy the chosen SVG over both of these files:
-   - `public/brand/nm-mark.svg` (the header)
-   - `public/favicon.svg`
-2. The header box is 36×36 and uses `object-fit: contain`. The live files center variation 1 in a square viewBox so the letters stay large at favicon size. If you paste a wide SVG in directly, keep the fill `#1a1714`.
-3. Replace the raster favicons so tabs and home screens match:
-   - `public/favicon-16.png`
-   - `public/favicon-32.png`
-   - `public/favicon.ico` (16 and 32)
-   - `public/apple-touch-icon.png` (180×180, paper background, mark centered)
+## Swap back to an alternate
 
-The word “NixonMade” sits beside the mark in the header.
+1. Copy the chosen SVG over `public/brand/nm-mark.svg` and `public/favicon.svg`.
+2. Set the fill and the ring stroke to `#1a1714`.
+3. Rebuild the raster favicons:
+   - `public/favicon-32.png` and `public/apple-touch-icon.png` (180×180) from the SVG as drawn, on a paper background.
+   - `public/favicon-16.png` from the same drawing with the ring stroke raised from 4 to 10, so the circle is still there at 16px. The letters are unchanged.
+   - `public/favicon.ico` holds the 16 and 32 pixel files.
 
-`public/brand/press-stamp.svg` is the previous header. It is not deleted.
+The header box is 36×36 and uses `object-fit: contain`. The word “NixonMade” sits beside the mark.
+
+`public/brand/press-stamp.svg` is an older header. It is not deleted.
