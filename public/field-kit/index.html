@@ -28,67 +28,72 @@
     <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="product">
+  <body class="product store">
     <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
       <div class="inner">
         <a class="brand" href="/">
-          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+          <img src="/brand/nm-mark.svg" alt="" width="36" height="36" />
+          <span class="brand-word">NixonMade</span>
         </a>
         <nav class="site-nav" aria-label="Primary">
+          <a href="/fleet-sheets/">Fleet Sheets</a>
           <a href="/docs/">Docs</a>
         </nav>
       </div>
     </header>
     <main id="content" tabindex="-1">
-      <a class="back" href="/">Back to NixonMade</a>
-      <p class="eyebrow">Jamf Pro admin kit</p>
-      <h1>Privacy profiles, inventory scripts, and field guides. Ready to use.</h1>
-      <p class="lede">
-        Three PPPC profile templates, five extension attribute scripts, and
-        two guides for Jamf Pro: a createinstallmedia EPERM runbook and PIV
-        smart-card troubleshooting.
-      </p>
-      <p class="price-row">
-        <span class="price-amount" data-field-text="KIT_PRICE">$20</span>
-        <span class="status">Coming soon</span>
-      </p>
-      <p>Coming soon. Joe is upgrading Field Kit before selling.</p>
-      <p class="refund-line">
-        A downloadable kit can be refunded within 14 days of purchase if it
-        was not substantially used, or if a file is broken and we cannot fix
-        it.
-        <a href="/refunds/">Refund policy</a>.
-      </p>
-      <p class="docs-call">
-        <a href="/docs/field-kit/">Field Kit documentation</a>
-      </p>
+      <section class="hero" aria-labelledby="product-heading">
+        <div class="hero-copy">
+          <p class="back-row"><a class="back" href="/">NixonMade</a></p>
+          <img class="app-icon" src="/img/marks/field-kit.svg" alt="" width="88" height="88" />
+          <p class="eyebrow">Jamf Pro admin kit</p>
+          <h1 id="product-heading">Privacy profiles, inventory scripts, and the two guides you keep re-writing.</h1>
+          <p class="lede">
+            Three PPPC profile templates, five extension attribute scripts, and
+            two guides: a createinstallmedia EPERM runbook and PIV smart-card
+            troubleshooting.
+          </p>
+          <p class="who">For Jamf Pro admins who want these files in one place, for one organization.</p>
+          <p class="price-row">
+            <span class="price-amount" data-field-text="KIT_PRICE">$20</span>
+            <span class="status">Coming soon</span>
+          </p>
+          <p>Checkout is closed. Joe is upgrading Field Kit before selling. There is no buy button.</p>
+          <p class="refund-line">
+            A downloadable kit can be refunded within 14 days of purchase if it
+            was not substantially used, or if a file is broken and we cannot fix
+            it.
+            <a href="/refunds/">Refund policy</a>.
+          </p>
+        </div>
+        <figure class="hero-shot">
+          <picture>
+            <source type="image/avif" srcset="/img/field-kit/pppc-profile-640.avif 640w, /img/field-kit/pppc-profile-960.avif 960w, /img/field-kit/pppc-profile-1440.avif 1440w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" />
+            <source type="image/webp" srcset="/img/field-kit/pppc-profile-640.webp 640w, /img/field-kit/pppc-profile-960.webp 960w, /img/field-kit/pppc-profile-1440.webp 1440w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" />
+            <img src="/img/field-kit/pppc-profile-960.png" srcset="/img/field-kit/pppc-profile-640.png 640w, /img/field-kit/pppc-profile-960.png 960w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" width="960" height="736" alt="Sample data. A Field Kit PPPC mobileconfig template for full disk access, with the example app and Team ID still in the file." fetchpriority="high" decoding="async" />
+          </picture>
+          <figcaption>Sample data. A PPPC template, with the example app and Team ID still in the file.</figcaption>
+        </figure>
+      </section>
 
       <section aria-labelledby="samples-heading">
         <h2 id="samples-heading">Sample data</h2>
         <figure class="figure-slot">
           <picture>
-            <source type="image/avif" srcset="/img/field-kit/pppc-profile-640.avif 640w, /img/field-kit/pppc-profile-960.avif 960w, /img/field-kit/pppc-profile-1440.avif 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/field-kit/pppc-profile-640.webp 640w, /img/field-kit/pppc-profile-960.webp 960w, /img/field-kit/pppc-profile-1440.webp 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <img src="/img/field-kit/pppc-profile-960.png" srcset="/img/field-kit/pppc-profile-640.png 640w, /img/field-kit/pppc-profile-960.png 960w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" width="960" height="736" alt="Sample data. A Field Kit PPPC mobileconfig template for full disk access, with the example app and Team ID still in the file." loading="lazy" decoding="async" />
+            <source type="image/avif" srcset="/img/field-kit/filevault-script-640.avif 640w, /img/field-kit/filevault-script-960.avif 960w, /img/field-kit/filevault-script-1440.avif 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <source type="image/webp" srcset="/img/field-kit/filevault-script-640.webp 640w, /img/field-kit/filevault-script-960.webp 960w, /img/field-kit/filevault-script-1440.webp 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <img src="/img/field-kit/filevault-script-960.png" srcset="/img/field-kit/filevault-script-640.png 640w, /img/field-kit/filevault-script-960.png 960w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" width="960" height="493" alt="Sample data. The Field Kit FileVault status extension attribute, a read-only shell script." loading="lazy" decoding="async" />
           </picture>
-          <figcaption>Sample data.</figcaption>
+          <figcaption>Sample data. The FileVault extension attribute script.</figcaption>
         </figure>
         <figure class="figure-slot">
           <picture>
-            <source type="image/avif" srcset="/img/field-kit/filevault-script-640.avif 640w, /img/field-kit/filevault-script-960.avif 960w, /img/field-kit/filevault-script-1440.avif 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/field-kit/filevault-script-640.webp 640w, /img/field-kit/filevault-script-960.webp 960w, /img/field-kit/filevault-script-1440.webp 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <img src="/img/field-kit/filevault-script-960.png" srcset="/img/field-kit/filevault-script-640.png 640w, /img/field-kit/filevault-script-960.png 960w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" width="960" height="493" alt="Sample data. The Field Kit FileVault status extension attribute, a read-only shell script." loading="lazy" decoding="async" />
+            <source type="image/avif" srcset="/img/field-kit/eperm-guide-640.avif 640w, /img/field-kit/eperm-guide-960.avif 960w, /img/field-kit/eperm-guide-1440.avif 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <source type="image/webp" srcset="/img/field-kit/eperm-guide-640.webp 640w, /img/field-kit/eperm-guide-960.webp 960w, /img/field-kit/eperm-guide-1440.webp 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <img src="/img/field-kit/eperm-guide-960.png" srcset="/img/field-kit/eperm-guide-640.png 640w, /img/field-kit/eperm-guide-960.png 960w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" width="960" height="1222" alt="Sample data. The Field Kit createinstallmedia EPERM runbook, open to the symptom and what worked from Terminal." loading="lazy" decoding="async" />
           </picture>
-          <figcaption>Sample data.</figcaption>
-        </figure>
-        <figure class="figure-slot">
-          <picture>
-            <source type="image/avif" srcset="/img/field-kit/eperm-guide-640.avif 640w, /img/field-kit/eperm-guide-960.avif 960w, /img/field-kit/eperm-guide-1440.avif 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/field-kit/eperm-guide-640.webp 640w, /img/field-kit/eperm-guide-960.webp 960w, /img/field-kit/eperm-guide-1440.webp 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <img src="/img/field-kit/eperm-guide-960.png" srcset="/img/field-kit/eperm-guide-640.png 640w, /img/field-kit/eperm-guide-960.png 960w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" width="960" height="1222" alt="Sample data. The Field Kit createinstallmedia EPERM runbook, open to the symptom and what worked from Terminal." loading="lazy" decoding="async" />
-          </picture>
-          <figcaption>Sample data.</figcaption>
+          <figcaption>Sample data. The createinstallmedia EPERM runbook.</figcaption>
         </figure>
       </section>
 
@@ -100,6 +105,9 @@
           <li>2 guides: a createinstallmedia EPERM runbook, and PIV smart-card troubleshooting</li>
           <li>README, CHANGELOG, and LICENSE</li>
         </ul>
+        <p class="docs-call">
+          <a href="/docs/field-kit/">Field Kit documentation</a>
+        </p>
       </section>
 
       <section aria-labelledby="who-heading">
@@ -112,9 +120,7 @@
 
       <section aria-labelledby="delivery-heading">
         <h2 id="delivery-heading">Delivery</h2>
-        <p>
-          Checkout is not open. Joe is upgrading Field Kit before selling.
-        </p>
+        <p>Checkout is not open. Joe is upgrading Field Kit before selling.</p>
       </section>
 
       <section aria-labelledby="faq-heading">

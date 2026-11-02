@@ -28,80 +28,120 @@
     <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="product">
+  <body class="product store">
     <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
       <div class="inner">
         <a class="brand" href="/">
-          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+          <img src="/brand/nm-mark.svg" alt="" width="36" height="36" />
+          <span class="brand-word">NixonMade</span>
         </a>
         <nav class="site-nav" aria-label="Primary">
+          <a href="/fleet-sheets/" aria-current="page">Fleet Sheets</a>
           <a href="/docs/">Docs</a>
         </nav>
       </div>
     </header>
     <main id="content" tabindex="-1">
-      <a class="back" href="/">Back to NixonMade</a>
-      <p class="eyebrow">Jamf Pro workbook</p>
-      <h1>Jamf Pro exports, turned into an Excel workbook.</h1>
-      <p class="lede">
-        A summary dashboard, formatted tables, charts, and real pivot tables.
-        Import-only: no API access and no credentials.
-      </p>
-      <p class="price-row">
-        <span class="price-amount">$29</span>
-        <span class="price-note">Founder price for the first 20 buyers, then $49.</span>
-      </p>
-      <div class="actions">
-        <a
-          class="btn"
-          data-checkout
-          data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc"
-          data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02"
-          aria-disabled="true"
-          >Get Fleet Sheets — $29</a
-        >
-      </div>
-      <p class="refund-line">
-        A downloadable kit can be refunded within 14 days of purchase if it
-        was not substantially used, or if a file is broken and we cannot fix
-        it.
-        <a href="/refunds/">Refund policy</a>.
-      </p>
-      <p class="docs-call">
-        <a href="/docs/fleet-sheets/">Fleet Sheets documentation</a>
-      </p>
+      <section class="hero" aria-labelledby="product-heading">
+        <div class="hero-copy">
+          <p class="back-row"><a class="back" href="/">NixonMade</a></p>
+          <img class="app-icon" src="/img/marks/fleet-sheets.svg" alt="" width="88" height="88" />
+          <p class="eyebrow">Jamf Pro workbook · macOS</p>
+          <h1 id="product-heading">The Jamf export, already built into a workbook.</h1>
+          <p class="lede">
+            A summary, formatted tables, charts, and real pivot tables from
+            the CSV and Excel you already pulled. Import-only: no API access
+            and no credentials.
+          </p>
+          <p class="who">For Jamf Pro admins who report on one organization.</p>
+          <div class="buy-cluster">
+            <p class="price-row">
+              <span class="price-amount">$29</span>
+              <span class="price-note">Founder price for the first 20 buyers, then $49.</span>
+            </p>
+            <div class="actions">
+              <a
+                class="btn btn-buy"
+                data-checkout
+                data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc"
+                data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02"
+                aria-disabled="true"
+                >Get Fleet Sheets — $29</a
+              >
+            </div>
+          </div>
+          <p class="refund-line">
+            <a href="/refunds/">Refunds</a>
+            within 14 days if it was not substantially used, or if a file is broken and we cannot fix it.
+          </p>
+          <ul class="fact-row">
+            <li>Import only</li>
+            <li>One organization</li>
+            <li>macOS disk image</li>
+          </ul>
+        </div>
+        <figure class="hero-shot">
+          <picture>
+            <source type="image/avif" srcset="/img/fleet-sheets/summary-640.avif 640w, /img/fleet-sheets/summary-960.avif 960w, /img/fleet-sheets/summary-1440.avif 1440w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" />
+            <source type="image/webp" srcset="/img/fleet-sheets/summary-640.webp 640w, /img/fleet-sheets/summary-960.webp 960w, /img/fleet-sheets/summary-1440.webp 1440w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" />
+            <img src="/img/fleet-sheets/summary-960.png" srcset="/img/fleet-sheets/summary-640.png 640w, /img/fleet-sheets/summary-960.png 960w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" width="960" height="350" alt="Sample data. The Fleet Sheets summary sheet, with example KPIs for computers, mobile devices, FileVault, OS version, check-in, and patch compliance." fetchpriority="high" decoding="async" />
+          </picture>
+          <figcaption>Sample data. The summary sheet in the workbook that ships with the disk image.</figcaption>
+        </figure>
+      </section>
+
+      <section aria-labelledby="highlights-heading">
+        <h2 id="highlights-heading">What you get</h2>
+        <ul class="feature-grid">
+          <li>
+            <h3>A summary you can send</h3>
+            <p>Computers, mobile devices, FileVault, OS version, check-in, and patch compliance, calculated from the export.</p>
+          </li>
+          <li>
+            <h3>Tables that are already formatted</h3>
+            <p>The imported rows land on sheets with headers, so you are not starting from a blank grid.</p>
+          </li>
+          <li>
+            <h3>Charts and real pivots</h3>
+            <p>A computers-by-OS chart, and Excel pivot tables you can filter. They are pivots, not pictures of pivots.</p>
+          </li>
+          <li>
+            <h3>No credentials on the disk</h3>
+            <p>Fleet Sheets never calls the Jamf API. If the export is not on your Mac, the workbook does not exist.</p>
+          </li>
+        </ul>
+      </section>
 
       <section aria-labelledby="samples-heading">
-        <h2 id="samples-heading">Sample data</h2>
+        <div class="section-intro">
+          <h2 id="samples-heading">Sample data</h2>
+          <p>
+            These are sheets from the sample workbook included with the
+            download. The rows are example data, not a real fleet. The summary
+            crop stops above the workbook footer.
+          </p>
+        </div>
         <figure class="figure-slot">
           <picture>
-            <source type="image/avif" srcset="/img/fleet-sheets/summary-640.avif 640w, /img/fleet-sheets/summary-960.avif 960w, /img/fleet-sheets/summary-1440.avif 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/fleet-sheets/summary-640.webp 640w, /img/fleet-sheets/summary-960.webp 960w, /img/fleet-sheets/summary-1440.webp 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <img src="/img/fleet-sheets/summary-960.png" srcset="/img/fleet-sheets/summary-640.png 640w, /img/fleet-sheets/summary-960.png 960w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" width="960" height="350" alt="Sample data. The Fleet Sheets summary sheet, with example KPIs for computers, mobile devices, FileVault, OS version, check-in, and patch compliance." loading="lazy" decoding="async" />
+            <source type="image/avif" srcset="/img/fleet-sheets/pivots-640.avif 640w, /img/fleet-sheets/pivots-960.avif 960w, /img/fleet-sheets/pivots-1440.avif 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <source type="image/webp" srcset="/img/fleet-sheets/pivots-640.webp 640w, /img/fleet-sheets/pivots-960.webp 960w, /img/fleet-sheets/pivots-1440.webp 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <img src="/img/fleet-sheets/pivots-960.png" srcset="/img/fleet-sheets/pivots-640.png 640w, /img/fleet-sheets/pivots-960.png 960w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" width="960" height="176" alt="Sample data. Fleet Sheets pivot tables for computers by OS and model, FileVault, mobile devices, and patch status." loading="lazy" decoding="async" />
           </picture>
-          <figcaption>Sample data.</figcaption>
+          <figcaption>Pivot tables. Sample data.</figcaption>
         </figure>
         <figure class="figure-slot">
           <picture>
-            <source type="image/avif" srcset="/img/fleet-sheets/pivots-640.avif 640w, /img/fleet-sheets/pivots-960.avif 960w, /img/fleet-sheets/pivots-1440.avif 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/fleet-sheets/pivots-640.webp 640w, /img/fleet-sheets/pivots-960.webp 960w, /img/fleet-sheets/pivots-1440.webp 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <img src="/img/fleet-sheets/pivots-960.png" srcset="/img/fleet-sheets/pivots-640.png 640w, /img/fleet-sheets/pivots-960.png 960w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" width="960" height="176" alt="Sample data. Fleet Sheets pivot tables for computers by OS and model, FileVault, mobile devices, and patch status." loading="lazy" decoding="async" />
+            <source type="image/avif" srcset="/img/fleet-sheets/computers-by-os-640.avif 640w, /img/fleet-sheets/computers-by-os-960.avif 960w, /img/fleet-sheets/computers-by-os-1440.avif 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <source type="image/webp" srcset="/img/fleet-sheets/computers-by-os-640.webp 640w, /img/fleet-sheets/computers-by-os-960.webp 960w, /img/fleet-sheets/computers-by-os-1440.webp 1440w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <img src="/img/fleet-sheets/computers-by-os-960.png" srcset="/img/fleet-sheets/computers-by-os-640.png 640w, /img/fleet-sheets/computers-by-os-960.png 960w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" width="960" height="376" alt="Sample data. A Fleet Sheets bar chart of example computers by OS version." loading="lazy" decoding="async" />
           </picture>
-          <figcaption>Sample data.</figcaption>
-        </figure>
-        <figure class="figure-slot">
-          <picture>
-            <source type="image/avif" srcset="/img/fleet-sheets/computers-by-os-640.avif 640w, /img/fleet-sheets/computers-by-os-960.avif 960w, /img/fleet-sheets/computers-by-os-1440.avif 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/fleet-sheets/computers-by-os-640.webp 640w, /img/fleet-sheets/computers-by-os-960.webp 960w, /img/fleet-sheets/computers-by-os-1440.webp 1440w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" />
-            <img src="/img/fleet-sheets/computers-by-os-960.png" srcset="/img/fleet-sheets/computers-by-os-640.png 640w, /img/fleet-sheets/computers-by-os-960.png 960w" sizes="(min-width: 720px) 40rem, calc(100vw - 2.5rem)" width="960" height="376" alt="Sample data. A Fleet Sheets bar chart of example computers by OS version." loading="lazy" decoding="async" />
-          </picture>
-          <figcaption>Sample data.</figcaption>
+          <figcaption>Computers by OS. Sample data.</figcaption>
         </figure>
       </section>
 
       <section aria-labelledby="inside-heading">
-        <h2 id="inside-heading">What's inside</h2>
+        <h2 id="inside-heading">What's on the disk image</h2>
         <ul class="content-list">
           <li>A macOS disk image (.dmg)</li>
           <li>The jxr universal2 binary</li>
@@ -111,6 +151,9 @@
           <li>Sample exports and a sample workbook (example data)</li>
           <li>One organization per purchase</li>
         </ul>
+        <p class="docs-call">
+          <a href="/docs/fleet-sheets/">Fleet Sheets documentation</a>
+        </p>
       </section>
 
       <section aria-labelledby="who-heading">
@@ -118,12 +161,12 @@
         <p>
           Jamf Pro admins who already export CSV or Excel and want that export
           as a workbook. One organization per license. There is no MSP or
-          multi-client tier.
+          multi-client tier. A second organization needs its own purchase.
         </p>
       </section>
 
       <section aria-labelledby="delivery-heading">
-        <h2 id="delivery-heading">Delivery</h2>
+        <h2 id="delivery-heading">How you get the file</h2>
         <ol class="steps">
           <li>You check out on Stripe.</li>
           <li>
@@ -173,20 +216,29 @@
         </dl>
       </section>
 
+      <section class="closing" aria-labelledby="buy-again-heading">
+        <h2 id="buy-again-heading">Get the disk image.</h2>
+        <p class="price-row">
+          <span class="price-amount">$29</span>
+          <span class="price-note">Founder price for the first 20 buyers, then $49.</span>
+        </p>
+        <div class="actions">
+          <a
+            class="btn btn-buy"
+            data-checkout
+            data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc"
+            data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02"
+            aria-disabled="true"
+            >Get Fleet Sheets — $29</a
+          >
+        </div>
+        <p class="refund-line"><a href="/refunds/">Refund policy</a></p>
+      </section>
+
       <p class="fine">
         NixonMade is not affiliated with, endorsed by, or sponsored by Jamf or
         Apple.
       </p>
-      <div class="actions">
-        <a
-          class="btn"
-          data-checkout
-          data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc"
-          data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02"
-          aria-disabled="true"
-          >Get Fleet Sheets — $29</a
-        >
-      </div>
     </main>
     <footer class="site-footer">
       <div class="inner">

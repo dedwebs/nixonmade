@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Stencil Forge">
+  <rect width="128" height="128" rx="28" fill="#1a1714"/>
+  <rect x="30" y="46" width="52" height="40" rx="4" fill="#f6f3ec" opacity="0.45"/>
+  <rect x="38" y="38" width="52" height="40" rx="4" fill="#f6f3ec" opacity="0.7"/>
+  <rect x="46" y="30" width="52" height="40" rx="4" fill="#f6f3ec"/>
+  <path d="M58 42h28M58 52h20M58 62h24" stroke="#1a1714" stroke-width="3" stroke-linecap="square"/>
+</svg>

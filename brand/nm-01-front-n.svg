@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 16 178 136" role="img" aria-labelledby="title">
+  <title id="title">NixonMade</title>
+  <defs>
+    <mask id="nm-gap">
+      <rect x="0" y="0" width="200" height="180" fill="#fff"/>
+      <path d="M18 140L18 28L41 28L87 106.4L87 28L110 28L110 140L87 140L41 61.6L41 140Z" fill="#000" stroke="#000" stroke-width="4.2" stroke-linejoin="miter" stroke-miterlimit="2.2"/>
+    </mask>
+  </defs>
+  <g fill="currentColor">
+    <path mask="url(#nm-gap)" d="M76 140L76 28L98 28L126 81.76L154 28L176 28L176 140L154 140L154 75.04L126 124.32L98 75.04L98 140Z"/>
+    <path d="M18 140L18 28L41 28L87 106.4L87 28L110 28L110 140L87 140L41 61.6L41 140Z"/>
+  </g>
+</svg>
