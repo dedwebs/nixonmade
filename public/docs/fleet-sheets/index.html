@@ -43,10 +43,10 @@
       <p class="eyebrow">Fleet Sheets</p>
       <h1>Fleet Sheets</h1>
       <p class="lede">
-        A macOS disk image. It turns a device export into an Excel workbook
-        with a summary, tables, charts, and pivot tables. Import only: no API
-        access and no credentials. One organization per license. The workbook
-        needs Microsoft Excel.
+        A Mac app that turns a device export into an Excel report with a
+        summary, tables, charts, and pivot tables. You drag in a file you
+        already exported. No API access and no credentials. One organization
+        per license. The report needs Microsoft Excel.
       </p>
       <p class="docs-call"><a href="/fleet-sheets/">Fleet Sheets product page</a></p>
       <nav class="docs-subnav" aria-label="Documentation">
@@ -58,87 +58,74 @@
       <section aria-labelledby="contents-heading">
         <h2 id="contents-heading">What's in it</h2>
         <ul class="content-list">
-          <li>A macOS disk image (.dmg)</li>
-          <li>The jxr universal2 binary</li>
-          <li>A Python wheel</li>
-          <li>README, QUICKSTART, CHANGELOG, and LICENSE</li>
-          <li>Third-party notices</li>
-          <li>Sample exports and a sample workbook (example data)</li>
+          <li>A disk image (.dmg) with the Fleet Sheets app</li>
+          <li>Sample exports you can try from inside the app (example data, not a real fleet)</li>
+          <li>Built-in help that shows how to make each export</li>
         </ul>
-        <p>
-          The sample workbook is example data, not a real fleet. Its sheets
-          include a summary, pivot tables, and a computers-by-OS chart.
-        </p>
-        <!-- TODO: Minimum macOS version for the disk image is not in the materials. -->
       </section>
 
       <section aria-labelledby="requirements-heading">
         <h2 id="requirements-heading">Requirements</h2>
         <ul class="content-list">
-          <li>A Mac, because the download is a .dmg</li>
-          <li>Microsoft Excel, to open the workbook</li>
+          <li>macOS 13 or later, on an Intel or Apple silicon Mac</li>
+          <li>Microsoft Excel, to open the report</li>
           <li>A device export you already have. Fleet Sheets does not connect to the MDM.</li>
         </ul>
       </section>
 
       <section aria-labelledby="sources-heading">
-        <h2 id="sources-heading">Sources</h2>
+        <h2 id="sources-heading">Exports it reads</h2>
         <ul class="content-list">
           <li>Jamf Pro: CSV or .xlsx</li>
           <li>Kandji: Device Views CSV export</li>
           <li>Microsoft Intune: the device list export from the portal, or the Graph Devices report</li>
           <li>Addigy: the devices table export</li>
-          <li>Any other CSV, by mapping the columns</li>
+          <li>Any other CSV or .xlsx, by matching the columns in the app</li>
         </ul>
+        <p>Fleet Sheets detects Jamf Pro, Kandji, Intune, and Addigy exports on its own.</p>
       </section>
 
       <section aria-labelledby="reads-heading">
-        <h2 id="reads-heading">What it reads</h2>
+        <h2 id="reads-heading">Limitations</h2>
         <ul class="content-list">
+          <li>Microsoft Excel is required to open the report.</li>
+          <li>Needs macOS 13 or later.</li>
           <li>Mosyle is not supported yet.</li>
           <li>Kandji FileVault status is not in the Device Views export, so that figure is skipped for Kandji.</li>
           <li>Other Kandji Prism or category exports are not supported. Other Intune reports are not supported.</li>
-          <li>The download is a macOS disk image. The workbook needs Microsoft Excel.</li>
         </ul>
       </section>
 
       <section aria-labelledby="install-heading">
-        <h2 id="install-heading">Install and getting started</h2>
+        <h2 id="install-heading">Install</h2>
         <ol class="steps">
           <li>
-            Buy Fleet Sheets on the
-            <a href="/fleet-sheets/">product page</a>. Checkout is on Stripe.
+            Download Fleet Sheets from the download page Stripe opens after
+            payment. Bookmark that page. The button lasts 15 minutes, and you
+            can download five times. If you saved the checkout session id,
+            enter it on the <a href="/redownload">re-download page</a>.
           </li>
-          <li>
-            After payment, Stripe opens your download page. Bookmark that
-            page. The button lasts 15 minutes, and you can download five
-            times. That page is how you download again. If you saved the
-            checkout session id, enter it on the
-            <a href="/redownload">re-download page</a>.
-          </li>
-          <li>Open the .dmg on your Mac.</li>
-          <li>Read QUICKSTART and README inside the disk image.</li>
-          <li>
-            Open the sample workbook if you want to see the example summary,
-            pivots, and chart before you use your own export.
-          </li>
+          <li>Open the downloaded .dmg file.</li>
+          <li>In the window that opens, drag Fleet Sheets into the Applications folder.</li>
+          <li>Open Fleet Sheets from Applications. The first time, macOS asks whether you want to open an app downloaded from the internet. Click Open.</li>
         </ol>
-        <!-- TODO: Whether the .dmg asks you to drag an app into Applications, or how jxr is launched from the image, is not in the materials. -->
       </section>
 
       <section aria-labelledby="walkthrough-heading">
-        <h2 id="walkthrough-heading">Walkthrough</h2>
+        <h2 id="walkthrough-heading">Make a report</h2>
         <ol class="steps">
-          <li>Open the disk image and read QUICKSTART.</li>
+          <li>Export your devices from your device management tool as a CSV or Excel file. In the app, "How do I export my devices?" shows how for each tool.</li>
+          <li>Drop the file onto the Fleet Sheets window, or click Choose File.</li>
+          <li>Fleet Sheets shows what it found, such as "Jamf export · 70 devices", and notes anything the export is missing.</li>
           <li>
-            Look at the sample workbook. The summary sheet lists example KPIs.
-            The pivot sheet has computers by OS and model, FileVault status,
-            mobile devices, and patch status. The computers-by-OS sheet has a
-            table and a bar chart. Those numbers are example data.
+            If it doesn't recognize the file, it asks which columns are which.
+            Pick the columns for computer name and serial number. macOS
+            version and model are optional. Then click Continue.
           </li>
-          <li>Import your own device export: Jamf Pro, Kandji Device Views, an Intune device list or Graph Devices report, an Addigy devices table, or another CSV with the columns mapped.</li>
+          <li>Click Create Report and choose where to save it.</li>
+          <li>Click Open in Excel, or Show in Finder.</li>
         </ol>
-        <!-- TODO: The control or command that starts an import is not in the materials. -->
+        <p>No export handy? Use "Try a sample" on the first screen. Samples are example data, not a real fleet.</p>
       </section>
 
       <section aria-labelledby="config-heading">
@@ -147,7 +134,6 @@
           A license covers one organization. There is no MSP or multi-client
           tier. A second organization needs its own purchase.
         </p>
-        <!-- TODO: Settings for the stale window, the current OS value, or an output path are not described outside the sample report itself. Do not treat those report labels as preferences. -->
       </section>
 
       <section aria-labelledby="faq-heading">
@@ -166,8 +152,12 @@
             <dd>$29 for one organization.</dd>
           </div>
           <div>
-            <dt>Is the sample workbook my fleet?</dt>
-            <dd>No. It is example data shipped with the kit.</dd>
+            <dt>Do I need to use Terminal?</dt>
+            <dd>No. Fleet Sheets is a regular Mac app.</dd>
+          </div>
+          <div>
+            <dt>Are the samples my fleet?</dt>
+            <dd>No. They are example data included with the app.</dd>
           </div>
           <div>
             <dt>How do refunds work?</dt>
@@ -179,11 +169,11 @@
       <section aria-labelledby="trouble-heading">
         <h2 id="trouble-heading">Troubleshooting</h2>
         <p>
-          If a file in the disk image will not open, email
+          If Fleet Sheets can't read your export, it says why and what to try.
+          If that doesn't help, email
           <a href="mailto:hello@nixonmade.com?subject=Fleet%20Sheets">hello@nixonmade.com</a>
-          with the file name and what failed.
+          with the name of your device management tool and the message you saw.
         </p>
-        <!-- TODO: No Fleet Sheets error list or support log is in the materials. -->
       </section>
 
       <section aria-labelledby="support-heading">
