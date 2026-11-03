@@ -158,7 +158,7 @@ describe("allowlist", () => {
       PRODUCT_SHIP_KIT_FILENAME: "nixonmade-ship-kit.zip",
       PRODUCT_SHIP_KIT_LIVE_LINKS: "",
       PRODUCT_SHIP_KIT_LIVE_PRICES: "",
-      PRODUCT_FLEET_SHEETS_KEY: "FleetSheets-v1.0.0-macOS.dmg",
+      PRODUCT_FLEET_SHEETS_KEY: "FleetSheets-v1.1.0-macOS.dmg",
       PRODUCT_FLEET_SHEETS_FILENAME: "nixonmade-fleet-sheets.dmg",
       PRODUCT_FLEET_SHEETS_LIVE_LINKS: "plink_1UVcxz9YvevV3dxlEFkHsQlc",
       PRODUCT_FLEET_SHEETS_LIVE_PRICES: "price_1UVcxv9YvevV3dxllPPANBuz",
@@ -169,7 +169,7 @@ describe("allowlist", () => {
       priceIds: [],
     });
     expect(fleet?.slug).toBe("fleet-sheets");
-    expect(fleet?.key).toBe("FleetSheets-v1.0.0-macOS.dmg");
+    expect(fleet?.key).toBe("FleetSheets-v1.1.0-macOS.dmg");
     expect(fleet?.filename).toBe("nixonmade-fleet-sheets.dmg");
     expect(
       matchProduct(parsed, {
