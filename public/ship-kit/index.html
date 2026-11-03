@@ -29,45 +29,53 @@
     <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="product">
+  <body class="product store">
     <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
       <div class="inner">
         <a class="brand" href="/">
-          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+          <img src="/brand/nm-mark.svg" alt="" width="36" height="36" />
+          <span class="brand-word">NixonMade</span>
         </a>
         <nav class="site-nav" aria-label="Primary">
+          <a href="/fleet-sheets/">Fleet Sheets</a>
           <a href="/docs/">Docs</a>
         </nav>
       </div>
     </header>
     <main id="content" tabindex="-1">
-      <a class="back" href="/">Back to NixonMade</a>
-      <p class="eyebrow">Agent Studio Ship Kit</p>
-      <h1>Scripts and a runbook for shipping a SwiftUI iOS app.</h1>
-      <p class="lede">
-        Included scripts, agent skills, checklists, and templates for the path
-        from a SwiftUI iOS repo toward an internal TestFlight build. SwiftUI
-        iOS apps only.
-      </p>
-      <p class="price-row">
-        <span class="price-amount">$49</span>
-        <span class="status">Coming soon</span>
-      </p>
-      <div class="actions">
-        <a class="btn" href="mailto:hello@nixonmade.com?subject=Ship%20Kit%20list"
-          >Join the list</a
-        >
-      </div>
-      <p class="refund-line">
-        A downloadable kit can be refunded within 14 days of purchase if it
-        was not substantially used, or if a file is broken and we cannot fix
-        it.
-        <a href="/refunds/">Refund policy</a>.
-      </p>
-      <p class="docs-call">
-        <a href="/docs/ship-kit/">Ship Kit documentation</a>
-      </p>
+      <section class="hero" aria-labelledby="product-heading">
+        <div class="hero-copy">
+          <p class="back-row"><a class="back" href="/">NixonMade</a></p>
+          <img class="app-icon" src="/img/marks/ship-kit.svg" alt="" width="88" height="88" />
+          <p class="eyebrow">Agent Studio Ship Kit</p>
+          <h1 id="product-heading">Scripts and a runbook for shipping a SwiftUI iOS app.</h1>
+          <p class="lede">
+            Included scripts, agent skills, checklists, and templates for the path
+            from a SwiftUI iOS repo toward an internal TestFlight build. SwiftUI
+            iOS apps only.
+          </p>
+          <p class="who">For one developer shipping a SwiftUI iOS app with Cursor or Claude Code.</p>
+          <p class="price-row">
+            <span class="price-amount">$49</span>
+            <span class="status">Coming soon</span>
+          </p>
+          <div class="actions">
+            <a class="btn" href="mailto:hello@nixonmade.com?subject=Ship%20Kit%20list">Join the list</a>
+          </div>
+          <p>Checkout is not open. There is no buy button on this page.</p>
+          <p class="refund-line">
+            <a href="/refunds/">See our refund policy</a>.
+          </p>
+        </div>
+        <figure class="hero-shot">
+          <div class="shot-placeholder" role="img" aria-label="Screenshot needed: the Ship Kit file list, or the Mac gate script running on a sample app.">
+            <p class="shot-placeholder-kicker">Screenshot needed</p>
+            <p>The Ship Kit folder, or the Mac gate script running on a sample app. A mockup will not be drawn in its place.</p>
+          </div>
+          <figcaption>No product screenshot is in the repo yet. The dry-run transcripts below are real output from a sample app.</figcaption>
+        </figure>
+      </section>
 
       <section aria-labelledby="inside-heading">
         <h2 id="inside-heading">What's inside</h2>
@@ -83,6 +91,9 @@
           <li>Checklists: Mac gate, QA gate, archive smoke test, upload</li>
           <li>Templates: ship.env, ExportOptions.plist, gate report, What to Test</li>
         </ul>
+        <p class="docs-call">
+          <a href="/docs/ship-kit/">Ship Kit documentation</a>
+        </p>
       </section>
 
       <section aria-labelledby="dry-run-heading">
@@ -165,10 +176,10 @@ Archive: build/archives/ShipKitDryRun-1.xcarchive
           <p class="price-amount">$299</p>
           <p>
             Internal TestFlight within 48 hours, max 5 testers, and one fix
-            round within 7 days. If the 48-hour turnaround target is missed,
-            the refund is 50% of the done-for-you fee. Excludes App Store
-            submission, external TestFlight, feature work, IAP and pricing, and
-            listings.
+            round within 7 days.
+            <a href="/refunds/">See our refund policy</a>.
+            Excludes App Store submission, external TestFlight, feature work,
+            IAP and pricing, and listings.
           </p>
         </article>
       </section>
@@ -211,20 +222,16 @@ Archive: build/archives/ShipKitDryRun-1.xcarchive
           </div>
           <div>
             <dt>How do kit refunds work?</dt>
-            <dd>
-              Within 14 days, if the kit was not substantially used, or if a
-              file is broken and we cannot fix it. See the
-              <a href="/refunds/">refund policy</a>.
-            </dd>
+            <dd><a href="/refunds/">See our refund policy</a>.</dd>
           </div>
           <div>
             <dt>What does the $299 service include?</dt>
             <dd>
               It is not on sale yet. The scope is a building SwiftUI iOS app to
               internal TestFlight, max 5 testers, and one fix round within 7
-              days. If the 48-hour turnaround target is missed, the refund is
-              50% of the done-for-you fee. It excludes App Store submission,
-              external TestFlight, feature work, IAP and pricing, and listings.
+              days. It excludes App Store submission, external TestFlight,
+              feature work, IAP and pricing, and listings.
+              <a href="/refunds/">See our refund policy</a>.
             </dd>
           </div>
         </dl>
@@ -234,9 +241,7 @@ Archive: build/archives/ShipKitDryRun-1.xcarchive
         NixonMade is not affiliated with, endorsed by, or sponsored by Apple.
       </p>
       <div class="actions">
-        <a class="btn" href="mailto:hello@nixonmade.com?subject=Ship%20Kit%20list"
-          >Join the list</a
-        >
+        <a class="btn" href="mailto:hello@nixonmade.com?subject=Ship%20Kit%20list">Join the list</a>
       </div>
     </main>
     <footer class="site-footer">

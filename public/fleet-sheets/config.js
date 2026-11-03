@@ -3,8 +3,7 @@
  * STRIPE_LINK and SUPPORT_EMAIL live only in this object.
  */
 const FLEET_SHEETS = Object.freeze({
-  // Sales paused. No checkout link until the Mac app ships.
-  STRIPE_LINK: "",
+  STRIPE_LINK: "https://buy.stripe.com/aFabIVchb29k47r9FneQM02",
   SUPPORT_EMAIL: "hello@nixonmade.com",
 });
 

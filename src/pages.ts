@@ -17,7 +17,8 @@ function page(title: string, main: string): string {
     <header class="site-header">
       <div class="inner">
         <a class="brand" href="/">
-          <img src="/brand/press-stamp.svg" alt="NixonMade" width="40" height="40" />
+          <img src="/brand/nm-mark.svg" alt="" width="36" height="36" />
+          <span class="brand-word">NixonMade</span>
         </a>
       </div>
     </header>

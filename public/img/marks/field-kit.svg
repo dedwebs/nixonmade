@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Field Kit">
+  <rect width="128" height="128" rx="28" fill="#1a1714"/>
+  <rect x="34" y="24" width="60" height="76" rx="6" fill="#f6f3ec"/>
+  <rect x="46" y="24" width="36" height="10" rx="2" fill="#6f2c22"/>
+  <path d="M48 58l6 6 12-14" fill="none" stroke="#6f2c22" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M48 78h28M48 88h20" fill="none" stroke="#1a1714" stroke-width="4" stroke-linecap="square"/>
+</svg>
