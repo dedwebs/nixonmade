@@ -13,7 +13,7 @@
     <meta property="og:title" content="relnotes — Coming soon — NixonMade" />
     <meta
       property="og:description"
-      content="Release notes that write themselves. Coming soon."
+      content="A changelog that keeps up with your merges. One plain-English line per merged pull request. Coming soon."
     />
     <meta property="og:url" content="https://nixonmade.com/relnotes/" />
     <meta property="og:type" content="website" />
@@ -48,10 +48,11 @@
       <a class="back" href="/">Back to NixonMade</a>
       <img class="app-icon" src="/img/marks/relnotes.svg" alt="" width="88" height="88" />
       <p class="eyebrow">Coming soon</p>
-      <h1>Release notes that write themselves.</h1>
+      <h1>A changelog that keeps up with your merges.</h1>
       <p class="lede">
-        relnotes turns merged pull requests into clean, readable release notes,
-        so the changelog ships with the code.
+        relnotes reads each merged pull request and writes one plain-English
+        line for your users. Refactors, CI, and dependency bumps are skipped,
+        so the changelog only says what people will notice.
       </p>
       <div class="actions">
         <a class="btn" href="mailto:hello@nixonmade.com?subject=relnotes%20waitlist"
@@ -62,22 +63,16 @@
         Nothing is on sale yet.
         <a href="/refunds/">See our refund policy</a>.
       </p>
-      <figure class="figure-slot">
-        <div class="shot-placeholder" role="img" aria-label="Screenshot needed: a relnotes changelog grouped into features, fixes, and maintenance.">
-          <p class="shot-placeholder-kicker">Screenshot needed</p>
-          <p>A relnotes changelog grouped into features, fixes, and maintenance. No mockup will be drawn in its place.</p>
-        </div>
-        <figcaption>No product screenshot is in the repo yet.</figcaption>
-      </figure>
 
       <section aria-labelledby="inside-heading">
         <h2 id="inside-heading">What's inside</h2>
         <ul class="content-list">
-          <li>A GitHub App. You pick the repositories.</li>
-          <li>Notes grouped from each merged pull request.</li>
-          <li>A hosted changelog page for each repository.</li>
-          <li>Read-only access: it reads pull requests and does not write to your code.</li>
-          <li>Stored notes are deleted when you cancel.</li>
+          <li>A GitHub App. You choose which repositories it can see.</li>
+          <li>One line per merged pull request, written for users, not developers.</li>
+          <li>Internal-only changes are left out automatically.</li>
+          <li>One private changelog URL for your account, served as Markdown you can paste or fetch.</li>
+          <li>Read-only: it reads pull requests and never writes to your code.</li>
+          <li>Planned pricing: $19 a month per repository, or $49 a month for a team with unlimited repositories.</li>
         </ul>
       </section>
 
@@ -90,22 +85,15 @@
       </section>
 
       <section aria-labelledby="example-heading">
-        <h2 id="example-heading">Example</h2>
-        <article class="sample">
-          <h3>v1.4.0, example</h3>
-          <h4>Features</h4>
-          <ul>
-            <li>Add CSV export to the reports page</li>
-          </ul>
-          <h4>Fixes</h4>
-          <ul>
-            <li>Fix login redirect loop on Safari</li>
-          </ul>
-          <h4>Maintenance</h4>
-          <ul>
-            <li>Bump dependencies</li>
-          </ul>
-        </article>
+        <div class="section-intro">
+          <h2 id="example-heading">What you get</h2>
+          <p>The changelog is plain Markdown, newest first. Example entries below, written by hand in the same format.</p>
+        </div>
+        <pre class="terminal" tabindex="0"><code># Changelog
+
+- Plan changes in Stripe now take effect right away, including upgrades and failed payments. — acme/billing
+- Exports now include a summary row with totals for each column. — acme/reports
+- Fixed a sign-in loop that could trap Safari users on the login page. — acme/web</code></pre>
       </section>
 
       <section aria-labelledby="faq-heading">
@@ -124,7 +112,7 @@
           </div>
           <div>
             <dt>Which model writes the notes?</dt>
-            <dd>A commercial LLM API summarizes pull request titles and descriptions.</dd>
+            <dd>Claude, from Anthropic. It sees the pull request title, description, and a size-capped diff. Pull request text is treated as data, never as instructions, and links, images, and HTML are stripped from every line before it is stored.</dd>
           </div>
           <div>
             <dt>What happens if I cancel?</dt>
