@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toolwarden — NixonMade</title>
+    <meta
+      name="description"
+      content="Toolwarden is a free desktop app and CLI for Mac admins. Works with Jamf Pro: device lookup, MDM command flush, group rollout checks, policies, package inspection, and PPPC privacy profiles. Nothing changes until you click and confirm."
+    />
+    <link rel="canonical" href="https://nixonmade.com/toolwarden/" />
+    <meta property="og:title" content="Toolwarden — NixonMade" />
+    <meta
+      property="og:description"
+      content="A desktop app and CLI for Mac admins. Works with Jamf Pro. Nothing changes until you click a green button and confirm."
+    />
+    <meta property="og:url" content="https://nixonmade.com/toolwarden/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/og/toolwarden.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f3ec" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="product store">
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">
+          <img src="/brand/nm-mark.svg" alt="" width="36" height="36" />
+          <span class="brand-word">NixonMade</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/fleet-sheets/">Fleet Sheets</a>
+          <a href="/docs/">Docs</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content" tabindex="-1">
+      <section class="hero" aria-labelledby="product-heading">
+        <div class="hero-copy">
+          <p class="back-row"><a class="back" href="/">NixonMade</a></p>
+          <picture>
+            <source type="image/webp" srcset="/img/toolwarden/icon-176.webp 1x, /img/toolwarden/icon-352.webp 2x" />
+            <img class="app-icon" src="/img/toolwarden/icon-176.png" srcset="/img/toolwarden/icon-352.png 2x" alt="" width="88" height="88" />
+          </picture>
+          <p class="eyebrow">Toolwarden · Desktop app and CLI · Works with Jamf Pro</p>
+          <h1 id="product-heading">The daily Jamf Pro jobs, in one careful window.</h1>
+          <p class="lede">
+            Toolwarden is a desktop app and command-line tool for Mac admins
+            who manage Macs with Jamf Pro. Look up a Mac, flush stuck MDM
+            commands, check how a policy is landing across a group, build
+            privacy profiles, and inspect packages without opening five
+            browser tabs.
+          </p>
+          <p class="who">For MSPs and small Mac IT teams.</p>
+          <div class="buy-cluster">
+            <p class="price-row">
+              <span class="price-note">Free and open source (MIT). Needs macOS 11 or later.</span>
+            </p>
+            <div class="actions">
+              <a class="btn" href="https://github.com/dedwebs/Toolwarden/releases" rel="noopener noreferrer">Download the .pkg</a>
+              <a class="text-link" href="https://github.com/dedwebs/Toolwarden" rel="noopener noreferrer">Source on GitHub</a>
+            </div>
+          </div>
+          <ul class="fact-row">
+            <li>Desktop app and CLI</li>
+            <li>macOS 11 or later</li>
+            <li>Practice mode built in</li>
+          </ul>
+        </div>
+        <figure class="hero-shot">
+          <picture>
+            <source type="image/webp" srcset="/img/toolwarden/devices-580.webp 580w, /img/toolwarden/devices-1160.webp 1160w" sizes="(min-width: 960px) 29rem, calc(100vw - 2.5rem)" />
+            <img src="/img/toolwarden/devices-580.png" width="580" height="372" alt="Practice data. The Toolwarden Devices page showing a Mac that is stale and has one failed MDM command, with a green Flush failed MDM button and a red Flush pending and failed button." fetchpriority="high" decoding="async" />
+          </picture>
+          <figcaption>Devices: one Mac, its check-in, and its stuck MDM commands. Practice data.</figcaption>
+        </figure>
+      </section>
+
+      <section aria-labelledby="safety-heading">
+        <div class="section-intro">
+          <h2 id="safety-heading">Nothing changes until you say so</h2>
+          <p>
+            Reading is free. Writing is not. Toolwarden never changes
+            anything in Jamf Pro until you click a green button and confirm.
+          </p>
+        </div>
+        <ul class="content-list">
+          <li>Every write is a green button, followed by a confirm.</li>
+          <li>Riskier actions ask for more. Flushing pending and failed commands means typing the computer name.</li>
+          <li>Privacy profiles upload unscoped, so nothing reaches a Mac until you scope it in Jamf Pro.</li>
+          <li>AI only fills in forms. It never saves, uploads, or sends a command. You review and click.</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="features-heading">
+        <h2 id="features-heading">What it does</h2>
+        <ul class="feature-grid">
+          <li>
+            <h3>Devices</h3>
+            <p>Look up a Mac by serial number or name. See last check-in, inventory, and failed or pending MDM commands. Flush failed commands after you confirm.</p>
+          </li>
+          <li>
+            <h3>Deployments</h3>
+            <p>Pick a group and a policy to see which Macs completed, failed, or have not run it yet. Or open one Mac's policy logs.</p>
+          </li>
+          <li>
+            <h3>Packages</h3>
+            <p>Build installer packages with the Inlet packaging window, then hand a package already in Jamf Pro to a policy.</p>
+          </li>
+          <li>
+            <h3>Policies</h3>
+            <p>Create or update a policy with a custom trigger, a package, and a static group scope. Preview the XML before you save.</p>
+          </li>
+          <li>
+            <h3>Groups</h3>
+            <p>Preview a CSV against a static group, apply the additions, and undo the last apply. Smart groups are left alone.</p>
+          </li>
+          <li>
+            <h3>Inspect</h3>
+            <p>Open a local .pkg to see its payload, scripts, and nested packages. Check its signature, sign a copy, or write an unsigned copy to repack.</p>
+          </li>
+          <li>
+            <h3>Privacy</h3>
+            <p>Build PPPC profiles for Full Disk Access, Accessibility, Automation, and more. Drop in an app, edit an existing profile, export a signed .mobileconfig, or upload it.</p>
+          </li>
+          <li>
+            <h3>Practice mode</h3>
+            <p>A built-in mock Jamf Pro server runs on your Mac with sample packages, groups, and devices. Try every button before you point it at production.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="shots-heading">
+        <div class="section-intro">
+          <h2 id="shots-heading">A closer look</h2>
+          <p>Screenshots from Practice mode. The devices and groups are sample data.</p>
+        </div>
+        <figure class="figure-slot">
+          <picture>
+            <source type="image/webp" srcset="/img/toolwarden/rollout-580.webp 580w, /img/toolwarden/rollout-1160.webp 1160w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <img src="/img/toolwarden/rollout-580.png" width="580" height="172" alt="Practice data. The Deployments group rollout view for Install Firefox on Staff Macs: one Mac completed, one failed, none not run." loading="lazy" decoding="async" />
+          </picture>
+          <figcaption>Group rollout: how one policy is landing across a group. Practice data.</figcaption>
+        </figure>
+        <figure class="figure-slot">
+          <picture>
+            <source type="image/webp" srcset="/img/toolwarden/privacy-580.webp 580w, /img/toolwarden/privacy-1160.webp 1160w" sizes="(min-width: 900px) 52rem, calc(100vw - 2.5rem)" />
+            <img src="/img/toolwarden/privacy-580.png" width="580" height="372" alt="The Toolwarden Privacy page building a profile that gives Terminal Full Disk Access and Accessibility, with Export and a green Upload to Jamf button." loading="lazy" decoding="async" />
+          </picture>
+          <figcaption>Privacy: a PPPC profile for Terminal, ready to export or upload.</figcaption>
+        </figure>
+      </section>
+
+      <section aria-labelledby="install-heading">
+        <h2 id="install-heading">Install</h2>
+        <ol class="steps">
+          <li>Download the latest Toolwarden .pkg from <a href="https://github.com/dedwebs/Toolwarden/releases" rel="noopener noreferrer">GitHub Releases</a>.</li>
+          <li>Open it and follow the installer. The app goes to /Applications/Toolwarden.app.</li>
+          <li>Open Toolwarden and choose Practice in Settings to try it against the mock server first.</li>
+          <li>When you are ready, add a Jamf Pro API client in Settings and click Test connection.</li>
+        </ol>
+        <p>From a source checkout, the same tools run in Terminal for scripts and quick checks:</p>
+        <pre class="terminal" tabindex="0"><code>python3 main.py test-jamf
+python3 main.py mock-jamf
+python3 main.py inspect-pkg /path/to/App.pkg</code></pre>
+      </section>
+
+      <section aria-labelledby="who-heading">
+        <h2 id="who-heading">Who it's for</h2>
+        <p>
+          MSPs and small Mac IT teams who live in Jamf Pro and want the common
+          jobs to be quick and hard to get wrong. It is not a replacement for
+          the Jamf Pro console, and it is not a remote screen-sharing tool.
+        </p>
+      </section>
+
+      <section aria-labelledby="faq-heading">
+        <h2 id="faq-heading">FAQ</h2>
+        <dl class="faq">
+          <div>
+            <dt>What does it cost?</dt>
+            <dd>Nothing. Toolwarden is open source under the MIT license.</dd>
+          </div>
+          <div>
+            <dt>Can it change things in Jamf Pro by accident?</dt>
+            <dd>Every change needs a green button and a confirm. AI suggestions only fill in the form in front of you.</dd>
+          </div>
+          <div>
+            <dt>Can I try it without a Jamf Pro server?</dt>
+            <dd>Yes. Practice mode runs a mock server on your Mac with sample data.</dd>
+          </div>
+          <div>
+            <dt>It used to be called something else?</dt>
+            <dd>Yes. Versions before 0.2.0 were named Jamf Toolbox. Upgrading keeps your settings.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="closing" aria-labelledby="get-heading">
+        <h2 id="get-heading">Get Toolwarden.</h2>
+        <p>Free and open source. A macOS installer package from GitHub Releases.</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/dedwebs/Toolwarden/releases" rel="noopener noreferrer">Download the .pkg</a>
+        </div>
+        <p class="refund-line"><a href="https://github.com/dedwebs/Toolwarden" rel="noopener noreferrer">View the source on GitHub</a></p>
+      </section>
+
+      <p class="fine">
+        Toolwarden works with Jamf Pro. Jamf and Jamf Pro are trademarks of
+        JAMF Software, LLC. Mac and macOS are trademarks of Apple Inc.
+        Toolwarden is not affiliated with or endorsed by Jamf or Apple.
+      </p>
+    </main>
+    <footer class="site-footer">
+      <div class="inner">
+        <p class="footer-name">NixonMade</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/docs/">Docs</a>
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
