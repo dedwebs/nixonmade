@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NixonMade — Careful tools for Mac admins</title>
+    <title>NixonMade — Mac admin tools that skip the busywork</title>
     <meta
       name="description"
-      content="Small apps for Mac admins. Fleet Sheets turns a device export into an Excel workbook. Toolwarden is a free desktop app and CLI that works with Jamf Pro."
+      content="Mac admin tools that skip the busywork, built by a working Jamf admin. Fleet Sheets turns a device export into an Excel workbook. Toolwarden is a free desktop app and CLI that works with Jamf Pro."
     />
     <link rel="canonical" href="https://nixonmade.com/" />
-    <meta property="og:title" content="NixonMade — Careful tools for Mac admins" />
+    <meta property="og:title" content="NixonMade — Mac admin tools that skip the busywork" />
     <meta
       property="og:description"
       content="Fleet Sheets: a finished report from a device export you already have. $29 Mac app."
@@ -20,7 +20,7 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#f6f3ec" />
+    <meta name="theme-color" content="#f5f7fa" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -45,13 +45,18 @@
     </header>
     <main id="content" tabindex="-1">
       <section class="studio-hero" aria-labelledby="hero-heading">
-        <p class="eyebrow">NixonMade · Software studio</p>
-        <h1 id="hero-heading">Careful tools for Mac admins.</h1>
+        <p class="eyebrow">NixonMade · Tools for Mac admins</p>
+        <h1 id="hero-heading">Mac admin tools that skip the busywork.</h1>
         <p class="lede">
-          Small apps made by a working Jamf admin. Each one does a few jobs
-          well, says plainly what it touches, and leaves your fleet alone
-          until you ask.
+          I manage Macs for a living. These are the tools I wanted on my
+          own desk: they finish the tedious part of the job, show you
+          exactly what they will touch, and wait for your OK.
         </p>
+        <ul class="proof-row" aria-label="At a glance">
+          <li>Built by a working Jamf admin</li>
+          <li>Read first, change only on confirm</li>
+          <li>No subscriptions</li>
+        </ul>
       </section>
 
       <section aria-labelledby="spotlight-heading">
@@ -66,11 +71,11 @@
               </div>
             </div>
             <p class="spotlight-desc">
-              Your device export, turned into a finished report. Drop in a
-              Jamf Pro, Kandji, Intune, Addigy, or other CSV and get a workbook
-              with a summary, tables, charts, and pivot tables. It does not
-              connect to the MDM.
-            </p>
+                Turn a raw device export into a report you can send upstairs.
+                Drop in a CSV from Jamf Pro, Kandji, Intune, or Addigy and get
+                an Excel workbook with a summary, charts, and pivot tables.
+                No API keys, no MDM login.
+              </p>
             <figure class="spotlight-shot">
               <picture>
                 <source type="image/avif" srcset="/img/fleet-sheets/summary-640.avif 640w, /img/fleet-sheets/summary-960.avif 960w, /img/fleet-sheets/summary-1440.avif 1440w" sizes="(min-width: 900px) 32rem, calc(100vw - 5rem)" />
@@ -95,10 +100,11 @@
               </div>
             </div>
             <p class="spotlight-desc">
-              Look up a Mac, flush stuck MDM commands, check a policy rollout
-              across a group, and build privacy profiles. Nothing changes in
-              Jamf Pro until you click a green button and confirm.
-            </p>
+                The Jamf Pro jobs you do every day, in one window. Look up a
+                Mac, clear stuck MDM commands, see how a policy is landing
+                across a group, and build privacy profiles. Nothing changes
+                until you click a green button and confirm.
+              </p>
             <figure class="spotlight-shot">
               <picture>
                 <source type="image/webp" srcset="/img/toolwarden/devices-580.webp 580w, /img/toolwarden/devices-1160.webp 1160w" sizes="(min-width: 900px) 32rem, calc(100vw - 5rem)" />
@@ -114,75 +120,10 @@
         <p class="refund-line"><a href="/refunds/">Fleet Sheets refund policy</a></p>
       </section>
 
-      <section aria-labelledby="proof-heading">
-        <div class="section-intro">
-          <h2 id="proof-heading">Inside a Fleet Sheets workbook</h2>
-          <p>Three sheets from the sample workbook. Example rows, so you can see the layout before you pay.</p>
-        </div>
-        <div class="shot-row">
-          <figure class="figure-slot">
-            <picture>
-              <source type="image/avif" srcset="/img/fleet-sheets/pivots-640.avif 640w, /img/fleet-sheets/pivots-960.avif 960w, /img/fleet-sheets/pivots-1440.avif 1440w" sizes="(min-width: 960px) 20rem, calc(100vw - 2.5rem)" />
-              <source type="image/webp" srcset="/img/fleet-sheets/pivots-640.webp 640w, /img/fleet-sheets/pivots-960.webp 960w, /img/fleet-sheets/pivots-1440.webp 1440w" sizes="(min-width: 960px) 20rem, calc(100vw - 2.5rem)" />
-              <img src="/img/fleet-sheets/pivots-960.png" srcset="/img/fleet-sheets/pivots-640.png 640w, /img/fleet-sheets/pivots-960.png 960w" sizes="(min-width: 960px) 20rem, calc(100vw - 2.5rem)" width="960" height="176" alt="Sample data. Fleet Sheets pivot tables for computers by OS and model, FileVault, mobile devices, and patch status." loading="lazy" decoding="async" />
-            </picture>
-            <figcaption>Pivot tables. Sample data.</figcaption>
-          </figure>
-          <figure class="figure-slot">
-            <picture>
-              <source type="image/avif" srcset="/img/fleet-sheets/computers-by-os-640.avif 640w, /img/fleet-sheets/computers-by-os-960.avif 960w, /img/fleet-sheets/computers-by-os-1440.avif 1440w" sizes="(min-width: 960px) 20rem, calc(100vw - 2.5rem)" />
-              <source type="image/webp" srcset="/img/fleet-sheets/computers-by-os-640.webp 640w, /img/fleet-sheets/computers-by-os-960.webp 960w, /img/fleet-sheets/computers-by-os-1440.webp 1440w" sizes="(min-width: 960px) 20rem, calc(100vw - 2.5rem)" />
-              <img src="/img/fleet-sheets/computers-by-os-960.png" srcset="/img/fleet-sheets/computers-by-os-640.png 640w, /img/fleet-sheets/computers-by-os-960.png 960w" sizes="(min-width: 960px) 20rem, calc(100vw - 2.5rem)" width="960" height="376" alt="Sample data. A Fleet Sheets bar chart of example computers by OS version." loading="lazy" decoding="async" />
-            </picture>
-            <figcaption>Computers by OS. Sample data.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section aria-labelledby="highlights-heading">
-        <h2 id="highlights-heading">What's in the workbook</h2>
-        <ul class="feature-grid">
-          <li>
-            <h3>A summary sheet</h3>
-            <p>Figures come from columns in the file. If a column is missing, that figure is left out.</p>
-          </li>
-          <li>
-            <h3>Pivot tables</h3>
-            <p>Excel pivot tables you can filter, plus a computers-by-OS chart in the sample workbook.</p>
-          </li>
-          <li>
-            <h3>Nothing to connect</h3>
-            <p>Import only. No API, no credentials, and no agent on the fleet.</p>
-          </li>
-          <li>
-            <h3>One organization</h3>
-            <p>One purchase covers one organization. There is no MSP or multi-client tier.</p>
-          </li>
-        </ul>
-      </section>
-
-      <section aria-labelledby="home-faq-heading">
-        <h2 id="home-faq-heading">Before you buy Fleet Sheets</h2>
-        <dl class="faq">
-          <div>
-            <dt>Does it connect to the MDM?</dt>
-            <dd>No. You import a file you already exported. Fleet Sheets does not ask for credentials.</dd>
-          </div>
-          <div>
-            <dt>What does $29 cover?</dt>
-            <dd>One organization. Fleet Sheets is a Mac app you drag into Applications.</dd>
-          </div>
-          <div>
-            <dt>Can I get a refund?</dt>
-            <dd><a href="/refunds/">See our refund policy</a>.</dd>
-          </div>
-        </dl>
-      </section>
-
       <section aria-labelledby="studio-products-heading">
         <div class="section-intro">
-          <h2 id="studio-products-heading">Coming soon</h2>
-          <p>Not on sale. No checkout on these until the page says otherwise.</p>
+          <h2 id="studio-products-heading">On the bench</h2>
+          <p>Not for sale yet. Each one gets a buy button only when it is ready.</p>
         </div>
         <ul class="product-grid kits">
           <li>
@@ -240,7 +181,7 @@
           <li>
             <a class="product-card" href="https://github.com/dedwebs/vaultatlas-site" rel="noopener noreferrer">
               <span class="card-head">
-                <span class="icon-slot">Icon needed</span>
+                <span class="mono-icon" aria-hidden="true">VA</span>
                 <span>
                   <span class="card-kicker">iOS</span>
                   <span class="card-title">Vault Atlas</span>
@@ -266,26 +207,47 @@
         </ul>
       </section>
 
-      <section class="closing" aria-labelledby="closing-heading">
-        <h2 id="closing-heading">Get Fleet Sheets.</h2>
-        <p>$29, one organization. Needs macOS 13 or later and Microsoft Excel.</p>
-        <div class="actions">
-          <a class="btn" data-checkout data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc" data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02" aria-disabled="true">Get Fleet Sheets — $29</a>
+      <section aria-labelledby="process-heading">
+        <div class="section-intro">
+          <h2 id="process-heading">How these get made</h2>
+          <p>
+            I'm Joe Nixon, a Jamf admin and iOS developer. I run a small
+            team of AI coding agents in Claude Code (engineers, QA,
+            security, and release) and I decide what gets built and what
+            ships. Here's the process every tool goes through.
+          </p>
         </div>
-        <p class="refund-line"><a href="/refunds/">Refund policy</a></p>
-      </section>
-
-      <section class="trust" aria-labelledby="studio-heading">
-        <h2 id="studio-heading">The studio</h2>
-        <p>
-          Joe Nixon is a working Jamf admin and iOS developer. NixonMade is
-          the studio.
-        </p>
-        <p>
+        <ol class="process-grid">
+          <li>
+            <span class="process-step">01</span>
+            <h3>It starts as a real chore</h3>
+            <p>Every tool begins as a job I kept doing by hand in Jamf Pro or a spreadsheet. If I don't need it at work, it doesn't get built.</p>
+          </li>
+          <li>
+            <span class="process-step">02</span>
+            <h3>Every change is checked</h3>
+            <p>Each change is its own pull request. It has to build, pass the tests, and clear a QA and security review before it merges.</p>
+          </li>
+          <li>
+            <span class="process-step">03</span>
+            <h3>Safe to try</h3>
+            <p>Tools read before they write and ask before they change anything. Toolwarden has a practice mode with fake data, and its source is on GitHub.</p>
+          </li>
+        </ol>
+        <p class="trust-links">
           <a href="https://nixoreno.com" rel="noopener noreferrer">nixoreno.com</a>
           <span class="dot" aria-hidden="true"> · </span>
           <a href="https://github.com/dedwebs" rel="noopener noreferrer">GitHub</a>
         </p>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-heading">
+        <h2 id="closing-heading">Skip the spreadsheet wrangling.</h2>
+        <p>Fleet Sheets is $29 for one organization. Needs macOS 13 or later and Microsoft Excel.</p>
+        <div class="actions">
+          <a class="btn" data-checkout data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc" data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02" aria-disabled="true">Get Fleet Sheets — $29</a>
+        </div>
+        <p class="refund-line"><a href="/refunds/">Refund policy</a></p>
       </section>
     </main>
     <footer class="site-footer">
