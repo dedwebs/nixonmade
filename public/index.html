@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NixonMade — Device exports as a report</title>
+    <title>NixonMade — Careful tools for Mac admins</title>
     <meta
       name="description"
-      content="Fleet Sheets turns a device export into an Excel workbook. Jamf Pro, Kandji, Intune, Addigy, or another CSV. Fleet Sheets, Field Kit, and Ship Kit are coming soon."
+      content="Small apps for Mac admins. Fleet Sheets turns a device export into an Excel workbook. Toolwarden is a free desktop app and CLI that works with Jamf Pro."
     />
     <link rel="canonical" href="https://nixonmade.com/" />
-    <meta property="og:title" content="NixonMade — Device exports as a report" />
+    <meta property="og:title" content="NixonMade — Careful tools for Mac admins" />
     <meta
       property="og:description"
       content="Fleet Sheets: a finished report from a device export you already have. $29 Mac app."
@@ -38,48 +38,85 @@
         </a>
         <nav class="site-nav" aria-label="Primary">
           <a href="/fleet-sheets/">Fleet Sheets</a>
+          <a href="/toolwarden/">Toolwarden</a>
           <a href="/docs/">Docs</a>
         </nav>
       </div>
     </header>
     <main id="content" tabindex="-1">
-      <section class="hero" aria-labelledby="hero-heading">
-        <div class="hero-copy">
-          <img class="app-icon" src="/img/fleet-sheets/app/icon-176.png" srcset="/img/fleet-sheets/app/icon-352.png 2x" alt="" width="88" height="88" />
-          <p class="eyebrow">Fleet Sheets · Mac app</p>
-          <h1 id="hero-heading">Your device export, turned into a finished report.</h1>
-          <p class="lede">
-            Fleet Sheets turns a file you already exported into a workbook: a
-            summary, tables, charts, and pivot tables. Jamf Pro, Kandji,
-            Intune, Addigy, or another CSV. It does not connect to the MDM.
-          </p>
-          <p class="who">For Mac and MDM admins reporting on one organization.</p>
-          <div class="buy-cluster">
-            <p class="price-row">
-              <span class="price-amount">$29</span>
+      <section class="studio-hero" aria-labelledby="hero-heading">
+        <p class="eyebrow">NixonMade · Software studio</p>
+        <h1 id="hero-heading">Careful tools for Mac admins.</h1>
+        <p class="lede">
+          Small apps made by a working Jamf admin. Each one does a few jobs
+          well, says plainly what it touches, and leaves your fleet alone
+          until you ask.
+        </p>
+      </section>
+
+      <section aria-labelledby="spotlight-heading">
+        <h2 id="spotlight-heading" class="visually-hidden">Products</h2>
+        <ul class="spotlight">
+          <li>
+            <div class="card-head">
+              <img class="app-icon" src="/img/fleet-sheets/app/icon-176.png" srcset="/img/fleet-sheets/app/icon-352.png 2x" alt="" width="64" height="64" />
+              <div>
+                <span class="card-kicker">Mac app</span>
+                <h3>Fleet Sheets <span class="price-tag">$29</span></h3>
+              </div>
+            </div>
+            <p class="spotlight-desc">
+              Your device export, turned into a finished report. Drop in a
+              Jamf Pro, Kandji, Intune, Addigy, or other CSV and get a workbook
+              with a summary, tables, charts, and pivot tables. It does not
+              connect to the MDM.
             </p>
+            <figure class="spotlight-shot">
+              <picture>
+                <source type="image/avif" srcset="/img/fleet-sheets/summary-640.avif 640w, /img/fleet-sheets/summary-960.avif 960w, /img/fleet-sheets/summary-1440.avif 1440w" sizes="(min-width: 900px) 32rem, calc(100vw - 5rem)" />
+                <source type="image/webp" srcset="/img/fleet-sheets/summary-640.webp 640w, /img/fleet-sheets/summary-960.webp 960w, /img/fleet-sheets/summary-1440.webp 1440w" sizes="(min-width: 900px) 32rem, calc(100vw - 5rem)" />
+                <img src="/img/fleet-sheets/summary-960.png" srcset="/img/fleet-sheets/summary-640.png 640w, /img/fleet-sheets/summary-960.png 960w" sizes="(min-width: 900px) 32rem, calc(100vw - 5rem)" width="960" height="350" alt="Sample data. The Fleet Sheets summary sheet, with example KPIs for computers, mobile devices, FileVault, OS version, check-in, and patch compliance. Not a customer fleet." fetchpriority="high" decoding="async" />
+              </picture>
+            </figure>
             <div class="actions">
               <a class="btn" data-checkout data-payment-link="plink_1UVcxz9YvevV3dxlEFkHsQlc" data-checkout-url="https://buy.stripe.com/aFabIVchb29k47r9FneQM02" aria-disabled="true">Get Fleet Sheets — $29</a>
               <a class="text-link" href="/fleet-sheets/">See the workbook</a>
             </div>
-          </div>
-          <p class="refund-line">
-            <a href="/refunds/">See our refund policy</a>.
-          </p>
-        </div>
-        <figure class="hero-shot">
-          <picture>
-            <source type="image/avif" srcset="/img/fleet-sheets/summary-640.avif 640w, /img/fleet-sheets/summary-960.avif 960w, /img/fleet-sheets/summary-1440.avif 1440w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" />
-            <source type="image/webp" srcset="/img/fleet-sheets/summary-640.webp 640w, /img/fleet-sheets/summary-960.webp 960w, /img/fleet-sheets/summary-1440.webp 1440w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" />
-            <img src="/img/fleet-sheets/summary-960.png" srcset="/img/fleet-sheets/summary-640.png 640w, /img/fleet-sheets/summary-960.png 960w" sizes="(min-width: 960px) 34rem, calc(100vw - 2.5rem)" width="960" height="350" alt="Sample data. The Fleet Sheets summary sheet, with example KPIs for computers, mobile devices, FileVault, OS version, check-in, and patch compliance. Not a customer fleet." fetchpriority="high" decoding="async" />
-          </picture>
-          <figcaption>Sample data. Not a customer fleet.</figcaption>
-        </figure>
+          </li>
+          <li>
+            <div class="card-head">
+              <picture>
+                <source type="image/webp" srcset="/img/toolwarden/icon-176.webp 1x, /img/toolwarden/icon-352.webp 2x" />
+                <img class="app-icon" src="/img/toolwarden/icon-176.png" srcset="/img/toolwarden/icon-352.png 2x" alt="" width="64" height="64" />
+              </picture>
+              <div>
+                <span class="card-kicker">Desktop app and CLI · Works with Jamf Pro</span>
+                <h3>Toolwarden <span class="price-tag">Free</span></h3>
+              </div>
+            </div>
+            <p class="spotlight-desc">
+              Look up a Mac, flush stuck MDM commands, check a policy rollout
+              across a group, and build privacy profiles. Nothing changes in
+              Jamf Pro until you click a green button and confirm.
+            </p>
+            <figure class="spotlight-shot">
+              <picture>
+                <source type="image/webp" srcset="/img/toolwarden/devices-580.webp 580w, /img/toolwarden/devices-1160.webp 1160w" sizes="(min-width: 900px) 32rem, calc(100vw - 5rem)" />
+                <img src="/img/toolwarden/devices-580.png" width="580" height="372" alt="Practice data. The Toolwarden Devices page showing a Mac with one failed MDM command and a green Flush failed MDM button." decoding="async" />
+              </picture>
+            </figure>
+            <div class="actions">
+              <a class="btn" href="/toolwarden/">See Toolwarden</a>
+              <a class="text-link" href="https://github.com/dedwebs/Toolwarden" rel="noopener noreferrer">Source on GitHub</a>
+            </div>
+          </li>
+        </ul>
+        <p class="refund-line"><a href="/refunds/">Fleet Sheets refund policy</a></p>
       </section>
 
       <section aria-labelledby="proof-heading">
         <div class="section-intro">
-          <h2 id="proof-heading">What the workbook actually contains</h2>
+          <h2 id="proof-heading">Inside a Fleet Sheets workbook</h2>
           <p>Three sheets from the sample workbook. Example rows, so you can see the layout before you pay.</p>
         </div>
         <div class="shot-row">
@@ -125,7 +162,7 @@
       </section>
 
       <section aria-labelledby="home-faq-heading">
-        <h2 id="home-faq-heading">Before you buy</h2>
+        <h2 id="home-faq-heading">Before you buy Fleet Sheets</h2>
         <dl class="faq">
           <div>
             <dt>Does it connect to the MDM?</dt>
@@ -144,23 +181,10 @@
 
       <section aria-labelledby="studio-products-heading">
         <div class="section-intro">
-          <h2 id="studio-products-heading">Also from the studio</h2>
-          <p>Toolwarden is free. The rest are not on sale yet, and have no checkout until the page says otherwise.</p>
+          <h2 id="studio-products-heading">Coming soon</h2>
+          <p>Not on sale. No checkout on these until the page says otherwise.</p>
         </div>
         <ul class="product-grid kits">
-          <li>
-            <a class="product-card" href="/toolwarden/">
-              <span class="card-head">
-                <img class="app-icon" src="/img/toolwarden/icon-176.png" alt="" width="64" height="64" />
-                <span>
-                  <span class="card-kicker">Works with Jamf Pro</span>
-                  <span class="card-title">Toolwarden</span>
-                </span>
-              </span>
-              <span class="card-desc">Desktop app and CLI for Mac admins. Nothing changes until you confirm.</span>
-              <span class="card-meta">Free · Open source</span>
-            </a>
-          </li>
           <li>
             <a class="product-card" href="/field-kit/">
               <span class="card-head">
