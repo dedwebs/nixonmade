@@ -19,13 +19,13 @@
 }
 
 :root {
-  --bg: #f7f4ee;
-  --card: #fffdf9;
-  --ink: #18150f;
-  --muted: #47413a;
-  --line: #e4ddd1;
-  --accent: #7a2e22;
-  --accent-soft: #f3e7e2;
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --ink: #0b1220;
+  --muted: #4a5568;
+  --line: #e3e8ef;
+  --accent: #1d4ed8;
+  --accent-soft: #eaf0ff;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -39,10 +39,10 @@
   --wide: 72rem;
   --radius: 14px;
   --radius-sm: 8px;
-  --shadow: 0 1px 2px rgba(24, 21, 15, 0.05), 0 12px 32px -18px rgba(24, 21, 15, 0.28);
-  --shadow-lift: 0 2px 4px rgba(24, 21, 15, 0.06), 0 20px 40px -20px rgba(24, 21, 15, 0.35);
+  --shadow: 0 1px 2px rgba(11, 18, 32, 0.05), 0 12px 32px -18px rgba(11, 18, 32, 0.28);
+  --shadow-lift: 0 2px 4px rgba(11, 18, 32, 0.06), 0 20px 40px -20px rgba(11, 18, 32, 0.35);
   --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  --serif: var(--font);
   --header: 4.25rem;
 }
 
@@ -913,7 +913,7 @@ a.product-card:hover .card-title {
 /* Storefront. Sales pages only. Download and legal pages stay on the narrow measure. */
 
 body.store h1 {
-  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  font-family: var(--font);
   font-weight: 600;
   letter-spacing: -0.03em;
 }
@@ -953,7 +953,7 @@ body.store.product main {
 .btn-buy {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fffdf8;
+  color: #ffffff;
   min-height: 3rem;
   padding-inline: 1.25rem;
 }
@@ -961,7 +961,7 @@ body.store.product main {
 .btn-buy:hover {
   background: var(--ink);
   border-color: var(--ink);
-  color: #fffdf8;
+  color: #ffffff;
 }
 
 .text-link {
@@ -1003,7 +1003,7 @@ body.store.product main {
 .app-icon-photo {
   object-fit: cover;
   object-position: center 18%;
-  background: #c4b8a4;
+  background: #cbd5e1;
 }
 
 .card-head .app-icon,
@@ -1108,8 +1108,8 @@ body.store.product main {
     -45deg,
     transparent,
     transparent 10px,
-    rgba(111, 44, 34, 0.05) 10px,
-    rgba(111, 44, 34, 0.05) 11px
+    rgba(29, 78, 216, 0.06) 10px,
+    rgba(29, 78, 216, 0.06) 11px
   );
   border: 1px dashed var(--accent);
 }
@@ -1142,16 +1142,16 @@ body.store.product main {
 .closing p,
 .closing .price-note,
 .closing .refund-line {
-  color: #e7e0d6;
+  color: #cbd5e1;
 }
 
 .closing a {
-  color: #fffdf8;
+  color: #ffffff;
 }
 
 .closing .btn-buy {
-  background: #fffdf8;
-  border-color: #fffdf8;
+  background: #ffffff;
+  border-color: #ffffff;
   color: var(--ink);
 }
 
@@ -1163,9 +1163,9 @@ body.store.product main {
 
 .closing a[aria-disabled="true"],
 .closing .btn[aria-disabled="true"] {
-  background: #5c564e;
-  border-color: #5c564e;
-  color: #f6f3ec;
+  background: #475569;
+  border-color: #475569;
+  color: #f5f7fa;
 }
 
 .back-row {
@@ -1221,7 +1221,7 @@ body.store.product main {
   position: sticky;
   top: 0;
   z-index: 4;
-  background: rgba(247, 244, 238, 0.92);
+  background: rgba(245, 247, 250, 0.85);
   -webkit-backdrop-filter: saturate(1.4) blur(10px);
   backdrop-filter: saturate(1.4) blur(10px);
 }
@@ -1328,8 +1328,8 @@ a.product-card:hover {
 }
 
 .closing .btn:not([aria-disabled="true"]) {
-  background: #fffdf9;
-  border-color: #fffdf9;
+  background: #ffffff;
+  border-color: #ffffff;
   color: var(--ink);
 }
 
@@ -1492,5 +1492,212 @@ body.store.product h1 {
 }
 
 .spotlight + .refund-line {
+  margin-top: var(--space-4);
+}
+
+/* Palette and spacing pass (Nov 2026).
+   Cool neutral base, graphite ink, one trust blue for actions (60/30/10).
+   Checkout markup and the grey fail-closed state are unchanged. */
+
+body.store h1,
+body.store h2,
+.spotlight h3 {
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+body.store h1 {
+  font-size: clamp(2.5rem, 1.4rem + 3.6vw, 4.5rem);
+  line-height: 1.02;
+}
+
+body.store.product h1 {
+  font-size: clamp(2.25rem, 1.4rem + 2.4vw, 3.4rem);
+}
+
+.btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.12), 0 6px 16px -8px rgba(29, 78, 216, 0.55);
+}
+
+.btn:hover {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #fff;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
+a[aria-disabled="true"],
+.btn[aria-disabled="true"],
+a[aria-disabled="true"]:hover,
+.btn[aria-disabled="true"]:hover {
+  box-shadow: none;
+}
+
+.text-link,
+main a:not(.btn):not(.product-card) {
+  color: var(--accent);
+}
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+body.store section + section {
+  margin-top: clamp(4rem, 3rem + 3vw, 6rem);
+}
+
+/* Home hero: wider headline, proof chips, soft blue glow. */
+.studio-hero {
+  max-width: 60rem;
+  padding: clamp(2rem, 1rem + 4vw, 5rem) 0 var(--space-4);
+}
+
+.studio-hero h1 {
+  max-width: 16ch;
+}
+
+.studio-hero .lede {
+  max-width: 40rem;
+}
+
+.proof-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.proof-row li {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+body.store {
+  background:
+    radial-gradient(60rem 30rem at 85% -10%, rgba(29, 78, 216, 0.08), transparent 70%),
+    var(--bg);
+  background-repeat: no-repeat;
+}
+
+/* Spotlight: equal cards, screenshots cropped to one shape, actions pinned low. */
+.spotlight > li {
+  border: 1px solid var(--line);
+}
+
+.spotlight-shot {
+  margin: var(--space-4) 0 var(--space-5);
+}
+
+.spotlight-shot img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top left;
+}
+
+.spotlight .actions {
+  margin-top: auto;
+}
+
+.price-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* How these get made. */
+.process-grid {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 760px) {
+  .process-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.process-grid li {
+  padding: var(--space-5);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.process-grid h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.05rem;
+}
+
+.process-grid p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.process-step {
+  display: inline-block;
+  margin-bottom: var(--space-3);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.mono-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Closing band: deep navy, white primary button. */
+.closing {
+  background: linear-gradient(135deg, #0b1220 0%, #13213f 100%);
+}
+
+.closing .btn:not([aria-disabled="true"]) {
+  background: #fff;
+  border-color: #fff;
+  color: var(--ink);
+  box-shadow: none;
+}
+
+.closing .btn:not([aria-disabled="true"]):hover {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+}
+
+main .closing a:not(.btn) {
+  color: #fff;
+}
+
+.trust-links {
   margin-top: var(--space-4);
 }

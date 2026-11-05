@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Fleet Sheets">
-  <rect width="128" height="128" rx="28" fill="#6f2c22"/>
-  <rect x="30" y="36" width="68" height="64" rx="4" fill="#f3d2cc"/>
-  <rect x="24" y="28" width="72" height="68" rx="5" fill="#f6f3ec"/>
-  <rect x="24" y="28" width="72" height="16" rx="5" fill="#1a1714"/>
-  <rect x="24" y="38" width="72" height="6" fill="#1a1714"/>
-  <rect x="36" y="56" width="9" height="28" rx="1.5" fill="#6f2c22"/>
-  <rect x="50" y="64" width="9" height="20" rx="1.5" fill="#6f2c22"/>
-  <rect x="64" y="52" width="9" height="32" rx="1.5" fill="#6f2c22"/>
-  <rect x="78" y="60" width="9" height="24" rx="1.5" fill="#6f2c22"/>
+  <rect width="128" height="128" rx="28" fill="#1d4ed8"/>
+  <rect x="30" y="36" width="68" height="64" rx="4" fill="#c7d7fe"/>
+  <rect x="24" y="28" width="72" height="68" rx="5" fill="#f5f7fa"/>
+  <rect x="24" y="28" width="72" height="16" rx="5" fill="#0b1220"/>
+  <rect x="24" y="38" width="72" height="6" fill="#0b1220"/>
+  <rect x="36" y="56" width="9" height="28" rx="1.5" fill="#1d4ed8"/>
+  <rect x="50" y="64" width="9" height="20" rx="1.5" fill="#1d4ed8"/>
+  <rect x="64" y="52" width="9" height="32" rx="1.5" fill="#1d4ed8"/>
+  <rect x="78" y="60" width="9" height="24" rx="1.5" fill="#1d4ed8"/>
 </svg>
