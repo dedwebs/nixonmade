@@ -669,6 +669,30 @@ main.ship-main {
   overflow-wrap: anywhere;
 }
 
+.relnotes-draft {
+  margin: 0;
+  padding: 0.85rem 1.5rem;
+  background: var(--oxblood);
+  color: var(--paper);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.relnotes-legal ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.relnotes-legal li + li {
+  margin-top: 0.35rem;
+}
+
+.relnotes footer p + p {
+  margin-top: 0.45rem;
+}
+
 @media (max-width: 540px) {
   .relnotes .actions {
     flex-direction: column;
@@ -679,5 +703,11 @@ main.ship-main {
 @media (forced-colors: active) {
   .relnotes .btn {
     border: 1px solid ButtonText;
+  }
+
+  .relnotes-draft {
+    background: Canvas;
+    color: CanvasText;
+    border: 2px solid CanvasText;
   }
 }
