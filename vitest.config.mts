@@ -30,6 +30,13 @@ const testBindings = {
   PRODUCT_FLEET_SHEETS_KEY: "products/fleet-sheets.dmg",
   PRODUCT_FLEET_SHEETS_FILENAME: "nixonmade-fleet-sheets.dmg",
   PRODUCT_FLEET_SHEETS_TITLE: "Fleet Sheets",
+  PRODUCT_TOOLWARDEN_TEST_LINKS: "plink_toolwardentest01",
+  PRODUCT_TOOLWARDEN_TEST_PRICES: "price_toolwardentest01",
+  PRODUCT_TOOLWARDEN_LIVE_LINKS: "plink_toolwardenlive01",
+  PRODUCT_TOOLWARDEN_LIVE_PRICES: "price_toolwardenlive01",
+  PRODUCT_TOOLWARDEN_KEY: "Toolwarden-0.2.0.pkg",
+  PRODUCT_TOOLWARDEN_FILENAME: "toolwarden-0.2.0.pkg",
+  PRODUCT_TOOLWARDEN_TITLE: "Toolwarden",
 };
 
 export default defineConfig({

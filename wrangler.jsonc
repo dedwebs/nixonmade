@@ -78,6 +78,16 @@
     "PRODUCT_FLEET_SHEETS_LIVE_PRICES": "price_1UVcxv9YvevV3dxllPPANBuz",
     "PRODUCT_FLEET_SHEETS_KEY": "FleetSheets-v1.1.0-macOS.dmg",
     "PRODUCT_FLEET_SHEETS_FILENAME": "nixonmade-fleet-sheets.dmg",
-    "PRODUCT_FLEET_SHEETS_TITLE": "Fleet Sheets"
+    "PRODUCT_FLEET_SHEETS_TITLE": "Fleet Sheets",
+    // Toolwarden is not on sale. Empty id lists match no checkout session, so
+    // nothing is issued. Fill the four lists, upload the pkg under KEY, then
+    // add the buy anchor to the page.
+    "PRODUCT_TOOLWARDEN_TEST_LINKS": "",
+    "PRODUCT_TOOLWARDEN_TEST_PRICES": "",
+    "PRODUCT_TOOLWARDEN_LIVE_LINKS": "",
+    "PRODUCT_TOOLWARDEN_LIVE_PRICES": "",
+    "PRODUCT_TOOLWARDEN_KEY": "Toolwarden-0.2.0.pkg",
+    "PRODUCT_TOOLWARDEN_FILENAME": "toolwarden-0.2.0.pkg",
+    "PRODUCT_TOOLWARDEN_TITLE": "Toolwarden"
   }
 }

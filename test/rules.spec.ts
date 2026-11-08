@@ -2,7 +2,7 @@ import { env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import { clientIp, escapeHtml, readLimitedText } from "../src/http";
 import { safeLog } from "../src/log";
-import { contentDisposition, loadCatalog, matchProduct, mediaTypeForSuffix } from "../src/products";
+import { contentDisposition, fileSuffix, loadCatalog, matchProduct, mediaTypeForSuffix } from "../src/products";
 import { signDownloadToken, timingSafeEqual, verifyDownloadToken } from "../src/sign";
 import { parseCheckoutSession, restrictedKeyMode } from "../src/stripe";
 import { refundedPaymentIntent, verifyStripeWebhook } from "../src/webhook";
@@ -148,6 +148,35 @@ describe("allowlist", () => {
     );
   });
 
+  it("keeps toolwarden closed while its id lists are empty and accepts a pkg", () => {
+    const base = {
+      PRODUCT_TOOLWARDEN_KEY: "Toolwarden-0.2.0.pkg",
+      PRODUCT_TOOLWARDEN_FILENAME: "toolwarden-0.2.0.pkg",
+      PRODUCT_TOOLWARDEN_TITLE: "Toolwarden",
+      PRODUCT_TOOLWARDEN_TEST_LINKS: "",
+      PRODUCT_TOOLWARDEN_TEST_PRICES: "",
+      PRODUCT_TOOLWARDEN_LIVE_LINKS: "",
+      PRODUCT_TOOLWARDEN_LIVE_PRICES: "",
+    };
+    const closed = loadCatalog(base as Cloudflare.Env);
+    expect(closed).toHaveLength(1);
+    expect(closed[0]?.mediaType).toBe("application/octet-stream");
+    expect(closed[0]?.contentDisposition).toBe('attachment; filename="toolwarden-0.2.0.pkg"');
+    for (const livemode of [false, true]) {
+      expect(matchProduct(closed, { livemode, paymentLinkId: null, priceIds: [] })).toBeNull();
+      expect(
+        matchProduct(closed, { livemode, paymentLinkId: "plink_anything01", priceIds: ["price_anything01"] }),
+      ).toBeNull();
+    }
+    const open = loadCatalog({ ...base, PRODUCT_TOOLWARDEN_TEST_LINKS: "plink_twfake0001" } as Cloudflare.Env);
+    expect(matchProduct(open, { livemode: false, paymentLinkId: "plink_twfake0001", priceIds: [] })?.slug).toBe(
+      "toolwarden",
+    );
+    expect(matchProduct(open, { livemode: true, paymentLinkId: "plink_twfake0001", priceIds: [] })).toBeNull();
+    expect(mediaTypeForSuffix(fileSuffix("Toolwarden-0.2.0.PKG"))).toBe("application/octet-stream");
+    expect(loadCatalog({ ...base, PRODUCT_TOOLWARDEN_FILENAME: "toolwarden.zip" } as Cloudflare.Env)).toEqual([]);
+  });
+
   it("maps the live Fleet Sheets ids onto that disk image and leaves the other live lists closed", () => {
     const parsed = loadCatalog({
       PRODUCT_FIELD_KIT_KEY: "products/field-kit.zip",
@@ -240,7 +269,7 @@ describe("webhook signatures and refunds", () => {
     const payload = JSON.stringify({ id: "evt_1", type: "charge.refunded" });
     const header = await stripeSignature(payload);
     expect(await verifyStripeWebhook(payload, header, WEBHOOK_SECRET, Date.now())).toBe(true);
-    expect(await verifyStripeWebhook(payload, header.replace(/.$/, "0"), WEBHOOK_SECRET, Date.now())).toBe(
+    expect(await verifyStripeWebhook(payload, header.replace(/.$/, (c) => (c === "0" ? "1" : "0")), WEBHOOK_SECRET, Date.now())).toBe(
       false,
     );
     expect(await verifyStripeWebhook(`${payload} `, header, WEBHOOK_SECRET, Date.now())).toBe(false);
