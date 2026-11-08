@@ -269,7 +269,7 @@ describe("webhook signatures and refunds", () => {
     const payload = JSON.stringify({ id: "evt_1", type: "charge.refunded" });
     const header = await stripeSignature(payload);
     expect(await verifyStripeWebhook(payload, header, WEBHOOK_SECRET, Date.now())).toBe(true);
-    expect(await verifyStripeWebhook(payload, header.replace(/.$/, "0"), WEBHOOK_SECRET, Date.now())).toBe(
+    expect(await verifyStripeWebhook(payload, header.replace(/.$/, (c) => (c === "0" ? "1" : "0")), WEBHOOK_SECRET, Date.now())).toBe(
       false,
     );
     expect(await verifyStripeWebhook(`${payload} `, header, WEBHOOK_SECRET, Date.now())).toBe(false);

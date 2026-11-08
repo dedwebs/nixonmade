@@ -421,7 +421,10 @@ describe("verified downloads", () => {
     const issued = await SELF.fetch(request(`/api/download?session_id=${FIELD_SESSION}`, ip));
     const url = ((await issued.json()) as { files: { url: string }[] }).files[0]!.url;
     const token = new URL(`https://nixonmade.com${url}`).searchParams.get("t") ?? "";
-    const tampered = `${token.slice(0, -1)}${token.endsWith("a") ? "b" : "a"}`;
+    // Flip a middle character: the last base64url character carries padding bits a
+    // decoder may ignore, so changing it does not always change the signature.
+    const mid = Math.floor(token.length / 2);
+    const tampered = `${token.slice(0, mid)}${token[mid] === "a" ? "b" : "a"}${token.slice(mid + 1)}`;
     const bad = await SELF.fetch(request(`/api/file?t=${encodeURIComponent(tampered)}`, ip));
     expect(bad.status).toBe(404);
     expect(await bad.text()).not.toContain(FIELD_SESSION);
