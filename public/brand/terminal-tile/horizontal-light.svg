@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 300" role="img" aria-label="NixonMade">
+  <rect width="1240" height="300" fill="#f5f7fa"/>
+  <g transform="translate(30,30) scale(0.46875)">
+    <rect x="8" y="8" width="496" height="496" rx="112" fill="#0b1220"/>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="92,214 146,262 92,310" stroke="#3b82f6" stroke-width="32"/>
+      <path d="M190 316 V216 M190 250 C190 229 203 216 224 216 C245 216 258 229 258 250 V316" stroke="#f5f7fa" stroke-width="28"/>
+      <path d="M306 316 V216 M306 248 C306 228 316 216 331 216 C346 216 356 228 356 248 V316 M356 248 C356 228 366 216 381 216 C396 216 406 228 406 248 V316" stroke="#f5f7fa" stroke-width="28"/>
+    </g>
+    <rect x="432" y="300" width="40" height="16" rx="3" fill="#3b82f6"/>
+  </g>
+  <text x="310" y="188" font-family="Inter, ui-sans-serif, system-ui, -apple-system, sans-serif" font-weight="600" font-size="128" letter-spacing="-4"><tspan fill="#0b1220">Nixon</tspan><tspan fill="#1d4ed8">Made</tspan></text>
+</svg>

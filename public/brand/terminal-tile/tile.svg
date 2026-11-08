@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="NixonMade">
+  <rect x="8" y="8" width="496" height="496" rx="112" fill="#0b1220"/>
+  <rect x="8.5" y="8.5" width="495" height="495" rx="111.5" fill="none" stroke="#1e293b" stroke-width="3"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="92,214 146,262 92,310" stroke="#3b82f6" stroke-width="32"/>
+      <path d="M190 316 V216 M190 250 C190 229 203 216 224 216 C245 216 258 229 258 250 V316" stroke="#f5f7fa" stroke-width="28"/>
+      <path d="M306 316 V216 M306 248 C306 228 316 216 331 216 C346 216 356 228 356 248 V316 M356 248 C356 228 366 216 381 216 C396 216 406 228 406 248 V316" stroke="#f5f7fa" stroke-width="28"/>
+    </g>
+    <rect x="432" y="300" width="40" height="16" rx="3" fill="#3b82f6"/>
+</svg>
