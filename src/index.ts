@@ -31,6 +31,9 @@ const LEGACY_THANKS = new Set([
   "/ship-kit/thanks",
   "/ship-kit/thanks/",
   "/ship-kit/thanks/index.html",
+  "/toolwarden/thanks",
+  "/toolwarden/thanks/",
+  "/toolwarden/thanks/index.html",
 ]);
 
 const HOSTS = new Set(["nixonmade.com", "www.nixonmade.com"]);

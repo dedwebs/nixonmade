@@ -1,7 +1,7 @@
 import type { Env } from "./env";
 import { safeLog } from "./log";
 
-export const PRODUCT_SLUGS = ["field-kit", "ship-kit", "fleet-sheets"] as const;
+export const PRODUCT_SLUGS = ["field-kit", "ship-kit", "fleet-sheets", "toolwarden"] as const;
 export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
 const LINK_RE = /^plink_[A-Za-z0-9]{8,200}$/;
@@ -14,6 +14,7 @@ const FILENAME_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,80}$/;
 const MEDIA_TYPES = {
   zip: "application/zip",
   dmg: "application/x-apple-diskimage",
+  pkg: "application/octet-stream",
 } as const;
 
 export type DownloadMediaType = (typeof MEDIA_TYPES)[keyof typeof MEDIA_TYPES];
@@ -37,6 +38,7 @@ const PREFIX: Record<ProductSlug, string> = {
   "field-kit": "PRODUCT_FIELD_KIT",
   "ship-kit": "PRODUCT_SHIP_KIT",
   "fleet-sheets": "PRODUCT_FLEET_SHEETS",
+  toolwarden: "PRODUCT_TOOLWARDEN",
 };
 
 export function isProductSlug(value: unknown): value is ProductSlug {
@@ -83,7 +85,7 @@ export function fileSuffix(name: string): string | null {
 }
 
 export function mediaTypeForSuffix(suffix: string | null): DownloadMediaType | null {
-  if (suffix === "zip" || suffix === "dmg") return MEDIA_TYPES[suffix];
+  if (suffix === "zip" || suffix === "dmg" || suffix === "pkg") return MEDIA_TYPES[suffix];
   return null;
 }
 
@@ -102,7 +104,7 @@ export function loadCatalog(env: Env): CatalogProduct[] {
     const keyType = mediaTypeForSuffix(key ? fileSuffix(key) : null);
     const fileType = mediaTypeForSuffix(filename ? fileSuffix(filename) : null);
     // The object key and the saved filename must be the same kind of file.
-    // A .dmg labeled as a .zip would get the wrong Content-Type.
+    // A .pkg labeled as a .zip would get the wrong Content-Type.
     if (!key || !filename || !keyType || keyType !== fileType) continue;
     products.push({
       slug,

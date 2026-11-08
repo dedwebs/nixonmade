@@ -234,6 +234,45 @@ describe("verified downloads", () => {
     expect(new TextDecoder().decode(await fleetFile.arrayBuffer())).toBe("fleet-dmg");
   });
 
+  it("delivers toolwarden as a pkg and serves its thanks routes", async () => {
+    const id = "cs_test_toolwardenpaid01";
+    installStripe({
+      [id]: paidSession({
+        id,
+        payment_intent: "pi_toolwardenintent01",
+        payment_link: "plink_toolwardentest01",
+        line_items: { data: [{ price: { id: "price_toolwardentest01" } }] },
+      }),
+    });
+    await putProduct("Toolwarden-0.2.0.pkg", "tw-pkg");
+
+    const res = await SELF.fetch(request(`/api/download?session_id=${id}`, nextIp()));
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { product: string; files: { filename: string; url: string }[] };
+    expect(body.product).toBe("toolwarden");
+    expect(body.files[0]?.filename).toBe("toolwarden-0.2.0.pkg");
+    const file = await SELF.fetch(request(body.files[0]!.url, nextIp()));
+    expect(file.status).toBe(200);
+    expect(file.headers.get("content-type")).toBe("application/octet-stream");
+    expect(file.headers.get("content-disposition")).toBe('attachment; filename="toolwarden-0.2.0.pkg"');
+    expect(new TextDecoder().decode(await file.arrayBuffer())).toBe("tw-pkg");
+
+    const page = await SELF.fetch(request("/toolwarden/thanks/", nextIp()));
+    expect(page.status).toBe(200);
+    expect(await page.text()).toContain("Toolwarden");
+    // The static host canonicalizes the other two spellings to the slash form.
+    for (const path of ["/toolwarden/thanks", "/toolwarden/thanks/index.html"]) {
+      const alias = await SELF.fetch(request(path, nextIp()));
+      expect(alias.status).toBe(307);
+      expect(alias.headers.get("location")).toMatch(/\/toolwarden\/thanks\/$/);
+    }
+    const redirected = await SELF.fetch(
+      request(`/toolwarden/thanks/?session_id=${id}&next=https://evil.example`, nextIp()),
+    );
+    expect(redirected.status).toBe(302);
+    expect(redirected.headers.get("location")).toBe(`/thanks?session_id=${id}`);
+  });
+
   it("uses the same response for bad, unpaid, expired, unknown, and cross-mode sessions", async () => {
     const unpaid = "cs_test_unpaidsession001";
     const expired = "cs_test_expiredsession01";
