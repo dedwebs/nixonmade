@@ -47,4 +47,17 @@ export interface Env {
   PRODUCT_TOOLWARDEN_KEY?: string;
   PRODUCT_TOOLWARDEN_FILENAME?: string;
   PRODUCT_TOOLWARDEN_TITLE?: string;
+  /** Stickler (free). R2 object key, expected under the `stickler/` prefix. Empty fails closed. */
+  PRODUCT_STICKLER_KEY?: string;
+  PRODUCT_STICKLER_FILENAME?: string;
+  PRODUCT_STICKLER_TITLE?: string;
+  /** Free download requests per connection per hour. Default 10. */
+  RATE_LIMIT_FREE_IP_PER_HOUR?: string;
+  /** Free download requests for the whole worker per day. Default 2000. */
+  RATE_LIMIT_FREE_PER_DAY?: string;
+  /** Stripe Payment Link code (`buy.stripe.com/<code>`) or the full URL. */
+  STICKLER_SUPPORT_LINK_5?: string;
+  STICKLER_SUPPORT_LINK_10?: string;
+  STICKLER_SUPPORT_LINK_20?: string;
+  STICKLER_SUPPORT_LINK_OTHER?: string;
 }
