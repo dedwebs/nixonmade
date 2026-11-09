@@ -11,6 +11,7 @@ import {
   textResponse,
 } from "./http";
 import { safeLog } from "./log";
+import { handleStickler, isSticklerPath } from "./stickler";
 import {
   rateLimitPage,
   redownloadPage,
@@ -262,6 +263,9 @@ export default {
       }
       if (url.pathname === "/api/stripe/webhook") {
         return await handleWebhook(request, env, url);
+      }
+      if (isSticklerPath(url.pathname)) {
+        return await handleStickler(request, env, url);
       }
       if (LEGACY_THANKS.has(url.pathname)) {
         return await handleLegacyThanks(request, env, url);
