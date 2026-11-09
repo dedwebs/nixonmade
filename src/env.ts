@@ -55,6 +55,12 @@ export interface Env {
   RATE_LIMIT_FREE_IP_PER_HOUR?: string;
   /** Free download requests for the whole worker per day. Default 2000. */
   RATE_LIMIT_FREE_PER_DAY?: string;
+  /** Sparkle appcast requests per connection per hour. Default 120. Own counter. */
+  RATE_LIMIT_APPCAST_IP_PER_HOUR?: string;
+  /** Update archive requests per connection per hour. Default 20. Own counter. */
+  RATE_LIMIT_UPDATES_IP_PER_HOUR?: string;
+  /** Update archive downloads for the whole worker per day. Default 5000. */
+  RATE_LIMIT_UPDATES_PER_DAY?: string;
   /** Stripe Payment Link code (`buy.stripe.com/<code>`) or the full URL. */
   STICKLER_SUPPORT_LINK_5?: string;
   STICKLER_SUPPORT_LINK_10?: string;

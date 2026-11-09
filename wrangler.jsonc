@@ -97,6 +97,13 @@
     "PRODUCT_STICKLER_TITLE": "Stickler",
     "RATE_LIMIT_FREE_IP_PER_HOUR": "10",
     "RATE_LIMIT_FREE_PER_DAY": "2000",
+    // Sparkle feed. Joe uploads `stickler/appcast.xml` and `stickler/updates/*`
+    // to the DOWNLOADS bucket himself; the worker only serves those bytes and
+    // never holds a signing key. The appcast has its own looser per-IP limit,
+    // update archives their own per-IP and worker-wide daily limits.
+    "RATE_LIMIT_APPCAST_IP_PER_HOUR": "120",
+    "RATE_LIMIT_UPDATES_IP_PER_HOUR": "20",
+    "RATE_LIMIT_UPDATES_PER_DAY": "5000",
     // Support: Stripe Payment Link code (buy.stripe.com/<code>) or full URL.
     // Empty means /stickler/support/<amount> answers 503 "not set up yet".
     "STICKLER_SUPPORT_LINK_5": "",
