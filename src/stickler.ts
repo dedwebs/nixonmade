@@ -155,12 +155,13 @@ function limited(url: URL, retryAfter: number): Response {
 }
 
 /** Per-connection hourly counter in its own gate namespace. Null means allowed. */
-async function ipLimit(request: Request, env: Env, url: URL, label: string, limit: number, event: string): Promise<Response | null> {
+async function ipLimit(request: Request, env: Env, url: URL, label: string, limit: number, event: string, failOpen = false): Promise<Response | null> {
   const secret = env.DOWNLOAD_SIGNING_SECRET;
   const ip = clientIp(request);
   if (!signingSecretOk(secret) || !ip) {
     safeLog(`${event}_no_identity`);
-    return limited(url, 3600);
+    // The appcast fails open: a config error must never silently stop all updates.
+    return failOpen ? null : limited(url, 3600);
   }
   const gate = env.PURCHASE_GATE.getByName(await hashName(label, secret, ip));
   if (!(await gate.hit(limit, HOUR_MS))) {
@@ -183,31 +184,59 @@ function hasBody(object: R2Object | R2ObjectBody | null): object is R2ObjectBody
   return !!object && "body" in object;
 }
 
+function etagMatches(header: string, etag: string, weak: boolean): boolean {
+  const strip = (v: string) => (weak ? v.replace(/^W\//, "") : v);
+  return header.split(",").some((t) => {
+    const v = t.trim();
+    return v === "*" || strip(v) === strip(etag);
+  });
+}
+
+/** Preconditions per RFC 9110 order: If-Match (412), If-None-Match, If-Modified-Since (304). */
+function precondition(request: Request, object: R2Object): 304 | 412 | null {
+  const h = request.headers;
+  const ifMatch = h.get("if-match");
+  if (ifMatch !== null && !etagMatches(ifMatch, object.httpEtag, false)) return 412;
+  const none = h.get("if-none-match");
+  if (none !== null) return etagMatches(none, object.httpEtag, true) ? 304 : null;
+  const since = Date.parse(h.get("if-modified-since") ?? "");
+  if (!Number.isNaN(since) && Math.floor(object.uploaded.getTime() / 1000) * 1000 <= since) return 304;
+  return null;
+}
+
+/** If-Range: honour the Range only when the validator still matches. */
+function ifRangeOk(request: Request, object: R2Object): boolean {
+  const v = request.headers.get("if-range");
+  if (v === null) return true;
+  const t = v.trim();
+  if (t.startsWith('"')) return t === object.httpEtag;
+  return t === object.uploaded.toUTCString();
+}
+
 async function handleAppcast(request: Request, env: Env, url: URL): Promise<Response> {
   if (request.method !== "GET" && request.method !== "HEAD") {
     return textResponse(url, "Method not allowed.\n", 405);
   }
   const head = request.method === "HEAD";
   const limit = readPositiveInt(env.RATE_LIMIT_APPCAST_IP_PER_HOUR, DEFAULT_APPCAST_IP_PER_HOUR, 1, 100_000);
-  const over = await ipLimit(request, env, url, "appcast-ip", limit, "stickler_appcast");
+  const over = await ipLimit(request, env, url, "appcast-ip", limit, "stickler_appcast", true);
   if (over) return over;
   const object = head
     ? await env.DOWNLOADS.head(APPCAST_KEY)
-    : await env.DOWNLOADS.get(APPCAST_KEY, { onlyIf: request.headers });
+    : await env.DOWNLOADS.get(APPCAST_KEY);
   if (!object) {
     safeLog("stickler_appcast_missing");
     return plain(url, "Not found.\n", 404, head);
   }
   const headers = objectHeaders(object, url, "application/rss+xml; charset=utf-8", "public, max-age=300");
-  if (head) {
-    headers.set("content-length", String(object.size));
-    return new Response(null, { status: 200, headers });
-  }
-  if (!hasBody(object)) {
-    safeLog("stickler_appcast_304");
-    return new Response(null, { status: 304, headers });
+  const cond = precondition(request, object);
+  if (cond) {
+    if (hasBody(object)) await object.body.cancel();
+    safeLog(cond === 304 ? "stickler_appcast_304" : "stickler_appcast_412");
+    return new Response(null, { status: cond, headers });
   }
   headers.set("content-length", String(object.size));
+  if (!hasBody(object)) return new Response(null, { status: 200, headers });
   safeLog("stickler_appcast_ok");
   return new Response(object.body, { status: 200, headers });
 }
@@ -242,47 +271,46 @@ async function handleUpdate(request: Request, env: Env, url: URL): Promise<Respo
   const limit = readPositiveInt(env.RATE_LIMIT_UPDATES_IP_PER_HOUR, DEFAULT_UPDATES_IP_PER_HOUR, 1, 100_000);
   const over = await ipLimit(request, env, url, "updates-ip", limit, "stickler_update");
   if (over) return over;
-  const range = request.headers.get("range");
-  // Resumed ranges do not count against the daily cap, only fresh downloads do.
-  if (!head && (!range || /^bytes=0-/.test(range))) {
-    const dayLimit = readPositiveInt(env.RATE_LIMIT_UPDATES_PER_DAY, DEFAULT_UPDATES_PER_DAY, 1, 10_000_000);
-    if (!(await env.PURCHASE_GATE.getByName(UPDATES_DAILY_GATE).hit(dayLimit, DAY_MS))) {
-      safeLog("stickler_update_rate_daily");
-      return limited(url, 3600);
-    }
-  }
   const key = R2_UPDATES_PREFIX + name;
+  // Head first: the daily cap is spent only on an object that exists.
+  const meta = await env.DOWNLOADS.head(key);
+  if (!meta) {
+    safeLog("stickler_update_missing");
+    return plain(url, "Not found.\n", 404, head);
+  }
+  const headers = objectHeaders(meta, url, type, "public, max-age=31536000, immutable");
+  headers.set("content-disposition", `attachment; filename="${name}"`);
+  headers.set("accept-ranges", "bytes");
+  const cond = precondition(request, meta);
+  if (cond) {
+    safeLog(cond === 304 ? "stickler_update_304" : "stickler_update_412");
+    return new Response(null, { status: cond, headers });
+  }
+  if (head) {
+    headers.set("content-length", String(meta.size));
+    return new Response(null, { status: 200, headers });
+  }
+  const dayLimit = readPositiveInt(env.RATE_LIMIT_UPDATES_PER_DAY, DEFAULT_UPDATES_PER_DAY, 1, 10_000_000);
+  if (!(await env.PURCHASE_GATE.getByName(UPDATES_DAILY_GATE).hit(dayLimit, DAY_MS))) {
+    safeLog("stickler_update_rate_daily");
+    return limited(url, 3600);
+  }
   let span: Span | undefined;
-  if (!head && range) {
-    // Resume path: one extra head to learn the size, so a bad range is a clean 416.
-    const meta = await env.DOWNLOADS.head(key);
-    if (!meta) {
-      safeLog("stickler_update_missing");
-      return plain(url, "Not found.\n", 404, head);
-    }
+  const range = request.headers.get("range");
+  if (range && ifRangeOk(request, meta)) {
     const parsed = parseRange(range, meta.size);
     if (parsed === null) {
-      const res = plain(url, "Range not satisfiable.\n", 416, head);
+      const res = plain(url, "Range not satisfiable.\n", 416, false);
       res.headers.set("content-range", `bytes */${meta.size}`);
       return res;
     }
     span = parsed;
   }
-  const object: R2Object | R2ObjectBody | null = head
-    ? await env.DOWNLOADS.head(key)
-    : await env.DOWNLOADS.get(key, span ? { range: span } : {});
-  if (!object) {
+  const object = await env.DOWNLOADS.get(key, span ? { range: span } : {});
+  if (!hasBody(object)) {
     safeLog("stickler_update_missing");
-    return plain(url, "Not found.\n", 404, head);
+    return plain(url, "Not found.\n", 404, false);
   }
-  const headers = objectHeaders(object, url, type, "public, max-age=31536000, immutable");
-  headers.set("content-disposition", `attachment; filename="${name}"`);
-  headers.set("accept-ranges", "bytes");
-  if (head) {
-    headers.set("content-length", String(object.size));
-    return new Response(null, { status: 200, headers });
-  }
-  if (!hasBody(object)) return plain(url, "Not found.\n", 404, false);
   if (span) {
     headers.set("content-range", `bytes ${span.offset}-${span.offset + span.length - 1}/${object.size}`);
     headers.set("content-length", String(span.length));

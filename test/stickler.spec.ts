@@ -254,10 +254,6 @@ describe("/stickler/appcast.xml", () => {
     // The free download counter for the same IP is untouched.
     expect((await call(e, "/stickler/download", ip)).status).toBe(200);
   });
-  it("refuses a request with no connection id", async () => {
-    await env.DOWNLOADS.put("stickler/appcast.xml", XML);
-    expect((await call(env as E, "/stickler/appcast.xml", null)).status).toBe(429);
-  });
 });
 
 describe("/stickler/updates/", () => {
@@ -379,5 +375,55 @@ describe("/stickler/updates/", () => {
     const res = await SELF.fetch("https://nixonmade.com/stickler/support/thanks/");
     expect(res.status).toBe(200);
     expect(await res.text()).toContain("<html");
+  });
+});
+
+describe("review follow-ups", () => {
+  const BYTES = "0123456789";
+  it("spends the updates daily cap only on existing objects, and on every GET including open-ended ranges", async () => {
+    await env.DOWNLOADS.put("stickler/updates/Cap-1.0.zip", BYTES);
+    const e = withEnv({ RATE_LIMIT_UPDATES_PER_DAY: "1" });
+    for (let i = 0; i < 3; i++) expect((await call(e, "/stickler/updates/Nope-1.0.zip")).status).toBe(404);
+    // Burn whatever the shared counter holds, then prove ranged GETs count.
+    const first = await call(e, "/stickler/updates/Cap-1.0.zip", nextIp(), { headers: { range: "bytes=1-" } });
+    await first.arrayBuffer();
+    const second = await call(e, "/stickler/updates/Cap-1.0.zip", nextIp(), { headers: { range: "bytes=1-" } });
+    expect(second.status).toBe(429);
+    // HEAD is not a download.
+    expect((await call(e, "/stickler/updates/Cap-1.0.zip", nextIp(), { method: "HEAD" })).status).toBe(200);
+  });
+  it("serves the appcast when identity is missing or the secret is bad, but not updates", async () => {
+    await env.DOWNLOADS.put("stickler/appcast.xml", "<rss/>");
+    await env.DOWNLOADS.put("stickler/updates/Open-1.0.zip", BYTES);
+    expect((await call(env as E, "/stickler/appcast.xml", null)).status).toBe(200);
+    const bad = withEnv({ DOWNLOAD_SIGNING_SECRET: "short" });
+    expect((await call(bad, "/stickler/appcast.xml")).status).toBe(200);
+    expect((await call(env as E, "/stickler/updates/Open-1.0.zip", null)).status).toBe(429);
+    expect((await call(bad, "/stickler/updates/Open-1.0.zip")).status).toBe(429);
+  });
+  it("answers 412 on a failed If-Match and still 304 on If-None-Match", async () => {
+    await env.DOWNLOADS.put("stickler/appcast.xml", "<rss/>");
+    await env.DOWNLOADS.put("stickler/updates/Cond-1.0.zip", BYTES);
+    for (const path of ["/stickler/appcast.xml", "/stickler/updates/Cond-1.0.zip"]) {
+      const ok = await call(env as E, path, nextIp(), { method: "HEAD" });
+      const etag = ok.headers.get("etag")!;
+      expect((await call(env as E, path, nextIp(), { headers: { "if-match": '"nope"' } })).status, path).toBe(412);
+      const match = await call(env as E, path, nextIp(), { headers: { "if-match": etag } });
+      expect(match.status, path).toBe(200);
+      await match.arrayBuffer();
+      expect((await call(env as E, path, nextIp(), { headers: { "if-none-match": etag } })).status, path).toBe(304);
+    }
+  });
+  it("honours If-Range: matching etag gives 206, mismatch gives full 200", async () => {
+    await env.DOWNLOADS.put("stickler/updates/IfRange-1.0.zip", BYTES);
+    const path = "/stickler/updates/IfRange-1.0.zip";
+    const etag = (await call(env as E, path, nextIp(), { method: "HEAD" })).headers.get("etag")!;
+    const hit = await call(env as E, path, nextIp(), { headers: { range: "bytes=2-4", "if-range": etag } });
+    expect(hit.status).toBe(206);
+    expect(await hit.text()).toBe("234");
+    const miss = await call(env as E, path, nextIp(), { headers: { range: "bytes=2-4", "if-range": '"stale"' } });
+    expect(miss.status).toBe(200);
+    expect(miss.headers.get("content-range")).toBeNull();
+    expect(await miss.text()).toBe(BYTES);
   });
 });
