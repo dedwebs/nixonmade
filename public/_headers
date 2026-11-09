@@ -35,6 +35,13 @@
 /brand-options/*
   X-Robots-Tag: noindex
 
+# Stickler is not public until the name is cleared.
+/stickler
+  X-Robots-Tag: noindex
+
+/stickler/*
+  X-Robots-Tag: noindex
+
 # Thank-you pages.
 /field-kit/thanks
   X-Robots-Tag: noindex

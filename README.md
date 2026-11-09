@@ -14,6 +14,15 @@ python3 scripts/build_marks.py   # regenerate marks (needs Fraunces ttf)
 
 `npm test` uses `@cloudflare/vitest-plugin`, the maintained replacement for `@cloudflare/vitest-pool-workers`. The old package's last release still bundled the vulnerable dev-dependency tree.
 
+## Stickler (free download and Support links)
+
+Stickler is a free product (`kind: free` in `src/products.ts`). It has no Stripe ids, is never in the paid catalog, and is never matched by a checkout session.
+
+- `GET`/`HEAD /stickler/download` streams the R2 object named by `PRODUCT_STICKLER_KEY` (upload it under the `stickler/` prefix) with `Content-Disposition: attachment` and `PRODUCT_STICKLER_FILENAME`. `no-store`, no edge cache, so the counters see every request. Empty key or missing object answers a plain 503 or 404 page.
+- Limits use the `PurchaseGate` Durable Object: `RATE_LIMIT_FREE_IP_PER_HOUR` (default 10, hashed IP) and `RATE_LIMIT_FREE_PER_DAY` (default 2000, worker-wide, file downloads only). Over limit is a 429 with `Retry-After` and a "busy" page. Logs are static outcome codes, never IPs.
+- `GET /stickler/support/{5,10,20,other}` redirects (302) to `STICKLER_SUPPORT_LINK_{5,10,20,OTHER}`. Each var is a Payment Link code or a full `https://buy.stripe.com/<code>` URL. The Location is always rebuilt as `https://buy.stripe.com/[A-Za-z0-9_]+`, anything else is rejected. Unset or invalid answers 503 "support links aren't set up yet". Other amounts fall through to static assets and 404. These ids are not part of any product allowlist.
+- `/stickler/`, `/stickler/support/` and `/stickler/support/thanks/` are static pages in `public/`.
+
 ## Verified downloads
 
 Field Kit, Ship Kit, and Fleet Sheets are delivered from a private R2 bucket after Stripe confirms the Checkout Session. The bucket is never public. A buyer gets a file link that lasts 15 minutes, and each purchase can be downloaded 5 times.

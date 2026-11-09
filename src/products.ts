@@ -41,6 +41,28 @@ const PREFIX: Record<ProductSlug, string> = {
   toolwarden: "PRODUCT_TOOLWARDEN",
 };
 
+/**
+ * Free products have no checkout. They are only an R2 key, a filename and a
+ * title, and they are never part of the paid catalog: not matched by
+ * matchProduct, not valid in a signed download token (isProductSlug).
+ */
+export const FREE_PRODUCT_SLUGS = ["stickler"] as const;
+export type FreeProductSlug = (typeof FREE_PRODUCT_SLUGS)[number];
+
+export type FreeProduct = {
+  slug: FreeProductSlug;
+  kind: "free";
+  title: string;
+  key: string;
+  filename: string;
+  mediaType: DownloadMediaType;
+  contentDisposition: string;
+};
+
+const FREE_PREFIX: Record<FreeProductSlug, string> = {
+  stickler: "PRODUCT_STICKLER",
+};
+
 export function isProductSlug(value: unknown): value is ProductSlug {
   return typeof value === "string" && (PRODUCT_SLUGS as readonly string[]).includes(value);
 }
@@ -60,7 +82,7 @@ function splitIds(raw: string | undefined, pattern: RegExp): string[] {
   return ids;
 }
 
-function readTitle(raw: string | undefined, slug: ProductSlug): string {
+function readTitle(raw: string | undefined, slug: string): string {
   if (typeof raw !== "string") return slug;
   const cleaned = raw.replace(/[\u0000-\u001f\u007f]/g, "").trim();
   if (!cleaned || cleaned.length > 80) return slug;
@@ -151,4 +173,26 @@ export function matchProduct(
   });
   if (matches.length !== 1) return null;
   return matches[0] ?? null;
+}
+
+/** The free product's file config, or null (fails closed) when key or filename is unset or invalid. */
+export function loadFreeProduct(env: Env, slug: FreeProductSlug): FreeProduct | null {
+  const prefix = FREE_PREFIX[slug];
+  const record = env as unknown as Record<string, string | undefined>;
+  const key = readKey(record[`${prefix}_KEY`]);
+  const filename = readFilename(record[`${prefix}_FILENAME`]);
+  const keyType = mediaTypeForSuffix(key ? fileSuffix(key) : null);
+  const fileType = mediaTypeForSuffix(filename ? fileSuffix(filename) : null);
+  if (!key || !filename || !keyType || keyType !== fileType) return null;
+  // Free files live under their own prefix, so a wrong var can never serve a paid file.
+  if (!key.startsWith(`${slug}/`)) return null;
+  return {
+    slug,
+    kind: "free",
+    title: readTitle(record[`${prefix}_TITLE`], slug),
+    key,
+    filename,
+    mediaType: keyType,
+    contentDisposition: contentDisposition(filename),
+  };
 }

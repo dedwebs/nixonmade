@@ -88,6 +88,20 @@
     "PRODUCT_TOOLWARDEN_LIVE_PRICES": "",
     "PRODUCT_TOOLWARDEN_KEY": "Toolwarden-0.2.0.pkg",
     "PRODUCT_TOOLWARDEN_FILENAME": "toolwarden-0.2.0.pkg",
-    "PRODUCT_TOOLWARDEN_TITLE": "Toolwarden"
+    "PRODUCT_TOOLWARDEN_TITLE": "Toolwarden",
+    // Stickler is free: no Stripe ids, never matched by a checkout session.
+    // KEY is empty so /stickler/download answers 503 until the file is
+    // uploaded to R2 under the `stickler/` prefix (e.g. stickler/Stickler.dmg).
+    "PRODUCT_STICKLER_KEY": "",
+    "PRODUCT_STICKLER_FILENAME": "Stickler.dmg",
+    "PRODUCT_STICKLER_TITLE": "Stickler",
+    "RATE_LIMIT_FREE_IP_PER_HOUR": "10",
+    "RATE_LIMIT_FREE_PER_DAY": "2000",
+    // Support: Stripe Payment Link code (buy.stripe.com/<code>) or full URL.
+    // Empty means /stickler/support/<amount> answers 503 "not set up yet".
+    "STICKLER_SUPPORT_LINK_5": "",
+    "STICKLER_SUPPORT_LINK_10": "",
+    "STICKLER_SUPPORT_LINK_20": "",
+    "STICKLER_SUPPORT_LINK_OTHER": ""
   }
 }

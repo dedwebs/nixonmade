@@ -108,3 +108,28 @@ export function redownloadPage(message: string | null): string {
       </form>`,
   );
 }
+
+export function freeBusyPage(): string {
+  return page(
+    "Busy — Nixon Made",
+    `<h1>We're busy right now.</h1>
+      <p class="lede">Too many downloads have been requested. Nothing was changed. Please try again a little later.</p>`,
+  );
+}
+
+export function freeUnavailablePage(): string {
+  return page(
+    "Download unavailable — Nixon Made",
+    `<h1>That download isn't available right now.</h1>
+      <p class="lede">Please try again later. If it keeps failing, email <a href="mailto:hello@nixonmade.com">hello@nixonmade.com</a>.</p>`,
+  );
+}
+
+export function supportUnavailablePage(): string {
+  return page(
+    "Support links aren't set up yet — Nixon Made",
+    `<h1>Support links aren't set up yet.</h1>
+      <p class="lede">Thank you for wanting to help. This isn't ready yet, so please check back soon.</p>
+      <p><a href="/stickler/">Back to Stickler</a></p>`,
+  );
+}

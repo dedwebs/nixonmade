@@ -1,0 +1,27 @@
+/* Stickler pages. Extends /styles.css. No inline styles (CSP style-src 'self'). */
+.ph {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+
+.shot-grid {
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 720px) {
+  .shot-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.support-actions .btn {
+  min-width: 7rem;
+}
+
+.support {
+  padding: var(--space-6);
+  background: var(--card);
+  border: 1px solid var(--line);
+}

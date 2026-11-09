@@ -12,3 +12,15 @@ STRIPE_WEBHOOK_SECRET=whsec_replace_me
 # PRODUCT_SHIP_KIT_TEST_PRICES=price_kit_replace_me,price_dfy_replace_me
 # PRODUCT_FLEET_SHEETS_TEST_LINKS=plink_replace_me
 # PRODUCT_FLEET_SHEETS_TEST_PRICES=price_replace_me
+
+# Stickler (free product). Fake placeholders. Not secrets.
+# PRODUCT_STICKLER_KEY=stickler/Stickler.dmg
+# PRODUCT_STICKLER_FILENAME=Stickler.dmg
+# PRODUCT_STICKLER_TITLE=Stickler
+# RATE_LIMIT_FREE_IP_PER_HOUR=10
+# RATE_LIMIT_FREE_PER_DAY=2000
+# Payment Link code or full https://buy.stripe.com/<code> URL:
+# STICKLER_SUPPORT_LINK_5=test_replace_me_5
+# STICKLER_SUPPORT_LINK_10=test_replace_me_10
+# STICKLER_SUPPORT_LINK_20=test_replace_me_20
+# STICKLER_SUPPORT_LINK_OTHER=https://buy.stripe.com/test_replace_me_other
