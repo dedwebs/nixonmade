@@ -124,6 +124,13 @@ async function handleDownload(request: Request, env: Env, url: URL): Promise<Res
 }
 
 export async function handleStickler(request: Request, env: Env, url: URL): Promise<Response> {
+  const response = await routeStickler(request, env, url);
+  // Not public until the name is cleared; _headers only covers static files.
+  response.headers.set("x-robots-tag", "noindex");
+  return response;
+}
+
+async function routeStickler(request: Request, env: Env, url: URL): Promise<Response> {
   if (DOWNLOAD_PATHS.has(url.pathname)) return handleDownload(request, env, url);
   const match = SUPPORT_RE.exec(url.pathname);
   if (match) return handleSupport(request, env, url, match[1] as keyof typeof SUPPORT_VARS);

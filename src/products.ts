@@ -184,6 +184,8 @@ export function loadFreeProduct(env: Env, slug: FreeProductSlug): FreeProduct | 
   const keyType = mediaTypeForSuffix(key ? fileSuffix(key) : null);
   const fileType = mediaTypeForSuffix(filename ? fileSuffix(filename) : null);
   if (!key || !filename || !keyType || keyType !== fileType) return null;
+  // Free files live under their own prefix, so a wrong var can never serve a paid file.
+  if (!key.startsWith(`${slug}/`)) return null;
   return {
     slug,
     kind: "free",

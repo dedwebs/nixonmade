@@ -33,6 +33,9 @@ describe("free product", () => {
   it("rejects bad keys and mismatched types", () => {
     expect(loadFreeProduct(withEnv({ PRODUCT_STICKLER_KEY: "../x.dmg" }), "stickler")).toBeNull();
     expect(loadFreeProduct(withEnv({ PRODUCT_STICKLER_KEY: "stickler/a.zip" }), "stickler")).toBeNull();
+    // Paid files sit at the bucket root; a free key outside stickler/ fails closed.
+    expect(loadFreeProduct(withEnv({ PRODUCT_STICKLER_KEY: "Toolwarden-0.2.0.dmg" }), "stickler")).toBeNull();
+    expect(loadFreeProduct(withEnv({ PRODUCT_STICKLER_KEY: "products/stickler/a.dmg" }), "stickler")).toBeNull();
   });
   it("is never in the paid catalog or matched by a session", () => {
     const e = configured();
@@ -149,6 +152,7 @@ describe("/stickler/support", () => {
   it("ignores query strings on the request", async () => {
     const res = await call(e, "/stickler/support/5?next=https://evil.com&x=1");
     expect(res.headers.get("location")).toBe("https://buy.stripe.com/test_abc5");
+    expect(res.headers.get("x-robots-tag")).toBe("noindex");
   });
   it("answers 503 when the var is unset", async () => {
     const res = await call(env as E, "/stickler/support/5");
