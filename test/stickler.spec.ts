@@ -5,7 +5,7 @@ import { supportLocation } from "../src/stickler";
 import { loadCatalog, loadFreeProduct, matchProduct } from "../src/products";
 import { nextIp, request, putProduct } from "./support";
 
-const KEY = "stickler/Stickler.dmg";
+const KEY = "stickler/Stickler.pkg";
 type E = Cloudflare.Env;
 
 function withEnv(extra: Record<string, string>): E {
@@ -18,16 +18,28 @@ function call(e: E, path: string, ip: string | null = nextIp(), init: RequestIni
 const configured = () => withEnv({ PRODUCT_STICKLER_KEY: KEY });
 
 describe("free product", () => {
-  it("loads from key and filename only, and is empty by default", () => {
-    expect(loadFreeProduct(env, "stickler")).toBeNull();
+  it("loads from key and filename only, and is empty when the key is unset", () => {
+    expect(loadFreeProduct(withEnv({ PRODUCT_STICKLER_KEY: "" }), "stickler")).toBeNull();
     const product = loadFreeProduct(configured(), "stickler");
     expect(product).toMatchObject({
       slug: "stickler",
       kind: "free",
       title: "Stickler",
       key: KEY,
-      filename: "Stickler.dmg",
-      mediaType: "application/x-apple-diskimage",
+      filename: "Stickler.pkg",
+      mediaType: "application/octet-stream",
+    });
+  });
+  it("loads the pkg download the release uses", () => {
+    const product = loadFreeProduct(
+      withEnv({ PRODUCT_STICKLER_KEY: "stickler/Stickler.pkg", PRODUCT_STICKLER_FILENAME: "Stickler.pkg" }),
+      "stickler",
+    );
+    expect(product).toMatchObject({
+      key: "stickler/Stickler.pkg",
+      filename: "Stickler.pkg",
+      mediaType: "application/octet-stream",
+      contentDisposition: 'attachment; filename="Stickler.pkg"',
     });
   });
   it("rejects bad keys and mismatched types", () => {
@@ -56,8 +68,8 @@ describe("/stickler/download", () => {
     for (const path of ["/stickler/download", "/stickler/download/"]) {
       const res = await call(configured(), path);
       expect(res.status).toBe(200);
-      expect(res.headers.get("content-disposition")).toBe('attachment; filename="Stickler.dmg"');
-      expect(res.headers.get("content-type")).toBe("application/x-apple-diskimage");
+      expect(res.headers.get("content-disposition")).toBe('attachment; filename="Stickler.pkg"');
+      expect(res.headers.get("content-type")).toBe("application/octet-stream");
       expect(res.headers.get("content-length")).toBe("9");
       expect(res.headers.get("etag")).toBeTruthy();
       expect(res.headers.get("cache-control")).toBe("no-store");
@@ -98,14 +110,14 @@ describe("/stickler/download", () => {
     expect(res.headers.get("retry-after")).toBeTruthy();
   });
   it("fails closed with a clean 503 when the key is unset", async () => {
-    const res = await call(env as E, "/stickler/download");
+    const res = await call(withEnv({ PRODUCT_STICKLER_KEY: "" }), "/stickler/download");
     expect(res.status).toBe(503);
     const text = await res.text();
     expect(text).toContain("<html");
     expect(text).not.toMatch(/stack|Error:/);
   });
   it("answers a clean 404 when the object is missing", async () => {
-    const e = withEnv({ PRODUCT_STICKLER_KEY: "stickler/Missing.dmg" });
+    const e = withEnv({ PRODUCT_STICKLER_KEY: "stickler/Missing.pkg" });
     const res = await call(e, "/stickler/download");
     expect(res.status).toBe(404);
     expect(await res.text()).toContain("<html");
