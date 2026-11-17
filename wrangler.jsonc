@@ -90,10 +90,11 @@
     "PRODUCT_TOOLWARDEN_FILENAME": "toolwarden-0.2.0.pkg",
     "PRODUCT_TOOLWARDEN_TITLE": "Toolwarden",
     // Stickler is free: no Stripe ids, never matched by a checkout session.
-    // KEY is empty so /stickler/download answers 503 until the file is
-    // uploaded to R2 under the `stickler/` prefix (e.g. stickler/Stickler.dmg).
-    "PRODUCT_STICKLER_KEY": "",
-    "PRODUCT_STICKLER_FILENAME": "Stickler.dmg",
+    // The first-time download is the signed, notarized installer pkg. Upload
+    // stickler/Stickler.pkg to R2 BEFORE deploying this, or /stickler/download
+    // answers 404 until it exists. Sparkle updates use stickler/updates/*.zip.
+    "PRODUCT_STICKLER_KEY": "stickler/Stickler.pkg",
+    "PRODUCT_STICKLER_FILENAME": "Stickler.pkg",
     "PRODUCT_STICKLER_TITLE": "Stickler",
     "RATE_LIMIT_FREE_IP_PER_HOUR": "10",
     "RATE_LIMIT_FREE_PER_DAY": "2000",

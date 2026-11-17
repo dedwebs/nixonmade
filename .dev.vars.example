@@ -14,8 +14,8 @@ STRIPE_WEBHOOK_SECRET=whsec_replace_me
 # PRODUCT_FLEET_SHEETS_TEST_PRICES=price_replace_me
 
 # Stickler (free product). Fake placeholders. Not secrets.
-# PRODUCT_STICKLER_KEY=stickler/Stickler.dmg
-# PRODUCT_STICKLER_FILENAME=Stickler.dmg
+# PRODUCT_STICKLER_KEY=stickler/Stickler.pkg
+# PRODUCT_STICKLER_FILENAME=Stickler.pkg
 # PRODUCT_STICKLER_TITLE=Stickler
 # RATE_LIMIT_FREE_IP_PER_HOUR=10
 # RATE_LIMIT_FREE_PER_DAY=2000
