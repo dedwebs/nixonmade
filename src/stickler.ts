@@ -65,6 +65,7 @@ export function isSticklerPath(pathname: string): boolean {
 export function supportLocation(raw: string | undefined): string | null {
   const value = (raw ?? "").trim();
   if (!value) return null;
+  // A bare code always means buy.stripe.com; give donate.stripe.com links as a full URL.
   if (CODE_RE.test(value)) return `https://buy.stripe.com/${value}`;
   const match = FULL_URL_RE.exec(value);
   if (!match) return null;
