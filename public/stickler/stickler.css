@@ -1,18 +1,25 @@
 /* Stickler pages. Extends /styles.css. No inline styles (CSP style-src 'self'). */
-.ph {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--line);
+/* Real app window captures: the PNG/WebP already has rounded, transparent
+   corners, so drop the site's framed-screenshot border and white fill. */
+.app-shot img {
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  box-shadow: var(--shadow);
+}
+
+.release-line {
+  margin: var(--space-2) 0 0;
 }
 
 .shot-grid {
   margin-top: var(--space-5);
+  align-items: start;
 }
 
 @media (min-width: 720px) {
   .shot-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

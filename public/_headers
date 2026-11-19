@@ -35,18 +35,15 @@
 /brand-options/*
   X-Robots-Tag: noindex
 
-# Stickler is not public until the name is cleared.
-/stickler
-  X-Robots-Tag: noindex
-
-/stickler/*
-  X-Robots-Tag: noindex
-
-# Stripe appends ?session_id=cs_... here. Never send it on as a Referer.
+# Stickler is public (2.0.0, Nov 2026): /stickler/ and /stickler/support/ are
+# indexable. The donation thank-you page stays out of search, and Stripe
+# appends ?session_id=cs_... there, so never send it on as a Referer.
 /stickler/support/thanks
+  X-Robots-Tag: noindex
   Referrer-Policy: no-referrer
 
 /stickler/support/thanks/*
+  X-Robots-Tag: noindex
   Referrer-Policy: no-referrer
 
 # Thank-you pages.

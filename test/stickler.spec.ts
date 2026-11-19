@@ -162,6 +162,17 @@ describe("/stickler/support", () => {
     expect(res.headers.get("location")).toBe("https://buy.stripe.com/test_abc");
     expect(res.headers.get("x-robots-tag")).toBe("noindex");
   });
+  it("lets search engines index /stickler/ and /stickler/support/, but not the thank-you page", async () => {
+    for (const path of ["/stickler/", "/stickler/support/"]) {
+      const res = await call(e, path);
+      expect(res.status, path).toBe(200);
+      expect(res.headers.get("x-robots-tag") ?? "", path).not.toContain("noindex");
+      const html = await res.text();
+      expect(html, path).not.toContain('name="robots"');
+      expect(html, path).toContain('rel="canonical"');
+      expect(html.toLowerCase(), path).not.toContain("placeholder");
+    }
+  });
   it("serves the thank-you page as static HTML, with or without session_id", async () => {
     for (const path of ["/stickler/support/thanks/", "/stickler/support/thanks/?session_id=cs_test_x"]) {
       const res = await call(e, path);
