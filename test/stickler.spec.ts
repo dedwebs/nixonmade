@@ -173,6 +173,13 @@ describe("/stickler/support", () => {
       expect(html.toLowerCase(), path).not.toContain("placeholder");
     }
   });
+  it("shows a Donate button on the homepage and Stickler page via the Worker route", async () => {
+    for (const path of ["/", "/stickler/"]) {
+      const html = await (await call(e, path)).text();
+      expect(html, path).toContain('<a class="btn btn-secondary" href="/stickler/support/donate">Donate</a>');
+      expect(html, path).not.toContain("donate.stripe.com");
+    }
+  });
   it("serves the thank-you page as static HTML, with or without session_id", async () => {
     for (const path of ["/stickler/support/thanks/", "/stickler/support/thanks/?session_id=cs_test_x"]) {
       const res = await call(e, path);
