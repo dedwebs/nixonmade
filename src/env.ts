@@ -62,8 +62,5 @@ export interface Env {
   /** Update archive downloads for the whole worker per day. Default 5000. */
   RATE_LIMIT_UPDATES_PER_DAY?: string;
   /** Stripe Payment Link code (`buy.stripe.com/<code>`) or the full buy/donate.stripe.com URL. */
-  STICKLER_SUPPORT_LINK_5?: string;
-  STICKLER_SUPPORT_LINK_10?: string;
-  STICKLER_SUPPORT_LINK_20?: string;
-  STICKLER_SUPPORT_LINK_OTHER?: string;
+  STICKLER_SUPPORT_LINK?: string;
 }
