@@ -1701,3 +1701,46 @@ main .closing a:not(.btn) {
 .trust-links {
   margin-top: var(--space-4);
 }
+
+/* Home spotlight with three products (Stickler added Nov 2026). */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .spotlight > li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  /* A lone last card spans both columns: copy on the left, picture on the right. */
+  .spotlight > li:last-child:nth-child(odd) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: var(--space-6);
+  }
+
+  .spotlight > li:last-child:nth-child(odd) > * {
+    grid-column: 1;
+  }
+
+  .spotlight > li:last-child:nth-child(odd) > .spotlight-shot {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+  }
+
+  .spotlight > li:last-child:nth-child(odd) > .actions {
+    align-self: end;
+  }
+}
+
+/* Four nav links fit on one row on a phone. */
+@media (max-width: 540px) {
+  .site-nav a {
+    padding: 0.35rem 0.4rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .spotlight {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
