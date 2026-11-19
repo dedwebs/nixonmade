@@ -180,7 +180,7 @@ describe("/stickler/support", () => {
     }
   });
   it("answers 503 when the var is unset", async () => {
-    const res = await call(env as E, "/stickler/support/5");
+    const res = await call(withEnv({ STICKLER_SUPPORT_LINK_5: "" }), "/stickler/support/5");
     expect(res.status).toBe(503);
     expect(res.headers.get("location")).toBeNull();
     expect(await res.text()).toContain("aren't set up yet");
@@ -207,6 +207,27 @@ describe("/stickler/support", () => {
     for (const value of bad) expect(supportLocation(value), value).toBeNull();
     expect(supportLocation(undefined)).toBeNull();
     expect(supportLocation("14k5abc")).toBe("https://buy.stripe.com/14k5abc");
+  });
+  it("keeps donate.stripe.com for donation links and rejects look-alikes", () => {
+    expect(supportLocation("https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04")).toBe(
+      "https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04",
+    );
+    for (const value of [
+      "http://donate.stripe.com/abc",
+      "https://donate.stripe.com.evil.com/abc",
+      "https://evil.donate.stripe.com/abc",
+      "https://donate.stripe.com/abc?x=1",
+      "https://donatee.stripe.com/abc",
+    ]) {
+      expect(supportLocation(value), value).toBeNull();
+    }
+  });
+  it("uses the live donation link from wrangler.jsonc for every amount", async () => {
+    for (const amount of ["5", "10", "20", "other"]) {
+      const res = await call(env as E, `/stickler/support/${amount}`);
+      expect(res.status, amount).toBe(302);
+      expect(res.headers.get("location"), amount).toBe("https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04");
+    }
   });
   it("answers 503, not a redirect, for an invalid var", async () => {
     const res = await call(withEnv({ STICKLER_SUPPORT_LINK_5: "https://buy.stripe.com.evil.com/x" }), "/stickler/support/5");

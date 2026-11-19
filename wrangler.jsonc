@@ -105,11 +105,13 @@
     "RATE_LIMIT_APPCAST_IP_PER_HOUR": "120",
     "RATE_LIMIT_UPDATES_IP_PER_HOUR": "20",
     "RATE_LIMIT_UPDATES_PER_DAY": "5000",
-    // Support: Stripe Payment Link code (buy.stripe.com/<code>) or full URL.
+    // Support: Stripe Payment Link code (buy.stripe.com/<code>) or full buy/donate URL.
+    // One live link, plink_1UdJUX9YvevV3dxlxoYUn8Nd: donor picks $5-$500, default $20.
+    // All four routes point at it so old /support/<amount> links keep working.
     // Empty means /stickler/support/<amount> answers 503 "not set up yet".
-    "STICKLER_SUPPORT_LINK_5": "",
-    "STICKLER_SUPPORT_LINK_10": "",
-    "STICKLER_SUPPORT_LINK_20": "",
-    "STICKLER_SUPPORT_LINK_OTHER": ""
+    "STICKLER_SUPPORT_LINK_5": "https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04",
+    "STICKLER_SUPPORT_LINK_10": "https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04",
+    "STICKLER_SUPPORT_LINK_20": "https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04",
+    "STICKLER_SUPPORT_LINK_OTHER": "https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04"
   }
 }

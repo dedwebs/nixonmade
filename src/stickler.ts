@@ -45,7 +45,7 @@ const SUPPORT_VARS = {
 } as const;
 
 const CODE_RE = /^[A-Za-z0-9_]{1,200}$/;
-const FULL_URL_RE = /^https:\/\/buy\.stripe\.com\/([A-Za-z0-9_]{1,200})$/;
+const FULL_URL_RE = /^https:\/\/(buy|donate)\.stripe\.com\/([A-Za-z0-9_]{1,200})$/;
 
 /** Only these paths are handled here. Everything else under /stickler/ falls through to ASSETS. */
 export function isSticklerPath(pathname: string): boolean {
@@ -65,9 +65,12 @@ export function isSticklerPath(pathname: string): boolean {
 export function supportLocation(raw: string | undefined): string | null {
   const value = (raw ?? "").trim();
   if (!value) return null;
-  const code = CODE_RE.test(value) ? value : (FULL_URL_RE.exec(value)?.[1] ?? null);
-  if (!code) return null;
-  return `https://buy.stripe.com/${code}`;
+  if (CODE_RE.test(value)) return `https://buy.stripe.com/${value}`;
+  const match = FULL_URL_RE.exec(value);
+  if (!match) return null;
+  // Donation links live on donate.stripe.com; keep that host, never any other.
+  const host = match[1] === "donate" ? "donate.stripe.com" : "buy.stripe.com";
+  return `https://${host}/${match[2]}`;
 }
 
 function handleSupport(request: Request, env: Env, url: URL, amount: keyof typeof SUPPORT_VARS): Response {

@@ -23,7 +23,7 @@ STRIPE_WEBHOOK_SECRET=whsec_replace_me
 # RATE_LIMIT_APPCAST_IP_PER_HOUR=120
 # RATE_LIMIT_UPDATES_IP_PER_HOUR=20
 # RATE_LIMIT_UPDATES_PER_DAY=5000
-# Payment Link code or full https://buy.stripe.com/<code> URL:
+# Payment Link code or full https://{buy,donate}.stripe.com/<code> URL:
 # STICKLER_SUPPORT_LINK_5=test_replace_me_5
 # STICKLER_SUPPORT_LINK_10=test_replace_me_10
 # STICKLER_SUPPORT_LINK_20=test_replace_me_20
