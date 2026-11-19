@@ -166,6 +166,19 @@ describe("/stickler/support", () => {
     expect(res.headers.get("location")).toBe("https://buy.stripe.com/test_abc5");
     expect(res.headers.get("x-robots-tag")).toBe("noindex");
   });
+  it("serves the thank-you page as static HTML, with or without session_id", async () => {
+    for (const path of ["/stickler/support/thanks/", "/stickler/support/thanks/?session_id=cs_test_x"]) {
+      const res = await call(e, path);
+      expect(res.status, path).toBe(200);
+      expect(res.headers.get("content-type")).toContain("text/html");
+      const html = await res.text();
+      expect(html).toContain("Download Stickler");
+      expect(html).toContain('<meta name="robots" content="noindex" />');
+      expect(res.headers.get("x-robots-tag"), path).toContain("noindex");
+      expect(res.headers.get("referrer-policy"), path).toBe("no-referrer");
+      expect(res.headers.get("content-security-policy"), path).toContain("frame-ancestors 'none'");
+    }
+  });
   it("answers 503 when the var is unset", async () => {
     const res = await call(env as E, "/stickler/support/5");
     expect(res.status).toBe(503);

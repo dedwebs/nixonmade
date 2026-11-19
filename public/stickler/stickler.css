@@ -25,3 +25,108 @@
   background: var(--card);
   border: 1px solid var(--line);
 }
+
+/* Donation thank-you page (/stickler/support/thanks/). Light by default; dark follows the OS. */
+.stickler-thanks main {
+  display: grid;
+  place-items: start center;
+  padding-block: var(--space-8);
+}
+
+.thanks-card {
+  width: min(34rem, 100%);
+  padding: var(--space-7) var(--space-6);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid #1d9e75;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.thanks-icon {
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto var(--space-5);
+  border-radius: 1.4rem;
+}
+
+.thanks-card h1 {
+  margin: 0 0 var(--space-3);
+}
+
+.thanks-card .lede {
+  margin: 0 auto var(--space-5);
+  max-width: 28rem;
+  text-wrap: balance;
+}
+
+.thanks-card .actions {
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.thanks-primary {
+  min-width: 12rem;
+  min-height: 3rem;
+}
+
+.thanks-secondary {
+  font-weight: 600;
+  padding: var(--space-2) var(--space-3);
+}
+
+.thanks-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.stickler-thanks a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.stickler-thanks .thanks-primary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+@media (max-width: 480px) {
+  .stickler-thanks main {
+    padding-block: var(--space-6);
+  }
+  .thanks-card {
+    padding: var(--space-6) var(--space-4);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body.stickler-thanks {
+    --bg: #0b1220;
+    --card: #111a2e;
+    --ink: #f1efe8;
+    --muted: #b6c0d0;
+    --line: #243049;
+    --accent: #6ea8fe;
+    --accent-soft: #16233f;
+    --shadow: none;
+    color-scheme: dark;
+  }
+  .stickler-thanks .site-header {
+    background: rgba(11, 18, 32, 0.92);
+  }
+  .stickler-thanks .btn {
+    background: #6ea8fe;
+    border-color: #6ea8fe;
+    color: #0b1220;
+  }
+  .stickler-thanks .btn:hover {
+    background: #f1efe8;
+    border-color: #f1efe8;
+    color: #0b1220;
+  }
+}
