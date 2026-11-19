@@ -140,34 +140,43 @@ describe("/stickler/download", () => {
 });
 
 describe("/stickler/support", () => {
-  const e = withEnv({
-    STICKLER_SUPPORT_LINK_5: "test_abc5",
-    STICKLER_SUPPORT_LINK_10: "https://buy.stripe.com/14k5abc10",
-    STICKLER_SUPPORT_LINK_20: " test_abc20 ",
-    STICKLER_SUPPORT_LINK_OTHER: "https://buy.stripe.com/test_other",
-  });
-  it("redirects each amount, with or without a trailing slash", async () => {
-    const want: Record<string, string> = {
-      "5": "test_abc5",
-      "10": "14k5abc10",
-      "20": "test_abc20",
-      other: "test_other",
-    };
-    for (const [amount, code] of Object.entries(want)) {
-      for (const path of [`/stickler/support/${amount}`, `/stickler/support/${amount}/`]) {
+  const e = withEnv({ STICKLER_SUPPORT_LINK: " https://buy.stripe.com/test_abc " });
+  it("redirects /donate and the app's amount aliases to the one link", async () => {
+    for (const slug of ["donate", "5", "10", "20", "other"]) {
+      for (const path of [`/stickler/support/${slug}`, `/stickler/support/${slug}/`]) {
         const res = await call(e, path);
-        expect(res.status).toBe(302);
-        expect(res.headers.get("location")).toBe(`https://buy.stripe.com/${code}`);
+        expect(res.status, path).toBe(302);
+        expect(res.headers.get("location"), path).toBe("https://buy.stripe.com/test_abc");
       }
     }
   });
+  it("does not route other amounts", async () => {
+    for (const path of ["/stickler/support/50", "/stickler/support/donate/x", "/stickler/support/DONATE"]) {
+      const res = await call(e, path);
+      expect(res.headers.get("location"), path).toBeNull();
+      expect(res.status, path).toBe(404);
+    }
+  });
   it("ignores query strings on the request", async () => {
-    const res = await call(e, "/stickler/support/5?next=https://evil.com&x=1");
-    expect(res.headers.get("location")).toBe("https://buy.stripe.com/test_abc5");
+    const res = await call(e, "/stickler/support/donate?next=https://evil.com&x=1");
+    expect(res.headers.get("location")).toBe("https://buy.stripe.com/test_abc");
     expect(res.headers.get("x-robots-tag")).toBe("noindex");
   });
+  it("serves the thank-you page as static HTML, with or without session_id", async () => {
+    for (const path of ["/stickler/support/thanks/", "/stickler/support/thanks/?session_id=cs_test_x"]) {
+      const res = await call(e, path);
+      expect(res.status, path).toBe(200);
+      expect(res.headers.get("content-type")).toContain("text/html");
+      const html = await res.text();
+      expect(html).toContain("Download Stickler");
+      expect(html).toContain('<meta name="robots" content="noindex" />');
+      expect(res.headers.get("x-robots-tag"), path).toContain("noindex");
+      expect(res.headers.get("referrer-policy"), path).toBe("no-referrer");
+      expect(res.headers.get("content-security-policy"), path).toContain("frame-ancestors 'none'");
+    }
+  });
   it("answers 503 when the var is unset", async () => {
-    const res = await call(env as E, "/stickler/support/5");
+    const res = await call(withEnv({ STICKLER_SUPPORT_LINK: "" }), "/stickler/support/donate");
     expect(res.status).toBe(503);
     expect(res.headers.get("location")).toBeNull();
     expect(await res.text()).toContain("aren't set up yet");
@@ -195,8 +204,29 @@ describe("/stickler/support", () => {
     expect(supportLocation(undefined)).toBeNull();
     expect(supportLocation("14k5abc")).toBe("https://buy.stripe.com/14k5abc");
   });
+  it("keeps donate.stripe.com for donation links and rejects look-alikes", () => {
+    expect(supportLocation("https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04")).toBe(
+      "https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04",
+    );
+    for (const value of [
+      "http://donate.stripe.com/abc",
+      "https://donate.stripe.com.evil.com/abc",
+      "https://evil.donate.stripe.com/abc",
+      "https://donate.stripe.com/abc?x=1",
+      "https://donatee.stripe.com/abc",
+    ]) {
+      expect(supportLocation(value), value).toBeNull();
+    }
+  });
+  it("uses the live donation link from wrangler.jsonc", async () => {
+    for (const amount of ["donate", "5", "10", "20", "other"]) {
+      const res = await call(env as E, `/stickler/support/${amount}`);
+      expect(res.status, amount).toBe(302);
+      expect(res.headers.get("location"), amount).toBe("https://donate.stripe.com/bJe9ANbd701cfQ9dVDeQM04");
+    }
+  });
   it("answers 503, not a redirect, for an invalid var", async () => {
-    const res = await call(withEnv({ STICKLER_SUPPORT_LINK_5: "https://buy.stripe.com.evil.com/x" }), "/stickler/support/5");
+    const res = await call(withEnv({ STICKLER_SUPPORT_LINK: "https://buy.stripe.com.evil.com/x" }), "/stickler/support/donate");
     expect(res.status).toBe(503);
     expect(res.headers.get("location")).toBeNull();
   });

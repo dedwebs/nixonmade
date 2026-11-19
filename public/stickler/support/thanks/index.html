@@ -5,8 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Thank you — Stickler — NixonMade</title>
     <meta name="robots" content="noindex" />
-    <meta name="description" content="Thank you for supporting Stickler." />
-    <meta name="theme-color" content="#f5f7fa" />
+    <meta name="description" content="Thank you for supporting Stickler. Your receipt is on its way from Stripe." />
+    <link rel="canonical" href="https://nixonmade.com/stickler/support/thanks/" />
+    <meta property="og:title" content="Thank you — Stickler — NixonMade" />
+    <meta property="og:description" content="Thank you for supporting Stickler." />
+    <meta property="og:url" content="https://nixonmade.com/stickler/support/thanks/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/og/stickler-thanks.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -15,7 +26,7 @@
     <link rel="stylesheet" href="/styles.css" />
     <link rel="stylesheet" href="/stickler/stickler.css" />
   </head>
-  <body class="product">
+  <body class="product stickler-thanks">
     <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
       <div class="inner">
@@ -29,10 +40,16 @@
       </div>
     </header>
     <main id="content" tabindex="-1">
-      <h1>Thank you.</h1>
-      <p class="lede">Thanks for supporting Stickler. It means a lot, and it helps keep the app going.</p>
-      <p>Your support is received. Stripe will email you a receipt.</p>
-      <p><a href="/stickler/">Back to Stickler</a></p>
+      <section class="thanks-card" aria-labelledby="thanks-heading">
+        <img class="thanks-icon" src="/stickler/stickler-icon.svg" alt="Stickler app icon: a USB stick with a green check mark" width="96" height="96" />
+        <h1 id="thanks-heading">Thank you for the support.</h1>
+        <p class="lede">Stickler stays free because people like you chip in.</p>
+        <div class="actions">
+          <a class="btn thanks-primary" href="/stickler/download">Download Stickler</a>
+          <a class="thanks-secondary" href="/stickler/">Back to Stickler</a>
+        </div>
+        <p class="thanks-note">Stripe will email your receipt. If it doesn't show up, check your spam folder.</p>
+      </section>
     </main>
     <footer class="site-footer">
       <div class="inner">

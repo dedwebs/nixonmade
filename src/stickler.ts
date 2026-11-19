@@ -36,16 +36,13 @@ const UPDATE_TYPES: Record<string, string> = {
   delta: "application/octet-stream",
   "tar.xz": "application/octet-stream",
 };
-const SUPPORT_RE = /^\/stickler\/support\/(5|10|20|other)\/?$/;
-const SUPPORT_VARS = {
-  "5": "STICKLER_SUPPORT_LINK_5",
-  "10": "STICKLER_SUPPORT_LINK_10",
-  "20": "STICKLER_SUPPORT_LINK_20",
-  other: "STICKLER_SUPPORT_LINK_OTHER",
-} as const;
+// One pay-what-you-want donation link. /donate is what the site links to. The
+// amount paths stay as aliases because Stickler 2.0.0 opens them from its
+// support prompt (SupportLinks.swift); they all go to the same link.
+const SUPPORT_RE = /^\/stickler\/support\/(donate|5|10|20|other)\/?$/;
 
 const CODE_RE = /^[A-Za-z0-9_]{1,200}$/;
-const FULL_URL_RE = /^https:\/\/buy\.stripe\.com\/([A-Za-z0-9_]{1,200})$/;
+const FULL_URL_RE = /^https:\/\/(buy|donate)\.stripe\.com\/([A-Za-z0-9_]{1,200})$/;
 
 /** Only these paths are handled here. Everything else under /stickler/ falls through to ASSETS. */
 export function isSticklerPath(pathname: string): boolean {
@@ -65,17 +62,20 @@ export function isSticklerPath(pathname: string): boolean {
 export function supportLocation(raw: string | undefined): string | null {
   const value = (raw ?? "").trim();
   if (!value) return null;
-  const code = CODE_RE.test(value) ? value : (FULL_URL_RE.exec(value)?.[1] ?? null);
-  if (!code) return null;
-  return `https://buy.stripe.com/${code}`;
+  // A bare code always means buy.stripe.com; give donate.stripe.com links as a full URL.
+  if (CODE_RE.test(value)) return `https://buy.stripe.com/${value}`;
+  const match = FULL_URL_RE.exec(value);
+  if (!match) return null;
+  // Donation links live on donate.stripe.com; keep that host, never any other.
+  const host = match[1] === "donate" ? "donate.stripe.com" : "buy.stripe.com";
+  return `https://${host}/${match[2]}`;
 }
 
-function handleSupport(request: Request, env: Env, url: URL, amount: keyof typeof SUPPORT_VARS): Response {
+function handleSupport(request: Request, env: Env, url: URL): Response {
   if (request.method !== "GET" && request.method !== "HEAD") {
     return textResponse(url, "Method not allowed.\n", 405);
   }
-  const record = env as unknown as Record<string, string | undefined>;
-  const target = supportLocation(record[SUPPORT_VARS[amount]]);
+  const target = supportLocation(env.STICKLER_SUPPORT_LINK);
   if (!target) {
     // 503, not a redirect: a visitor who chose to give sees plainly that it is not ready.
     safeLog("stickler_support_unset");
@@ -333,7 +333,6 @@ async function routeStickler(request: Request, env: Env, url: URL): Promise<Resp
   if (DOWNLOAD_PATHS.has(url.pathname)) return handleDownload(request, env, url);
   if (APPCAST_PATHS.has(url.pathname)) return handleAppcast(request, env, url);
   if (url.pathname.startsWith(UPDATES_PREFIX)) return handleUpdate(request, env, url);
-  const match = SUPPORT_RE.exec(url.pathname);
-  if (match) return handleSupport(request, env, url, match[1] as keyof typeof SUPPORT_VARS);
+  if (SUPPORT_RE.test(url.pathname)) return handleSupport(request, env, url);
   return textResponse(url, "Not found.\n", 404);
 }
