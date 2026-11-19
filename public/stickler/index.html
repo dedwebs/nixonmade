@@ -4,8 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stickler — NixonMade</title>
-    <meta name="robots" content="noindex" />
-    <meta name="description" content="Stickler is a free Mac app that makes bootable USB installer sticks. No tracking, no account, and only Apple's own installers." />
+    <meta name="description" content="Stickler is a free Mac app that makes bootable macOS USB installer sticks. No tracking, no account, and only Apple's own installers." />
+    <link rel="canonical" href="https://nixonmade.com/stickler/" />
+    <meta property="og:title" content="Stickler — NixonMade" />
+    <meta property="og:description" content="A free Mac app that makes bootable macOS USB installers in a few clicks." />
+    <meta property="og:url" content="https://nixonmade.com/stickler/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://nixonmade.com/og/stickler.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#f5f7fa" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,7 +23,7 @@
     <link rel="stylesheet" href="/styles.css" />
     <link rel="stylesheet" href="/stickler/stickler.css" />
   </head>
-  <body class="product">
+  <body class="product store">
     <a class="skip" href="#content">Skip to content</a>
     <header class="site-header">
       <div class="inner">
@@ -24,6 +32,9 @@
           <span class="brand-word">NixonMade</span>
         </a>
         <nav class="site-nav" aria-label="Primary">
+          <a href="/fleet-sheets/">Fleet Sheets</a>
+          <a href="/toolwarden/">Toolwarden</a>
+          <a href="/stickler/" aria-current="page">Stickler</a>
           <a href="/docs/">Docs</a>
         </nav>
       </div>
@@ -32,6 +43,7 @@
       <section class="hero" aria-labelledby="product-heading">
         <div class="hero-copy">
           <p class="back-row"><a class="back" href="/">NixonMade</a></p>
+          <img class="app-icon" src="/stickler/stickler-icon.svg" alt="" width="88" height="88" />
           <p class="eyebrow">Mac app</p>
           <h1 id="product-heading">Stickler makes bootable USB installer sticks.</h1>
           <p class="lede">
@@ -41,13 +53,25 @@
           <div class="actions">
             <a class="btn" href="/stickler/download">Download Stickler, free</a>
           </div>
+          <p class="fine release-line">Version 2.0.0 · notarized by Apple · 4.5 MB</p>
           <ul class="fact-row">
             <li>No tracking</li>
             <li>No account</li>
             <li>Apple's own installers only</li>
           </ul>
-          <p class="fine">System requirements: details coming soon.</p>
+          <p class="fine">
+            Needs macOS 14 Sonoma or later, on Apple silicon or Intel. Making a
+            stick for macOS 10.13–10.15 isn't supported on Apple silicon Macs
+            running macOS 27.
+          </p>
         </div>
+        <figure class="hero-shot app-shot">
+          <picture>
+            <source type="image/webp" srcset="/img/stickler/welcome.webp" />
+            <img src="/img/stickler/welcome.png" width="900" height="588" alt="The Stickler welcome window: you need a 16 GB or larger USB stick, everything on it will be erased, and a Get Started button." fetchpriority="high" decoding="async" />
+          </picture>
+          <figcaption>Stickler 2.0.0. It tells you what you need before you start.</figcaption>
+        </figure>
       </section>
 
       <section aria-labelledby="promises-heading">
@@ -78,65 +102,26 @@
           <li>Verify it, so you know the stick is good before you need it.</li>
         </ol>
         <div class="shot-row shot-grid">
-          <figure class="figure-slot">
-            <svg class="ph" viewBox="0 0 580 400" role="img" aria-label="Placeholder for a screenshot: pick a Mac">
-              <rect width="580" height="400" fill="#eaf0ff" />
-              <rect x="0" y="0" width="580" height="32" fill="#d5deef" />
-              <circle cx="18" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="36" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="54" cy="16" r="5" fill="#8a97ad" />
-              <rect x="40" y="70" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="130" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="190" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="400" y="320" width="140" height="40" fill="#1d4ed8" />
-              <text x="290" y="290" text-anchor="middle" font-size="22" font-weight="600" fill="#0b1220" font-family="Inter, system-ui, sans-serif">Screenshot: pick a Mac</text>
-            </svg>
-            <figcaption>Screenshot 1: pick a Mac. Placeholder.</figcaption>
+          <figure class="figure-slot app-shot">
+            <picture>
+              <source type="image/webp" srcset="/img/stickler/mac.webp" />
+              <img src="/img/stickler/mac.png" width="560" height="366" alt="Stickler's Which macOS can this Mac run? panel, showing this Mac can run macOS Ventura 13 to macOS Golden Gate 27, with a button to use the newest supported version." loading="lazy" decoding="async" />
+            </picture>
+            <figcaption>Pick a Mac. Look up any model, or use this one.</figcaption>
           </figure>
-          <figure class="figure-slot">
-            <svg class="ph" viewBox="0 0 580 400" role="img" aria-label="Placeholder for a screenshot: pick an installer">
-              <rect width="580" height="400" fill="#eaf0ff" />
-              <rect x="0" y="0" width="580" height="32" fill="#d5deef" />
-              <circle cx="18" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="36" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="54" cy="16" r="5" fill="#8a97ad" />
-              <rect x="40" y="70" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="130" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="190" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="400" y="320" width="140" height="40" fill="#1d4ed8" />
-              <text x="290" y="290" text-anchor="middle" font-size="22" font-weight="600" fill="#0b1220" font-family="Inter, system-ui, sans-serif">Screenshot: pick an installer</text>
-            </svg>
-            <figcaption>Screenshot 2: pick an installer. Placeholder.</figcaption>
+          <figure class="figure-slot app-shot">
+            <picture>
+              <source type="image/webp" srcset="/img/stickler/version.webp" />
+              <img src="/img/stickler/version.png" width="900" height="588" alt="Stickler's Which macOS version? step, with macOS Golden Gate 27.2.1 selected and Latest and Legacy tabs." loading="lazy" decoding="async" />
+            </picture>
+            <figcaption>Pick an installer. Latest, or Legacy for older Macs.</figcaption>
           </figure>
-          <figure class="figure-slot">
-            <svg class="ph" viewBox="0 0 580 400" role="img" aria-label="Placeholder for a screenshot: pick a drive">
-              <rect width="580" height="400" fill="#eaf0ff" />
-              <rect x="0" y="0" width="580" height="32" fill="#d5deef" />
-              <circle cx="18" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="36" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="54" cy="16" r="5" fill="#8a97ad" />
-              <rect x="40" y="70" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="130" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="190" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="400" y="320" width="140" height="40" fill="#1d4ed8" />
-              <text x="290" y="290" text-anchor="middle" font-size="22" font-weight="600" fill="#0b1220" font-family="Inter, system-ui, sans-serif">Screenshot: pick a drive</text>
-            </svg>
-            <figcaption>Screenshot 3: pick a drive. Placeholder.</figcaption>
-          </figure>
-          <figure class="figure-slot">
-            <svg class="ph" viewBox="0 0 580 400" role="img" aria-label="Placeholder for a screenshot: verify">
-              <rect width="580" height="400" fill="#eaf0ff" />
-              <rect x="0" y="0" width="580" height="32" fill="#d5deef" />
-              <circle cx="18" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="36" cy="16" r="5" fill="#8a97ad" />
-              <circle cx="54" cy="16" r="5" fill="#8a97ad" />
-              <rect x="40" y="70" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="130" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="40" y="190" width="500" height="44" fill="#ffffff" stroke="#c6d2e8" />
-              <rect x="400" y="320" width="140" height="40" fill="#1d4ed8" />
-              <text x="290" y="290" text-anchor="middle" font-size="22" font-weight="600" fill="#0b1220" font-family="Inter, system-ui, sans-serif">Screenshot: verify</text>
-            </svg>
-            <figcaption>Screenshot 4: verify. Placeholder.</figcaption>
+          <figure class="figure-slot app-shot">
+            <picture>
+              <source type="image/webp" srcset="/img/stickler/drive.webp" />
+              <img src="/img/stickler/drive.png" width="900" height="588" alt="Stickler's Plug in your USB stick step, waiting for a stick and warning that everything on it will be erased." loading="lazy" decoding="async" />
+            </picture>
+            <figcaption>Pick a drive. The list updates when you plug a stick in.</figcaption>
           </figure>
         </div>
       </section>

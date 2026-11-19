@@ -324,7 +324,8 @@ async function handleUpdate(request: Request, env: Env, url: URL): Promise<Respo
 
 export async function handleStickler(request: Request, env: Env, url: URL): Promise<Response> {
   const response = await routeStickler(request, env, url);
-  // Not public until the name is cleared; _headers only covers static files.
+  // Downloads, the appcast, update archives and support redirects are not pages.
+  // Keep them out of search. The static /stickler/ pages are indexable.
   response.headers.set("x-robots-tag", "noindex");
   return response;
 }
