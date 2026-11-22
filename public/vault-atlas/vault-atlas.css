@@ -1,0 +1,452 @@
+/* Vault Atlas product page — Pip-Boy green phosphor (default).
+   Tokens from VaultAtlas/Theme/PipBoyTheme.swift (green). */
+
+@font-face {
+  font-family: "Share Tech Mono";
+  src: url("fonts/ShareTechMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/IBMPlexMono-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("fonts/IBMPlexMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #050d05;
+  --surface: #0a1a0a;
+  --raised: #0f240f;
+  --text: #8cfa7a;
+  --sec: #5cb85c;
+  --label: #57a852;
+  --accent: #dbc24c;
+  --sel: #73f26b;
+  --border: #428542;
+  --danger: #f28052;
+  --warn: #e6c247;
+  --glow: #59e659;
+  --glow-25: rgba(89, 230, 89, 0.25);
+  --scanline: rgba(0, 0, 0, 0.35);
+  --font-display: "Share Tech Mono", ui-monospace, "Cascadia Mono", monospace;
+  --font-body: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --max: 68rem;
+  --hairline: 1px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 100%;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  position: relative;
+}
+
+/* Static CRT scanlines — 3px step, very faint. No flicker. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.18) 2px 3px
+  );
+  opacity: 0.35;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--sel);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--text);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--sel);
+  outline-offset: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  z-index: 30;
+  padding: 0.4rem 0.7rem;
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.skip:focus {
+  top: var(--gutter);
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  width: min(100%, var(--max));
+  margin: 0 auto;
+  padding: 1.25rem var(--gutter) 3rem;
+}
+
+.credit {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--label);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 2.5rem;
+}
+
+.credit:hover,
+.credit:focus-visible {
+  color: var(--sel);
+}
+
+.hero {
+  text-align: center;
+  padding: 0.5rem 0 3rem;
+}
+
+.hero-icon {
+  width: 10rem;
+  height: 10rem;
+  margin: 0 auto 1.5rem;
+  filter: drop-shadow(0 0 12px var(--glow-25)) drop-shadow(0 0 8px var(--glow-25));
+}
+
+.hero-icon img {
+  width: 10rem;
+  height: 10rem;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin: 0 0 0.75rem;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.65rem, 7.2vw, 3.25rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.15;
+  margin: 0 0 0.85rem;
+}
+
+.lede {
+  font-size: clamp(1.05rem, 2.4vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin: 0 auto 0.75rem;
+  max-width: 44rem;
+  line-height: 1.35;
+}
+
+.sub {
+  color: var(--sec);
+  margin: 0 auto 1.75rem;
+  max-width: 32rem;
+  font-size: 0.9375rem;
+}
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.status {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: var(--hairline) solid var(--accent);
+  padding: 0.7rem 1.15rem;
+  background: var(--surface);
+  box-shadow: 0 0 12px var(--glow-25);
+}
+
+/* Placeholder for a future TestFlight button (see HTML comment). */
+.btn {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bg);
+  background: var(--sel);
+  border: var(--hairline) solid var(--sel);
+  padding: 0.7rem 1.15rem;
+  box-shadow: 0 0 14px var(--glow-25);
+}
+
+.btn:hover {
+  color: var(--bg);
+  background: var(--text);
+}
+
+.section {
+  margin: 0 0 3.25rem;
+}
+
+.section h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.6rem;
+  border-bottom: var(--hairline) solid var(--border);
+}
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shots figure {
+  margin: 0;
+}
+
+.shot-frame {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  padding: 0;
+  overflow: hidden;
+}
+
+.shot-frame img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.shots figcaption {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin-top: 0.55rem;
+  text-align: center;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.features li {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  padding: 1rem 1.1rem;
+}
+
+.features h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sel);
+  margin: 0 0 0.4rem;
+}
+
+.features p,
+.prose,
+.limits li {
+  margin: 0;
+  color: var(--sec);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.features p strong,
+.prose strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.limits {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: var(--hairline) solid var(--border);
+  background: var(--surface);
+}
+
+.limits li {
+  padding: 0.9rem 1.1rem;
+  border-top: var(--hairline) solid var(--border);
+}
+
+.limits li:first-child {
+  border-top: 0;
+}
+
+.prose {
+  margin: 0 0 0.85rem;
+}
+
+.site-footer {
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: var(--hairline) solid var(--border);
+}
+
+.disclaimer,
+.copyright {
+  color: var(--label);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+  max-width: 44rem;
+}
+
+.copyright {
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+@media (min-width: 700px) {
+  .features {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-icon,
+  .hero-icon img {
+    width: 11.25rem;
+    height: 11.25rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .shots {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .shots li {
+    flex: 0 0 min(16.5rem, 72vw);
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-icon,
+  .status,
+  .btn {
+    filter: none;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .wordmark {
+    font-size: 1.55rem;
+    letter-spacing: 0.07em;
+  }
+}
