@@ -260,6 +260,25 @@ button:focus-visible {
   background: var(--text);
 }
 
+.beta-lede {
+  color: var(--sec);
+  margin: 0;
+  max-width: 30rem;
+  font-size: 0.9375rem;
+}
+
+.beta-note {
+  color: var(--label);
+  margin: 0;
+  max-width: 30rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.beta-note a {
+  color: var(--sec);
+}
+
 .section {
   margin: 0 0 3.25rem;
 }
