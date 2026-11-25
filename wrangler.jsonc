@@ -89,6 +89,16 @@
     "PRODUCT_TOOLWARDEN_KEY": "Toolwarden-0.2.0.pkg",
     "PRODUCT_TOOLWARDEN_FILENAME": "toolwarden-0.2.0.pkg",
     "PRODUCT_TOOLWARDEN_TITLE": "Toolwarden",
+    // Merry Ledger is on sale for $7 (live). It's a zip holding one offline HTML
+    // file. Upload products/merry-ledger.zip to R2 before deploying. No
+    // test-mode link exists, so test sessions fail closed.
+    "PRODUCT_MERRY_LEDGER_TEST_LINKS": "",
+    "PRODUCT_MERRY_LEDGER_TEST_PRICES": "",
+    "PRODUCT_MERRY_LEDGER_LIVE_LINKS": "plink_1Ufa1V9YvevV3dxl8uWkcjY7",
+    "PRODUCT_MERRY_LEDGER_LIVE_PRICES": "price_1Ufa1L9YvevV3dxlTONS9Qa6",
+    "PRODUCT_MERRY_LEDGER_KEY": "products/merry-ledger.zip",
+    "PRODUCT_MERRY_LEDGER_FILENAME": "nixonmade-merry-ledger.zip",
+    "PRODUCT_MERRY_LEDGER_TITLE": "Merry Ledger",
     // Stickler is free: no Stripe ids, never matched by a checkout session.
     // The first-time download is the signed, notarized installer pkg. Upload
     // stickler/Stickler.pkg to R2 BEFORE deploying this, or /stickler/download

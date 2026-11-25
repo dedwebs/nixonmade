@@ -491,3 +491,38 @@ describe("purchase gate atomicity", () => {
     expect(await stub.expandForbidden(now + 3_600_000)).toBe(false);
   });
 });
+
+describe("Merry Ledger catalog entry", () => {
+  const env = {
+    PRODUCT_MERRY_LEDGER_KEY: "products/merry-ledger.zip",
+    PRODUCT_MERRY_LEDGER_FILENAME: "nixonmade-merry-ledger.zip",
+    PRODUCT_MERRY_LEDGER_TITLE: "Merry Ledger",
+    PRODUCT_MERRY_LEDGER_LIVE_LINKS: "plink_1Ufa1V9YvevV3dxl8uWkcjY7",
+    PRODUCT_MERRY_LEDGER_LIVE_PRICES: "price_1Ufa1L9YvevV3dxlTONS9Qa6",
+    PRODUCT_FLEET_SHEETS_KEY: "FleetSheets-v1.1.0-macOS.dmg",
+    PRODUCT_FLEET_SHEETS_FILENAME: "nixonmade-fleet-sheets.dmg",
+    PRODUCT_FLEET_SHEETS_LIVE_LINKS: "plink_1UVcxz9YvevV3dxlEFkHsQlc",
+  } as Cloudflare.Env;
+
+  it("delivers the Merry Ledger zip for its live link or price", () => {
+    const parsed = loadCatalog(env);
+    const byLink = matchProduct(parsed, { livemode: true, paymentLinkId: "plink_1Ufa1V9YvevV3dxl8uWkcjY7", priceIds: [] });
+    expect(byLink?.slug).toBe("merry-ledger");
+    expect(byLink?.mediaType).toBe("application/zip");
+    expect(byLink?.filename).toBe("nixonmade-merry-ledger.zip");
+    expect(byLink?.title).toBe("Merry Ledger");
+    expect(
+      matchProduct(parsed, { livemode: true, paymentLinkId: null, priceIds: ["price_1Ufa1L9YvevV3dxlTONS9Qa6"] })?.slug,
+    ).toBe("merry-ledger");
+  });
+
+  it("does not unlock Merry Ledger from test mode or another product's link", () => {
+    const parsed = loadCatalog(env);
+    expect(
+      matchProduct(parsed, { livemode: false, paymentLinkId: "plink_1Ufa1V9YvevV3dxl8uWkcjY7", priceIds: ["price_1Ufa1L9YvevV3dxlTONS9Qa6"] }),
+    ).toBeNull();
+    expect(
+      matchProduct(parsed, { livemode: true, paymentLinkId: "plink_1UVcxz9YvevV3dxlEFkHsQlc", priceIds: [] })?.slug,
+    ).toBe("fleet-sheets");
+  });
+});

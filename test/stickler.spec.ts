@@ -52,7 +52,7 @@ describe("free product", () => {
   it("is never in the paid catalog or matched by a session", () => {
     const e = configured();
     const catalog = loadCatalog(e);
-    expect(catalog.map((p) => p.slug)).toEqual(["field-kit", "ship-kit", "fleet-sheets", "toolwarden"]);
+    expect(catalog.map((p) => p.slug)).toEqual(["field-kit", "ship-kit", "fleet-sheets", "toolwarden", "merry-ledger"]);
     expect(
       matchProduct(catalog, { livemode: false, paymentLinkId: "test_abc123", priceIds: [] }),
     ).toBeNull();

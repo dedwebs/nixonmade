@@ -1,7 +1,7 @@
 import type { Env } from "./env";
 import { safeLog } from "./log";
 
-export const PRODUCT_SLUGS = ["field-kit", "ship-kit", "fleet-sheets", "toolwarden"] as const;
+export const PRODUCT_SLUGS = ["field-kit", "ship-kit", "fleet-sheets", "toolwarden", "merry-ledger"] as const;
 export type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
 const LINK_RE = /^plink_[A-Za-z0-9]{8,200}$/;
@@ -39,6 +39,7 @@ const PREFIX: Record<ProductSlug, string> = {
   "ship-kit": "PRODUCT_SHIP_KIT",
   "fleet-sheets": "PRODUCT_FLEET_SHEETS",
   toolwarden: "PRODUCT_TOOLWARDEN",
+  "merry-ledger": "PRODUCT_MERRY_LEDGER",
 };
 
 /**

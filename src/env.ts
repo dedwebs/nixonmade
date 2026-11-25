@@ -47,6 +47,13 @@ export interface Env {
   PRODUCT_TOOLWARDEN_KEY?: string;
   PRODUCT_TOOLWARDEN_FILENAME?: string;
   PRODUCT_TOOLWARDEN_TITLE?: string;
+  PRODUCT_MERRY_LEDGER_TEST_LINKS?: string;
+  PRODUCT_MERRY_LEDGER_TEST_PRICES?: string;
+  PRODUCT_MERRY_LEDGER_LIVE_LINKS?: string;
+  PRODUCT_MERRY_LEDGER_LIVE_PRICES?: string;
+  PRODUCT_MERRY_LEDGER_KEY?: string;
+  PRODUCT_MERRY_LEDGER_FILENAME?: string;
+  PRODUCT_MERRY_LEDGER_TITLE?: string;
   /** Stickler (free). R2 object key, expected under the `stickler/` prefix. Empty fails closed. */
   PRODUCT_STICKLER_KEY?: string;
   PRODUCT_STICKLER_FILENAME?: string;
