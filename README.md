@@ -113,6 +113,7 @@ Vars in `wrangler.jsonc` (not secrets). Empty link and price lists fail closed: 
 | `PRODUCT_FLEET_SHEETS_KEY` | Private R2 object key `FleetSheets-v1.0.0-macOS.dmg`. SHA-256 `dedc5d0dbd8757a325290ae487ccd8f3da3ad66cbb9c7ebb54b45540dc17c41e`, 13225040 bytes. |
 | `PRODUCT_FLEET_SHEETS_FILENAME` | Name the browser saves. `nixonmade-fleet-sheets.dmg`. |
 | `PRODUCT_FLEET_SHEETS_TITLE` | Title on the download page. Default `Fleet Sheets`. |
+| `PRODUCT_MERRY_LEDGER_*` | Merry Ledger, $7 live: Payment Link `plink_1Ufa1V9YvevV3dxl8uWkcjY7`, price `price_1Ufa1L9YvevV3dxlTONS9Qa6`. Private R2 object `products/merry-ledger.zip` (one offline HTML file plus a read-me), saved as `nixonmade-merry-ledger.zip`. No test-mode ids. |
 
 Each product's object key and download filename are set on their own. Both must end in `.zip` or both must end in `.dmg`. A `.zip` is sent as `application/zip`. A `.dmg` is sent as `application/x-apple-diskimage`. `Content-Disposition` is `attachment` with the configured filename. A mismatched pair, or any other suffix, is ignored and that product does not download.
 
